@@ -850,7 +850,7 @@ class GitGraphView {
 
 			for (j = 0; j < commit.tags.length; j++) {
 				refName = escapeHtml(commit.tags[j].name);
-				refTags += '<span class="gitRef tag" data-name="' + refName + '" data-tagtype="' + (commit.tags[j].annotated ? 'annotated' : 'lightweight') + '">' + SVG_ICONS.tag + '<span class="gitRefName" data-fullref="' + refName + '">' + refName + '</span></span>';
+				refTags += '<span class="gitRef tag" data-name="' + refName + '" data-tagtype="' + (commit.tags[j].annotated ? '带注释' : '轻量级的') + '">' + SVG_ICONS.tag + '<span class="gitRefName" data-fullref="' + refName + '">' + refName + '</span></span>';
 			}
 
 			if (commit.stash !== null) {
@@ -860,8 +860,8 @@ class GitGraphView {
 
 			const commitDot = commit.hash === this.commitHead
 				? '<span class="commitHeadDot" title="' + (branchCheckedOutAtCommit !== null
-					? 'The branch ' + escapeHtml('"' + branchCheckedOutAtCommit + '"') + ' is currently checked out at this commit'
-					: 'This commit is currently checked out'
+					? '当前是否在此提交时切换 ' + escapeHtml('"' + branchCheckedOutAtCommit + '"') + ' 这个分支'
+					: '当前已切换这个提交'
 				) + '."></span>'
 				: '';
 
@@ -873,7 +873,7 @@ class GitGraphView {
 				'</tr>';
 		}
 		this.tableElem.innerHTML = '<table>' + html + '</table>';
-		this.footerElem.innerHTML = this.moreCommitsAvailable ? '<div id="loadMoreCommitsBtn" class="roundedBtn">Load More Commits</div>' : '';
+		this.footerElem.innerHTML = this.moreCommitsAvailable ? '<div id="loadMoreCommitsBtn" class="roundedBtn">加载更多提交</div>' : '';
 		this.makeTableResizable();
 		this.findWidget.refresh();
 		this.renderedGitBranchHead = this.gitBranchHead;
@@ -951,10 +951,10 @@ class GitGraphView {
 			urls: true
 		});
 		dialog.showMessage(
-			'Tag <b><i>' + escapeHtml(tagName) + '</i></b><br><span class="messageContent">' +
-			'<b>Object: </b>' + escapeHtml(details.hash) + '<br>' +
-			'<b>Commit: </b>' + escapeHtml(commitHash) + '<br>' +
-			'<b>Tagger: </b>' + escapeHtml(details.taggerName) + ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(details.taggerEmail) + '" tabindex="-1">' + escapeHtml(details.taggerEmail) + '</a>&gt;' + (details.signature !== null ? generateSignatureHtml(details.signature) : '') + '<br>' +
+			'标签 <b><i>' + escapeHtml(tagName) + '</i></b><br><span class="messageContent">' +
+			'<b>对象: </b>' + escapeHtml(details.hash) + '<br>' +
+			'<b>提交: </b>' + escapeHtml(commitHash) + '<br>' +
+			'<b>打标签者: </b>' + escapeHtml(details.taggerName) + ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(details.taggerEmail) + '" tabindex="-1">' + escapeHtml(details.taggerEmail) + '</a>&gt;' + (details.signature !== null ? generateSignatureHtml(details.signature) : '') + '<br>' +
 			'<b>时间: </b>' + formatLongDate(details.taggerDate) + '<br><br>' +
 			textFormatter.format(details.message) +
 			'</span>'
@@ -973,19 +973,19 @@ class GitGraphView {
 		const isSelectedInBranchesDropdown = this.branchDropdown.isSelected(refName);
 		return [[
 			{
-				title: 'Checkout Branch',
+				title: '切换分支',
 				visible: visibility.checkout && this.gitBranchHead !== refName,
 				onClick: () => this.checkoutBranchAction(refName, null, null, target)
 			}, {
-				title: 'Rename Branch' + ELLIPSIS,
+				title: '重命名分支' + ELLIPSIS,
 				visible: visibility.rename,
 				onClick: () => {
-					dialog.showRefInput('Enter the new name for branch <b><i>' + escapeHtml(refName) + '</i></b>:', refName, 'Rename Branch', (newName) => {
+					dialog.showRefInput('输入分支 <b><i>' + escapeHtml(refName) + '</i></b>的新名称:', refName, '重命名分支', (newName) => {
 						runAction({ command: 'renameBranch', repo: this.currentRepo, oldName: refName, newName: newName }, 'Renaming Branch');
 					}, target);
 				}
 			}, {
-				title: 'Delete Branch' + ELLIPSIS,
+				title: '删除分支' + ELLIPSIS,
 				visible: visibility.delete && this.gitBranchHead !== refName,
 				onClick: () => {
 					let remotesWithBranch = this.gitRemotes.filter(remote => this.gitBranches.includes('remotes/' + remote + '/' + refName));
@@ -993,37 +993,37 @@ class GitGraphView {
 					if (remotesWithBranch.length > 0) {
 						inputs.push({
 							type: DialogInputType.Checkbox,
-							name: 'Delete this branch on the remote' + (this.gitRemotes.length > 1 ? 's' : ''),
+							name: '删除远程上的这个分支' + (this.gitRemotes.length > 1 ? 's' : ''),
 							value: false,
-							info: 'This branch is on the remote' + (remotesWithBranch.length > 1 ? 's: ' : ' ') + formatCommaSeparatedList(remotesWithBranch.map((remote) => '"' + remote + '"'))
+							info: '这个分支在远程' + (remotesWithBranch.length > 1 ? 's: ' : ' ') + formatCommaSeparatedList(remotesWithBranch.map((remote) => '"' + remote + '"'))
 						});
 					}
-					dialog.showForm('Are you sure you want to delete the branch <b><i>' + escapeHtml(refName) + '</i></b>?', inputs, 'Yes, delete', (values) => {
+					dialog.showForm('你确定要删除分支 <b><i>' + escapeHtml(refName) + '</i></b>?', inputs, '是，删除', (values) => {
 						runAction({ command: 'deleteBranch', repo: this.currentRepo, branchName: refName, forceDelete: <boolean>values[0], deleteOnRemotes: remotesWithBranch.length > 0 && <boolean>values[1] ? remotesWithBranch : [] }, 'Deleting Branch');
 					}, target);
 				}
 			}, {
-				title: 'Merge into current branch' + ELLIPSIS,
+				title: '合并到当前分支' + ELLIPSIS,
 				visible: visibility.merge && this.gitBranchHead !== refName,
 				onClick: () => this.mergeAction(refName, refName, GG.MergeActionOn.Branch, target)
 			}, {
-				title: 'Rebase current branch on Branch' + ELLIPSIS,
+				title: '在分支上复位当前分支' + ELLIPSIS,
 				visible: visibility.rebase && this.gitBranchHead !== refName,
 				onClick: () => this.rebaseAction(refName, refName, GG.RebaseActionOn.Branch, target)
 			}, {
-				title: 'Push Branch' + ELLIPSIS,
+				title: '推送分支' + ELLIPSIS,
 				visible: visibility.push && this.gitRemotes.length > 0,
 				onClick: () => {
 					const multipleRemotes = this.gitRemotes.length > 1;
 					const inputs: DialogInput[] = [
-						{ type: DialogInputType.Checkbox, name: 'Set Upstream', value: true },
+						{ type: DialogInputType.Checkbox, name: '设置上游', value: true },
 						{
 							type: DialogInputType.Radio,
-							name: 'Push Mode',
+							name: '推送模式',
 							options: [
-								{ name: 'Normal', value: GG.GitPushBranchMode.Normal },
-								{ name: 'Force With Lease', value: GG.GitPushBranchMode.ForceWithLease },
-								{ name: 'Force', value: GG.GitPushBranchMode.Force }
+								{ name: '正常', value: GG.GitPushBranchMode.Normal },
+								{ name: '更安全的强制推送', value: GG.GitPushBranchMode.ForceWithLease },
+								{ name: '强制', value: GG.GitPushBranchMode.Force }
 							],
 							default: GG.GitPushBranchMode.Normal
 						}
@@ -1032,14 +1032,14 @@ class GitGraphView {
 					if (multipleRemotes) {
 						inputs.unshift({
 							type: DialogInputType.Select,
-							name: 'Push to Remote(s)',
+							name: '推送到远程分支',
 							defaults: [this.getPushRemote(refName)],
 							options: this.gitRemotes.map((remote) => ({ name: remote, value: remote })),
 							multiple: true
 						});
 					}
 
-					dialog.showForm('Are you sure you want to push the branch <b><i>' + escapeHtml(refName) + '</i></b>' + (multipleRemotes ? '' : ' to the remote <b><i>' + escapeHtml(this.gitRemotes[0]) + '</i></b>') + '?', inputs, 'Yes, push', (values) => {
+					dialog.showForm('你确定要推送分支 <b><i>' + escapeHtml(refName) + '</i></b>' + (multipleRemotes ? '' : ' 到远程分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + '</i></b>') + '吗?', inputs, '是，推送', (values) => {
 						const remotes = multipleRemotes ? <string[]>values.shift() : [this.gitRemotes[0]];
 						const setUpstream = <boolean>values[0];
 						runAction({
@@ -1057,37 +1057,37 @@ class GitGraphView {
 		], [
 			this.getViewIssueAction(refName, visibility.viewIssue, target),
 			{
-				title: 'Create Pull Request' + ELLIPSIS,
+				title: '创建拉取请求' + ELLIPSIS,
 				visible: visibility.createPullRequest && this.gitRepos[this.currentRepo].pullRequestConfig !== null,
 				onClick: () => {
 					const config = this.gitRepos[this.currentRepo].pullRequestConfig;
 					if (config === null) return;
-					dialog.showCheckbox('Are you sure you want to create a Pull Request for branch <b><i>' + escapeHtml(refName) + '</i></b>?', 'Push branch before creating the Pull Request', true, 'Yes, create Pull Request', (push) => {
+					dialog.showCheckbox('您确定要为分支创建一个拉取请求 <b><i>' + escapeHtml(refName) + '</i></b>吗?', '推送分支会在创建拉取请求之前', true, '是，创建拉取请求', (push) => {
 						runAction({ command: 'createPullRequest', repo: this.currentRepo, config: config, sourceRemote: config.sourceRemote, sourceOwner: config.sourceOwner, sourceRepo: config.sourceRepo, sourceBranch: refName, push: push }, 'Creating Pull Request');
 					}, target);
 				}
 			}
 		], [
 			{
-				title: 'Create Archive',
+				title: '创建存档',
 				visible: visibility.createArchive,
 				onClick: () => {
 					runAction({ command: 'createArchive', repo: this.currentRepo, ref: refName }, 'Creating Archive');
 				}
 			},
 			{
-				title: 'Select in Branches Dropdown',
+				title: '选择分支下拉菜单',
 				visible: visibility.selectInBranchesDropdown && !isSelectedInBranchesDropdown,
 				onClick: () => this.branchDropdown.selectOption(refName)
 			},
 			{
-				title: 'Unselect in Branches Dropdown',
+				title: '取消选择分支下拉菜单',
 				visible: visibility.unselectInBranchesDropdown && isSelectedInBranchesDropdown,
 				onClick: () => this.branchDropdown.unselectOption(refName)
 			}
 		], [
 			{
-				title: 'Copy Branch Name to Clipboard',
+				title: '复制分支名称到剪切板',
 				visible: visibility.copyName,
 				onClick: () => {
 					sendMessage({ command: 'copyToClipboard', type: 'Branch Name', data: refName });
@@ -1101,24 +1101,24 @@ class GitGraphView {
 		const commit = this.commits[this.commitLookup[hash]];
 		return [[
 			{
-				title: 'Add Tag' + ELLIPSIS,
+				title: '添加标签' + ELLIPSIS,
 				visible: visibility.addTag,
 				onClick: () => this.addTagAction(hash, '', this.config.dialogDefaults.addTag.type, '', null, target)
 			}, {
-				title: 'Create Branch' + ELLIPSIS,
+				title: '创建分支' + ELLIPSIS,
 				visible: visibility.createBranch,
 				onClick: () => this.createBranchAction(hash, '', this.config.dialogDefaults.createBranch.checkout, target)
 			}
 		], [
 			{
-				title: 'Checkout' + (globalState.alwaysAcceptCheckoutCommit ? '' : ELLIPSIS),
+				title: '切换' + (globalState.alwaysAcceptCheckoutCommit ? '' : ELLIPSIS),
 				visible: visibility.checkout,
 				onClick: () => {
 					const checkoutCommit = () => runAction({ command: 'checkoutCommit', repo: this.currentRepo, commitHash: hash }, 'Checking out Commit');
 					if (globalState.alwaysAcceptCheckoutCommit) {
 						checkoutCommit();
 					} else {
-						dialog.showCheckbox('Are you sure you want to checkout commit <b><i>' + abbrevCommit(hash) + '</i></b>? This will result in a \'detached HEAD\' state.', 'Always Accept', false, 'Yes, checkout', (alwaysAccept) => {
+						dialog.showCheckbox('您确定要切换到提交 <b><i>' + abbrevCommit(hash) + '</i></b> 吗? 这会导致处于 \'detached HEAD(游离)\' 状态.', '总是接受', false, '是，切换', (alwaysAccept) => {
 							if (alwaysAccept) {
 								updateGlobalViewState('alwaysAcceptCheckoutCommit', true);
 							}
@@ -1127,7 +1127,7 @@ class GitGraphView {
 					}
 				}
 			}, {
-				title: 'Cherry Pick' + ELLIPSIS,
+				title: 'Cherry Pick(选择提交)' + ELLIPSIS,
 				visible: visibility.cherrypick,
 				onClick: () => {
 					const isMerge = commit.parents.length > 1;
@@ -1142,14 +1142,14 @@ class GitGraphView {
 							name: 'Parent Hash',
 							options: options,
 							default: '1',
-							info: 'Choose the parent hash on the main branch, to cherry pick the commit relative to.'
+							info: '选择主分支上的父哈希值，以cherry pick相对于它的提交。'
 						});
 					}
 					inputs.push({
 						type: DialogInputType.Checkbox,
-						name: 'Record Origin',
+						name: '记录来源',
 						value: this.config.dialogDefaults.cherryPick.recordOrigin,
-						info: 'Record that this commit was the origin of the cherry pick by appending a line to the original commit message that states "(cherry picked from commit ...​)".'
+						info: '通过在原始提交消息后面附加一行来记录此提交来自于cherry pick"(从某个提交中cherry pick...​)".'
 					}, {
 						type: DialogInputType.Checkbox,
 						name: 'No Commit',
