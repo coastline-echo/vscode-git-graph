@@ -138,13 +138,13 @@ export class CommandManager extends Disposable {
 				if (isPathInWorkspace(path)) {
 					this.repoManager.registerRepo(path, false).then(status => {
 						if (status.error === null) {
-							showInformationMessage('The repository "' + status.root! + '" was added to Git Graph.');
+							showInformationMessage('将仓库"' + status.root! + '" 添加到Git Graph。');
 						} else {
-							showErrorMessage(status.error + ' Therefore it could not be added to Git Graph.');
+							showErrorMessage(status.error + ' 因此，它不能添加到Git Graph。');
 						}
 					});
 				} else {
-					showErrorMessage('The folder "' + path + '" is not within the opened Visual Studio Code workspace, and therefore could not be added to Git Graph.');
+					showErrorMessage('文件夹 "' + path + '" 不在打开的visual studio Code工作区中，因此不能添加到Git Graph中。');
 				}
 			}
 		}, () => { });
@@ -166,14 +166,14 @@ export class CommandManager extends Disposable {
 		}));
 
 		vscode.window.showQuickPick(items, {
-			placeHolder: 'Select a repository to remove from Git Graph:',
+			placeHolder: '选择一个要从Git Grapha中移除的仓库：',
 			canPickMany: false
 		}).then((item) => {
 			if (item && item.description !== undefined) {
 				if (this.repoManager.ignoreRepo(item.description)) {
-					showInformationMessage('The repository "' + item.label + '" was removed from Git Graph.');
+					showInformationMessage('仓库 "' + item.label + '" 已从Git Graph中删除。');
 				} else {
-					showErrorMessage('The repository "' + item.label + '" is not known to Git Graph.');
+					showErrorMessage('Git Graph 不知道有 "' + item.label + '" 仓库。');
 				}
 			}
 		}, () => { });
@@ -185,12 +185,12 @@ export class CommandManager extends Disposable {
 	private clearAvatarCache() {
 		this.avatarManager.clearCache().then((errorInfo) => {
 			if (errorInfo === null) {
-				showInformationMessage('The Avatar Cache was successfully cleared.');
+				showInformationMessage('Avatar缓存被成功清除。');
 			} else {
 				showErrorMessage(errorInfo);
 			}
 		}, () => {
-			showErrorMessage('An unexpected error occurred while running the command "Clear Avatar Cache".');
+			showErrorMessage('运行“清除Avatar缓存”命令时发生意外错误。');
 		});
 	}
 
@@ -217,7 +217,7 @@ export class CommandManager extends Disposable {
 			}
 
 			vscode.window.showQuickPick(items, {
-				placeHolder: 'Select the repository you want to open in Git Graph, and fetch from remote(s):',
+				placeHolder: '选择你想要在Git Graph中打开的存储库，并从远程获取:',
 				canPickMany: false
 			}).then((item) => {
 				if (item && item.description) {
@@ -227,7 +227,7 @@ export class CommandManager extends Disposable {
 					});
 				}
 			}, () => {
-				showErrorMessage('An unexpected error occurred while running the command "Fetch from Remote(s)".');
+				showErrorMessage('运行“从远程获取”命令时发生意外错误".');
 			});
 		} else if (repoPaths.length === 1) {
 			GitGraphView.createOrShow(this.context.extensionPath, this.dataSource, this.extensionState, this.avatarManager, this.repoManager, this.logger, {
@@ -244,7 +244,7 @@ export class CommandManager extends Disposable {
 	 */
 	private endAllWorkspaceCodeReviews() {
 		this.extensionState.endAllWorkspaceCodeReviews();
-		showInformationMessage('Ended All Code Reviews in Workspace');
+		showInformationMessage('结束工作区的所有代码审查');
 	}
 
 	/**
@@ -253,25 +253,25 @@ export class CommandManager extends Disposable {
 	private endSpecificWorkspaceCodeReview() {
 		const codeReviews = this.extensionState.getCodeReviews();
 		if (Object.keys(codeReviews).length === 0) {
-			showErrorMessage('There are no Code Reviews in progress within the current workspace.');
+			showErrorMessage('在当前工作区中没有正在进行的代码评审。');
 			return;
 		}
 
 		vscode.window.showQuickPick(this.getCodeReviewQuickPickItems(codeReviews), {
-			placeHolder: 'Select the Code Review you want to end:',
+			placeHolder: '选择要结束的代码审查:',
 			canPickMany: false
 		}).then((item) => {
 			if (item) {
 				this.extensionState.endCodeReview(item.codeReviewRepo, item.codeReviewId).then((errorInfo) => {
 					if (errorInfo === null) {
-						showInformationMessage('Successfully ended Code Review "' + item.label + '".');
+						showInformationMessage('成功结束代码复查 "' + item.label + '".');
 					} else {
 						showErrorMessage(errorInfo);
 					}
 				}, () => { });
 			}
 		}, () => {
-			showErrorMessage('An unexpected error occurred while running the command "End a specific Code Review in Workspace...".');
+			showErrorMessage('当运行命令“End a specific code Review in Workspace…”时发生意外错误。');
 		});
 	}
 
@@ -281,12 +281,12 @@ export class CommandManager extends Disposable {
 	private resumeWorkspaceCodeReview() {
 		const codeReviews = this.extensionState.getCodeReviews();
 		if (Object.keys(codeReviews).length === 0) {
-			showErrorMessage('There are no Code Reviews in progress within the current workspace.');
+			showErrorMessage('在当前工作区中没有正在进行的代码评审');
 			return;
 		}
 
 		vscode.window.showQuickPick(this.getCodeReviewQuickPickItems(codeReviews), {
-			placeHolder: 'Select the Code Review you want to resume:',
+			placeHolder: '选择您想要恢复的代码复查:',
 			canPickMany: false
 		}).then((item) => {
 			if (item) {
@@ -300,7 +300,7 @@ export class CommandManager extends Disposable {
 				});
 			}
 		}, () => {
-			showErrorMessage('An unexpected error occurred while running the command "Resume a specific Code Review in Workspace...".');
+			showErrorMessage('当运行命令“Resume a specific Code Review in Workspace(在工作区中恢复特定的代码复查)”时，发生了一个意外的错误。');
 		});
 	}
 
@@ -321,7 +321,7 @@ export class CommandManager extends Disposable {
 				}
 			}, () => { });
 		} catch (_) {
-			showErrorMessage('An unexpected error occurred while retrieving version information.');
+			showErrorMessage('检索版本信息时发生意外错误:.');
 		}
 	}
 
@@ -337,11 +337,11 @@ export class CommandManager extends Disposable {
 			const request = decodeDiffDocUri(uri);
 			return openFile(request.repo, request.filePath, request.commit, this.dataSource, vscode.ViewColumn.Active).then((errorInfo) => {
 				if (errorInfo !== null) {
-					return showErrorMessage('Unable to Open File: ' + errorInfo);
+					return showErrorMessage('无法打开文件: ' + errorInfo);
 				}
 			});
 		} else {
-			return showErrorMessage('Unable to Open File: The command was not called with the required arguments.');
+			return showErrorMessage('无法打开文件:没有使用所需的参数调用命令');
 		}
 	}
 

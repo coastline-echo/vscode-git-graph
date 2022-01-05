@@ -189,7 +189,7 @@ class GitGraphView {
 				this.loadViewTo = loadViewTo;
 			} else {
 				this.loadViewTo = null;
-				showErrorMessage('Unable to load the Git Graph View for the repository "' + loadViewTo.repo + '". It is not currently included in Git Graph.');
+				showErrorMessage('无法加载 "' + loadViewTo.repo + '" 仓库的Git Graph视图。它目前还没有包含在Git Graph中。');
 			}
 		} else {
 			this.loadViewTo = null;
@@ -427,7 +427,7 @@ class GitGraphView {
 						this.loadCommitDetails(commitElem);
 					}
 				} else {
-					showErrorMessage('Unable to resume Code Review, it could not be found in the latest ' + this.maxCommits + ' commits that were loaded in this repository.');
+					showErrorMessage('无法恢复代码评审，此仓库中加载提交时，在最近一次 ' + this.maxCommits + ' 提交中找不到');
 				}
 			} else if (this.loadViewTo.runCommandOnLoad) {
 				switch (this.loadViewTo.runCommandOnLoad) {
@@ -467,7 +467,7 @@ class GitGraphView {
 				this.loadRepoInfo(msg.branches, msg.head, msg.remotes, msg.stashes, msg.isRepo);
 			}
 		} else {
-			this.displayLoadDataError('Unable to load Repository Info', msg.error);
+			this.displayLoadDataError('无法加载存储库信息', msg.error);
 		}
 	}
 
@@ -820,7 +820,7 @@ class GitGraphView {
 
 		let html = '<tr id="tableColHeaders"><th id="tableHeaderGraphCol" class="tableColHeader" data-col="0">Graph</th><th class="tableColHeader" data-col="1">Description</th>' +
 			(colVisibility.date ? '<th class="tableColHeader dateCol" data-col="2">Date</th>' : '') +
-			(colVisibility.author ? '<th class="tableColHeader authorCol" data-col="3">Author</th>' : '') +
+			(colVisibility.author ? '<th class="tableColHeader authorCol" data-col="3">作者</th>' : '') +
 			(colVisibility.commit ? '<th class="tableColHeader" data-col="4">Commit</th>' : '') +
 			'</tr>';
 
@@ -955,7 +955,7 @@ class GitGraphView {
 			'<b>Object: </b>' + escapeHtml(details.hash) + '<br>' +
 			'<b>Commit: </b>' + escapeHtml(commitHash) + '<br>' +
 			'<b>Tagger: </b>' + escapeHtml(details.taggerName) + ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(details.taggerEmail) + '" tabindex="-1">' + escapeHtml(details.taggerEmail) + '</a>&gt;' + (details.signature !== null ? generateSignatureHtml(details.signature) : '') + '<br>' +
-			'<b>Date: </b>' + formatLongDate(details.taggerDate) + '<br><br>' +
+			'<b>时间: </b>' + formatLongDate(details.taggerDate) + '<br><br>' +
 			textFormatter.format(details.message) +
 			'</span>'
 		);
@@ -1823,19 +1823,19 @@ class GitGraphView {
 			contextMenu.show([
 				[
 					{
-						title: 'Date',
+						title: '时间',
 						visible: true,
 						checked: columnWidths[2] !== COLUMN_HIDDEN,
 						onClick: () => toggleColumnState(2, 128)
 					},
 					{
-						title: 'Author',
+						title: '作者',
 						visible: true,
 						checked: columnWidths[3] !== COLUMN_HIDDEN,
 						onClick: () => toggleColumnState(3, 128)
 					},
 					{
-						title: 'Commit',
+						title: '提交',
 						visible: true,
 						checked: columnWidths[4] !== COLUMN_HIDDEN,
 						onClick: () => toggleColumnState(4, 80)
@@ -1843,13 +1843,13 @@ class GitGraphView {
 				],
 				[
 					{
-						title: 'Commit Timestamp Order',
+						title: '提交时间戳排序',
 						visible: true,
 						checked: commitOrdering === GG.CommitOrdering.Date,
 						onClick: () => changeCommitOrdering(GG.RepoCommitOrdering.Date)
 					},
 					{
-						title: 'Author Timestamp Order',
+						title: '作者的时间戳排序',
 						visible: true,
 						checked: commitOrdering === GG.CommitOrdering.AuthorDate,
 						onClick: () => changeCommitOrdering(GG.RepoCommitOrdering.AuthorDate)
@@ -2559,8 +2559,8 @@ class GitGraphView {
 					html += '<span class="cdvSummaryTop' + (expandedCommit.avatar !== null ? ' withAvatar' : '') + '"><span class="cdvSummaryTopRow"><span class="cdvSummaryKeyValues">'
 						+ '<b>Commit: </b>' + escapeHtml(commitDetails.hash) + '<br>'
 						+ '<b>Parents: </b>' + parents + '<br>'
-						+ '<b>Author: </b>' + escapeHtml(commitDetails.author) + (commitDetails.authorEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.authorEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.authorEmail) + '</a>&gt;' : '') + '<br>'
-						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>Author Date: </b>' + formatLongDate(commitDetails.authorDate) + '<br>' : '')
+						+ '<b>作者: </b>' + escapeHtml(commitDetails.author) + (commitDetails.authorEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.authorEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.authorEmail) + '</a>&gt;' : '') + '<br>'
+						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>作者 Date: </b>' + formatLong时间(commitDetails.authorDate) + '<br>' : '')
 						+ '<b>Committer: </b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
 						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? 'Committer ' : '') + 'Date: </b>' + formatLongDate(commitDetails.committerDate)
 						+ '</span>'
