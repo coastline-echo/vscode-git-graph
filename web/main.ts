@@ -146,7 +146,7 @@ class GitGraphView {
 		}
 
 		const fetchBtn = document.getElementById('fetchBtn')!, findBtn = document.getElementById('findBtn')!, settingsBtn = document.getElementById('settingsBtn')!, terminalBtn = document.getElementById('terminalBtn')!;
-		fetchBtn.title = 'Fetch' + (this.config.fetchAndPrune ? ' & Prune' : '') + ' from Remote(s)';
+		fetchBtn.title = '从远处' + (this.config.fetchAndPrune ? ' & 剪除' : '') + ' 获取';
 		fetchBtn.innerHTML = SVG_ICONS.download;
 		fetchBtn.addEventListener('click', () => this.fetchFromRemotesAction());
 		findBtn.innerHTML = SVG_ICONS.search;
@@ -481,7 +481,7 @@ class GitGraphView {
 			const error = this.gitBranches.length === 0 && msg.error.indexOf('bad revision \'HEAD\'') > -1
 				? 'There are no commits in this repository.'
 				: msg.error;
-			this.displayLoadDataError('Unable to load Commits', error);
+			this.displayLoadDataError('无法加载提交', error);
 		}
 	}
 
@@ -641,7 +641,7 @@ class GitGraphView {
 
 		this.renderRefreshButton();
 		if (this.commits.length === 0) {
-			this.tableElem.innerHTML = '<h2 id="loadingHeader">' + SVG_ICONS.loading + 'Loading ...</h2>';
+			this.tableElem.innerHTML = '<h2 id="loadingHeader">' + SVG_ICONS.loading + '加载中...</h2>';
 		}
 
 		if (skipRepoInfo) {
@@ -818,10 +818,10 @@ class GitGraphView {
 			markdown: this.config.markdown
 		});
 
-		let html = '<tr id="tableColHeaders"><th id="tableHeaderGraphCol" class="tableColHeader" data-col="0">Graph</th><th class="tableColHeader" data-col="1">Description</th>' +
-			(colVisibility.date ? '<th class="tableColHeader dateCol" data-col="2">Date</th>' : '') +
+		let html = '<tr id="tableColHeaders"><th id="tableHeaderGraphCol" class="tableColHeader" data-col="0">Graph</th><th class="tableColHeader" data-col="1">描述</th>' +
+			(colVisibility.date ? '<th class="tableColHeader dateCol" data-col="2">时间</th>' : '') +
 			(colVisibility.author ? '<th class="tableColHeader authorCol" data-col="3">作者</th>' : '') +
-			(colVisibility.commit ? '<th class="tableColHeader" data-col="4">Commit</th>' : '') +
+			(colVisibility.commit ? '<th class="tableColHeader" data-col="4">提交</th>' : '') +
 			'</tr>';
 
 		for (let i = 0; i < this.commits.length; i++) {
@@ -936,7 +936,7 @@ class GitGraphView {
 
 	public renderRefreshButton() {
 		const enabled = !this.currentRepoRefreshState.inProgress;
-		this.refreshBtnElem.title = enabled ? 'Refresh' : 'Refreshing';
+		this.refreshBtnElem.title = enabled ? '刷新' : '刷新中';
 		this.refreshBtnElem.innerHTML = enabled ? SVG_ICONS.refresh : SVG_ICONS.loading;
 		alterClass(this.refreshBtnElem, CLASS_REFRESHING, !enabled);
 	}

@@ -539,7 +539,7 @@ export class GitGraphView extends Disposable {
 				break;
 			case 'rescanForRepos':
 				if (!(await this.repoManager.searchWorkspaceForRepos())) {
-					showErrorMessage('No Git repositories were found in the current workspace.');
+					showErrorMessage('在当前工作区中没有发现Git仓库。');
 				}
 				break;
 			case 'resetFileToRevision':
@@ -718,12 +718,12 @@ export class GitGraphView extends Disposable {
 			body = `<body>
 			<div id="view" tabindex="-1">
 				<div id="controls">
-					<span id="repoControl"><span class="unselectable">Repo: </span><div id="repoDropdown" class="dropdown"></div></span>
-					<span id="branchControl"><span class="unselectable">Branches: </span><div id="branchDropdown" class="dropdown"></div></span>
-					<label id="showRemoteBranchesControl"><input type="checkbox" id="showRemoteBranchesCheckbox" tabindex="-1"><span class="customCheckbox"></span>Show Remote Branches</label>
-					<div id="findBtn" title="Find"></div>
-					<div id="terminalBtn" title="Open a Terminal for this Repository"></div>
-					<div id="settingsBtn" title="Repository Settings"></div>
+					<span id="repoControl"><span class="unselectable">仓库: </span><div id="repoDropdown" class="dropdown"></div></span>
+					<span id="branchControl"><span class="unselectable">分支: </span><div id="branchDropdown" class="dropdown"></div></span>
+					<label id="showRemoteBranchesControl"><input type="checkbox" id="showRemoteBranchesCheckbox" tabindex="-1"><span class="customCheckbox"></span>显示远程分支</label>
+					<div id="findBtn" title="查找"></div>
+					<div id="terminalBtn" title="打开此仓库的终端"></div>
+					<div id="settingsBtn" title="仓库设置"></div>
 					<div id="fetchBtn"></div>
 					<div id="refreshBtn"></div>
 				</div>
@@ -739,10 +739,10 @@ export class GitGraphView extends Disposable {
 			</body>`;
 		} else {
 			body = `<body class="unableToLoad">
-			<h2>Unable to load Git Graph</h2>
-			<p class="unableToLoadMessage">No Git repositories were found in the current workspace when it was last scanned by Git Graph.</p>
-			<p>If your repositories are in subfolders of the open workspace folder(s), make sure you have set the Git Graph Setting "git-graph.maxDepthOfRepoSearch" appropriately (read the <a href="https://github.com/mhutchie/vscode-git-graph/wiki/Extension-Settings#max-depth-of-repo-search" target="_blank">documentation</a> for more information).</p>
-			<p><div id="rescanForReposBtn" class="roundedBtn">Re-scan the current workspace for repositories</div></p>
+			<h2无法加载Git Graph</h2>
+			<p class="unableToLoadMessage">当Git Graph最后一次扫描时，在当前工作区中没有发现Git仓库。</p>
+			<p>如果你的仓库位于打开的工作区文件夹的子文件夹中，确保你已经合适的设置了Git Graph的设置"git-graph.maxDepthOfRepoSearch" (更多信息请参阅 <a href="https://github.com/mhutchie/vscode-git-graph/wiki/Extension-Settings#max-depth-of-repo-search" target="_blank">文档</a> ).</p>
+			<p><div id="rescanForReposBtn" class="roundedBtn">重新扫描仓库的当前工作区</div></p>
 			<script nonce="${nonce}">(function(){ var api = acquireVsCodeApi(); document.getElementById('rescanForReposBtn').addEventListener('click', function(){ api.postMessage({command: 'rescanForRepos'}); }); })();</script>
 			</body>`;
 		}

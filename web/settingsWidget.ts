@@ -29,7 +29,7 @@ class SettingsWidget {
 
 		this.widgetElem = document.createElement('div');
 		this.widgetElem.id = 'settingsWidget';
-		this.widgetElem.innerHTML = '<h2>Repository Settings</h2><div id="settingsContent"></div><div id="settingsLoading"></div><div id="settingsClose"></div>';
+		this.widgetElem.innerHTML = '<h2>仓库设置</h2><div id="settingsContent"></div><div id="settingsLoading"></div><div id="settingsClose"></div>';
 		document.body.appendChild(this.widgetElem);
 
 		observeElemScroll('settingsWidget', this.scrollTop, (scrollTop) => {
@@ -151,69 +151,69 @@ class SettingsWidget {
 				? escapeHtml(formatCommaSeparatedList(initialBranches))
 				: 'Show All';
 
-			let html = '<div class="settingsSection general"><h3>General</h3>' +
+			let html = '<div class="settingsSection general"><h3>通用</h3>' +
 				'<table>' +
-				'<tr class="lineAbove"><td class="left">Name:</td><td class="leftWithEllipsis" title="' + escapedRepoName + (this.repo.name === null ? ' (Default Name from the File System)' : '') + '">' + escapedRepoName + '</td><td class="btns right"><div id="editRepoName" title="Edit Name' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div>' + (this.repo.name !== null ? ' <div id="deleteRepoName" title="Delete Name' + ELLIPSIS + '">' + SVG_ICONS.close + '</div>' : '') + '</td></tr>' +
-				'<tr class="lineAbove lineBelow"><td class="left">Initial Branches:</td><td class="leftWithEllipsis" title="' + initialBranchesStr + ' (' + (initialBranchesLocallyConfigured ? 'Local' : 'Global') + ')">' + initialBranchesStr + '</td><td class="btns right"><div id="editInitialBranches" title="Edit Initial Branches' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div>' + (initialBranchesLocallyConfigured ? ' <div id="clearInitialBranches" title="Clear Initial Branches' + ELLIPSIS + '">' + SVG_ICONS.close + '</div>' : '') + '</td></tr>' +
+				'<tr class="lineAbove"><td class="left">仓库名:</td><td class="leftWithEllipsis" title="' + escapedRepoName + (this.repo.name === null ? ' (文件系统的默认名称)' : '') + '">' + escapedRepoName + '</td><td class="btns right"><div id="editRepoName" title="E修改名称' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div>' + (this.repo.name !== null ? ' <div id="deleteRepoName" title="删除名称' + ELLIPSIS + '">' + SVG_ICONS.close + '</div>' : '') + '</td></tr>' +
+				'<tr class="lineAbove lineBelow"><td class="left">初始分支:</td><td class="leftWithEllipsis" title="' + initialBranchesStr + ' (' + (initialBranchesLocallyConfigured ? '本地' : '全局') + ')">' + initialBranchesStr + '</td><td class="btns right"><div id="editInitialBranches" title="编辑初始分支' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div>' + (initialBranchesLocallyConfigured ? ' <div id="clearInitialBranches" title="清除初始分支' + ELLIPSIS + '">' + SVG_ICONS.close + '</div>' : '') + '</td></tr>' +
 				'</table>' +
-				'<label id="settingsShowStashes"><input type="checkbox" id="settingsShowStashesCheckbox" tabindex="-1"><span class="customCheckbox"></span>Show Stashes</label><br/>' +
-				'<label id="settingsShowTags"><input type="checkbox" id="settingsShowTagsCheckbox" tabindex="-1"><span class="customCheckbox"></span>Show Tags</label><br/>' +
-				'<label id="settingsIncludeCommitsMentionedByReflogs"><input type="checkbox" id="settingsIncludeCommitsMentionedByReflogsCheckbox" tabindex="-1"><span class="customCheckbox"></span>Include commits only mentioned by reflogs</label><span class="settingsWidgetInfo" title="Only applies when showing all branches.">' + SVG_ICONS.info + '</span><br/>' +
-				'<label id="settingsOnlyFollowFirstParent"><input type="checkbox" id="settingsOnlyFollowFirstParentCheckbox" tabindex="-1"><span class="customCheckbox"></span>Only follow the first parent of commits</label><span class="settingsWidgetInfo" title="Instead of following all parents of commits, only follow the first parent when discovering the commits to load.">' + SVG_ICONS.info + '</span>' +
+				'<label id="settingsShowStashes"><input type="checkbox" id="settingsShowStashesCheckbox" tabindex="-1"><span class="customCheckbox"></span>显示某一个储存详情</label><br/>' +
+				'<label id="settingsShowTags"><input type="checkbox" id="settingsShowTagsCheckbox" tabindex="-1"><span class="customCheckbox"></span>显示标签</label><br/>' +
+				'<label id="settingsIncludeCommitsMentionedByReflogs"><input type="checkbox" id="settingsIncludeCommitsMentionedByReflogsCheckbox" tabindex="-1"><span class="customCheckbox"></span>只包含reflogs提到的提交</label><span class="settingsWidgetInfo" title="仅适用于显示所有分支时">' + SVG_ICONS.info + '</span><br/>' +
+				'<label id="settingsOnlyFollowFirstParent"><input type="checkbox" id="settingsOnlyFollowFirstParentCheckbox" tabindex="-1"><span class="customCheckbox"></span>只遵循提交的第一个父节点</label><span class="settingsWidgetInfo" title="当发现要加载提交时，只跟随第一个父节点，而不是跟随所有提交的父节点">' + SVG_ICONS.info + '</span>' +
 				'</div>';
 
 			let userNameSet = false, userEmailSet = false;
 			if (this.config !== null) {
-				html += '<div class="settingsSection centered"><h3>User Details</h3>';
+				html += '<div class="settingsSection centered"><h3>用户详细信息</h3>';
 				const userName = this.config.user.name, userEmail = this.config.user.email;
 				userNameSet = userName.local !== null || userName.global !== null;
 				userEmailSet = userEmail.local !== null || userEmail.global !== null;
 				if (userNameSet || userEmailSet) {
-					const escapedUserName = escapeHtml(userName.local ?? userName.global ?? 'Not Set');
-					const escapedUserEmail = escapeHtml(userEmail.local ?? userEmail.global ?? 'Not Set');
+					const escapedUserName = escapeHtml(userName.local ?? userName.global ?? '没有设置');
+					const escapedUserEmail = escapeHtml(userEmail.local ?? userEmail.global ?? '没有设置');
 					html += '<table>' +
-						'<tr><td class="left">User Name:</td><td class="leftWithEllipsis" title="' + escapedUserName + (userNameSet ? ' (' + (userName.local !== null ? 'Local' : 'Global') + ')' : '') + '">' + escapedUserName + '</td></tr>' +
-						'<tr><td class="left">User Email:</td><td class="leftWithEllipsis" title="' + escapedUserEmail + (userEmailSet ? ' (' + (userEmail.local !== null ? 'Local' : 'Global') + ')' : '') + '">' + escapedUserEmail + '</td></tr>' +
+						'<tr><td class="left">用户名:</td><td class="leftWithEllipsis" title="' + escapedUserName + (userNameSet ? ' (' + (userName.local !== null ? '本地' : '全局') + ')' : '') + '">' + escapedUserName + '</td></tr>' +
+						'<tr><td class="left">邮箱:</td><td class="leftWithEllipsis" title="' + escapedUserEmail + (userEmailSet ? ' (' + (userEmail.local !== null ? '本地' : '全局') + ')' : '') + '">' + escapedUserEmail + '</td></tr>' +
 						'</table>' +
-						'<div class="settingsSectionButtons"><div id="editUserDetails" class="editBtn">' + SVG_ICONS.pencil + 'Edit</div><div id="removeUserDetails" class="removeBtn">' + SVG_ICONS.close + 'Remove</div></div>';
+						'<div class="settingsSectionButtons"><div id="editUserDetails" class="editBtn">' + SVG_ICONS.pencil + 'Edit</div><div id="removeUserDetails" class="removeBtn">' + SVG_ICONS.close + '删除</div></div>';
 				} else {
-					html += '<span>User Details (such as name and email) are used by Git to record the Author and Committer of commit objects.</span>' +
-						'<div class="settingsSectionButtons"><div id="editUserDetails" class="addBtn">' + SVG_ICONS.plus + 'Add User Details</div></div>';
+					html += '<span>用户详细信息(如姓名、邮箱等)用于Git记录提交对象的作者和提交人</span>' +
+						'<div class="settingsSectionButtons"><div id="editUserDetails" class="addBtn">' + SVG_ICONS.plus + '添加用户详细信息</div></div>';
 				}
 				html += '</div>';
 
-				html += '<div class="settingsSection"><h3>Remote Configuration</h3><table><tr><th>Remote</th><th>URL</th><th>Type</th><th>Action</th></tr>';
+				html += '<div class="settingsSection"><h3>远程配置</h3><table><tr><th>远程分支</th><th>URL</th><th>类型</th><th>方式</th></tr>';
 				if (this.config.remotes.length > 0) {
 					const hideRemotes = this.repo.hideRemotes;
 					this.config.remotes.forEach((remote, i) => {
 						const hidden = hideRemotes.includes(remote.name);
 						const fetchUrl = escapeHtml(remote.url || 'Not Set'), pushUrl = escapeHtml(remote.pushUrl || remote.url || 'Not Set');
 						html += '<tr class="lineAbove">' +
-							'<td class="left" rowspan="2"><span class="hideRemoteBtn" data-index="' + i + '" title="Click to ' + (hidden ? 'show' : 'hide') + ' branches of this remote.">' + (hidden ? SVG_ICONS.eyeClosed : SVG_ICONS.eyeOpen) + '</span>' + escapeHtml(remote.name) + '</td>' +
-							'<td class="leftWithEllipsis" title="Fetch URL: ' + fetchUrl + '">' + fetchUrl + '</td><td>Fetch</td>' +
-							'<td class="btns remoteBtns" rowspan="2" data-index="' + i + '"><div class="fetchRemote" title="Fetch from Remote' + ELLIPSIS + '">' + SVG_ICONS.download + '</div> <div class="pruneRemote" title="Prune Remote' + ELLIPSIS + '">' + SVG_ICONS.branch + '</div><br><div class="editRemote" title="Edit Remote' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div> <div class="deleteRemote" title="Delete Remote' + ELLIPSIS + '">' + SVG_ICONS.close + '</div></td>' +
-							'</tr><tr><td class="leftWithEllipsis" title="Push URL: ' + pushUrl + '">' + pushUrl + '</td><td>Push</td></tr>';
+							'<td class="left" rowspan="2"><span class="hideRemoteBtn" data-index="' + i + '" title="单击此处可 ' + (hidden ? '显示' : '隐藏') + ' 此远程的分支">' + (hidden ? SVG_ICONS.eyeClosed : SVG_ICONS.eyeOpen) + '</span>' + escapeHtml(remote.name) + '</td>' +
+							'<td class="leftWithEllipsis" title="获取URL: ' + fetchUrl + '">' + fetchUrl + '</td><td>获取</td>' +
+							'<td class="btns remoteBtns" rowspan="2" data-index="' + i + '"><div class="fetchRemote" title="获取远程分支' + ELLIPSIS + '">' + SVG_ICONS.download + '</div> <div class="pruneRemote" title="剪除远程分支' + ELLIPSIS + '">' + SVG_ICONS.branch + '</div><br><div class="editRemote" title="编辑远程仓库' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div> <div class="deleteRemote" title="删除远程仓库' + ELLIPSIS + '">' + SVG_ICONS.close + '</div></td>' +
+							'</tr><tr><td class="leftWithEllipsis" title="推送URL: ' + pushUrl + '">' + pushUrl + '</td><td>推送</td></tr>';
 					});
 				} else {
-					html += '<tr class="lineAbove"><td colspan="4">There are no remotes configured for this repository.</td></tr>';
+					html += '<tr class="lineAbove"><td colspan="4">没有为此仓库配置远程服务器</td></tr>';
 				}
-				html += '</table><div class="settingsSectionButtons lineAbove"><div id="settingsAddRemote" class="addBtn">' + SVG_ICONS.plus + 'Add Remote</div></div></div>';
+				html += '</table><div class="settingsSectionButtons lineAbove"><div id="settingsAddRemote" class="addBtn">' + SVG_ICONS.plus + '添加远程分支</div></div></div>';
 			}
 
-			html += '<div class="settingsSection centered"><h3>Issue Linking</h3>';
+			html += '<div class="settingsSection centered"><h3>Issue链接</h3>';
 			const issueLinkingConfig = this.repo.issueLinkingConfig || globalState.issueLinkingConfig;
 			if (issueLinkingConfig !== null) {
 				const escapedIssue = escapeHtml(issueLinkingConfig.issue), escapedUrl = escapeHtml(issueLinkingConfig.url);
-				html += '<table><tr><td class="left">Issue Regex:</td><td class="leftWithEllipsis" title="' + escapedIssue + '">' + escapedIssue + '</td></tr><tr><td class="left">Issue URL:</td><td class="leftWithEllipsis" title="' + escapedUrl + '">' + escapedUrl + '</td></tr></table>' +
+				html += '<table><tr><td class="left">Issue正则表达式:</td><td class="leftWithEllipsis" title="' + escapedIssue + '">' + escapedIssue + '</td></tr><tr><td class="left">Issue URL:</td><td class="leftWithEllipsis" title="' + escapedUrl + '">' + escapedUrl + '</td></tr></table>' +
 					'<div class="settingsSectionButtons"><div id="editIssueLinking" class="editBtn">' + SVG_ICONS.pencil + 'Edit</div><div id="removeIssueLinking" class="removeBtn">' + SVG_ICONS.close + 'Remove</div></div>';
 			} else {
-				html += '<span>Issue Linking converts issue numbers in commit &amp; tag messages into hyperlinks, that open the issue in your issue tracking system. If a branch\'s name contains an issue number, the issue can be viewed via the branch\'s context menu.</span>' +
-					'<div class="settingsSectionButtons"><div id="editIssueLinking" class="addBtn">' + SVG_ICONS.plus + 'Add Issue Linking</div></div>';
+				html += '<span>issue链接将提交&amp标签消息中的issue编号转换为超链接，在issue跟踪系统中打开该issue。如果一个分支的名称包含一个issue编号，那么issue可以通过分支的上下文菜单来查看。<br />如果一个分支的名称包含一个issue编号，issue可以通过分支的上下文菜单查看。</span>' +
+					'<div class="settingsSectionButtons"><div id="editIssueLinking" class="addBtn">' + SVG_ICONS.plus + '添加Issue链接</div></div>';
 			}
 			html += '</div>';
 
 			if (this.config !== null) {
-				html += '<div class="settingsSection centered"><h3>Pull Request Creation</h3>';
+				html += '<div class="settingsSection centered"><h3>创建拉取请求</h3>';
 				const pullRequestConfig = this.repo.pullRequestConfig;
 				if (pullRequestConfig !== null) {
 					const provider = escapeHtml((pullRequestConfig.provider === GG.PullRequestProvider.Bitbucket
@@ -227,29 +227,29 @@ class SettingsWidget {
 					const source = escapeHtml(pullRequestConfig.sourceOwner + '/' + pullRequestConfig.sourceRepo + ' (' + pullRequestConfig.sourceRemote + ')');
 					const destination = escapeHtml(pullRequestConfig.destOwner + '/' + pullRequestConfig.destRepo + (pullRequestConfig.destRemote !== null ? ' (' + pullRequestConfig.destRemote + ')' : ''));
 					const destinationBranch = escapeHtml(pullRequestConfig.destBranch);
-					html += '<table><tr><td class="left">Provider:</td><td class="leftWithEllipsis" title="' + provider + '">' + provider + '</td></tr>' +
+					html += '<table><tr><td class="left">运营商:</td><td class="leftWithEllipsis" title="' + provider + '">' + provider + '</td></tr>' +
 						'<tr><td class="left">Source Repo:</td><td class="leftWithEllipsis" title="' + source + '">' + source + '</td></tr>' +
 						'<tr><td class="left">Destination Repo:</td><td class="leftWithEllipsis" title="' + destination + '">' + destination + '</td></tr>' +
 						'<tr><td class="left">Destination Branch:</td><td class="leftWithEllipsis" title="' + destinationBranch + '">' + destinationBranch + '</td></tr></table>' +
 						'<div class="settingsSectionButtons"><div id="editPullRequestIntegration" class="editBtn">' + SVG_ICONS.pencil + 'Edit</div><div id="removePullRequestIntegration" class="removeBtn">' + SVG_ICONS.close + 'Remove</div></div>';
 				} else {
-					html += '<span>Pull Request Creation automates the opening and pre-filling of a Pull Request form, directly from a branch\'s context menu.</span>' +
-						'<div class="settingsSectionButtons"><div id="editPullRequestIntegration" class="addBtn">' + SVG_ICONS.plus + 'Configure "Pull Request Creation" Integration</div></div>';
+					html += '<span>创建拉取请求会自动打开并且直接从一个分支的上下文菜单中预填充一个拉取请求表单。</span>' +
+						'<div class="settingsSectionButtons"><div id="editPullRequestIntegration" class="addBtn">' + SVG_ICONS.plus + '综合配置"创建拉取请求"</div></div>';
 				}
 				html += '</div>';
 			}
 
-			html += '<div class="settingsSection"><h3>Git Graph Configuration</h3><div class="settingsSectionButtons">' +
-				'<div id="openExtensionSettings">' + SVG_ICONS.gear + 'Open Git Graph Extension Settings</div><br/>' +
-				'<div id="exportRepositoryConfig">' + SVG_ICONS.package + 'Export Repository Configuration</div>' +
+			html += '<div class="settingsSection"><h3>Git Graph配置</h3><div class="settingsSectionButtons">' +
+				'<div id="openExtensionSettings">' + SVG_ICONS.gear + '打开Git Graph扩展设置</div><br/>' +
+				'<div id="exportRepositoryConfig">' + SVG_ICONS.package + '导出仓库配置</div>' +
 				'</div></div>';
 
 			this.contentsElem.innerHTML = html;
 
 			document.getElementById('editRepoName')!.addEventListener('click', () => {
 				if (this.currentRepo === null || this.repo === null) return;
-				dialog.showForm('Specify a Name for this Repository:', [
-					{ type: DialogInputType.Text, name: 'Name', default: this.repo.name || '', placeholder: getRepoName(this.currentRepo) }
+				dialog.showForm('为这个仓库指定一个名称:', [
+					{ type: DialogInputType.Text, name: '保存', default: this.repo.name || '', placeholder: getRepoName(this.currentRepo) }
 				], 'Save Name', (values) => {
 					if (this.currentRepo === null) return;
 					this.view.saveRepoStateValue(this.currentRepo, 'name', <string>values[0] || null);
@@ -261,7 +261,7 @@ class SettingsWidget {
 			if (this.repo.name !== null) {
 				document.getElementById('deleteRepoName')!.addEventListener('click', () => {
 					if (this.currentRepo === null || this.repo === null || this.repo.name === null) return;
-					dialog.showConfirmation('Are you sure you want to delete the manually configured name <b><i>' + escapeHtml(this.repo.name) + '</i></b> for this repository, and use the default name from the File System <b><i>' + escapeHtml(getRepoName(this.currentRepo)) + '</i></b>?', 'Yes, delete', () => {
+					dialog.showConfirmation('您确定要删除这个仓库手动配置的名称 <b><i>' + escapeHtml(this.repo.name) + '</i></b>，并且使用仓库的默认名称 <b><i>' + escapeHtml(getRepoName(this.currentRepo)) + '</i></b>?', '是，删除', () => {
 						if (this.currentRepo === null) return;
 						this.view.saveRepoStateValue(this.currentRepo, 'name', null);
 						this.view.renderRepoDropdownOptions();
@@ -274,22 +274,22 @@ class SettingsWidget {
 				if (this.repo === null) return;
 				const showCheckedOutBranch = getOnRepoLoadShowCheckedOutBranch(this.repo.onRepoLoadShowCheckedOutBranch);
 				const showSpecificBranches = getOnRepoLoadShowSpecificBranches(this.repo.onRepoLoadShowSpecificBranches);
-				dialog.showForm('<b>Configure Initial Branches</b><p style="margin:6px 0;">Configure the branches that are initially shown when this repository is loaded in the Git Graph View.</p><p style="font-size:12px; margin:6px 0 0 0;">Note: When "Checked Out Branch" is Disabled, and no "Specific Branches" are selected, all branches will be shown.</p>', [
-					{ type: DialogInputType.Checkbox, name: 'Checked Out Branch', value: showCheckedOutBranch },
-					{ type: DialogInputType.Select, name: 'Specific Branches', options: this.view.getBranchOptions(), defaults: showSpecificBranches, multiple: true }
-				], 'Save Configuration', (values) => {
+				dialog.showForm('<b>配置初始分支</b><p style="margin:6px 0;">配置在Git Graph视图中加载仓库时最初显示的分支。</p><p style="font-size:12px; margin:6px 0 0 0;">注意:当“切换分支”被禁用，且没有选择“具体的分支”时，将显示所有的分支。</p>', [
+					{ type: DialogInputType.Checkbox, name: '切换分支', value: showCheckedOutBranch },
+					{ type: DialogInputType.Select, name: '具体的分支', options: this.view.getBranchOptions(), defaults: showSpecificBranches, multiple: true }
+				], '保存', (values) => {
 					if (this.currentRepo === null) return;
 					if (showCheckedOutBranch !== values[0] || !arraysStrictlyEqualIgnoringOrder(showSpecificBranches, <string[]>values[1])) {
 						this.view.saveRepoStateValue(this.currentRepo, 'onRepoLoadShowCheckedOutBranch', values[0] ? GG.BooleanOverride.Enabled : GG.BooleanOverride.Disabled);
 						this.view.saveRepoStateValue(this.currentRepo, 'onRepoLoadShowSpecificBranches', <string[]>values[1]);
 						this.render();
 					}
-				}, null, 'Cancel', null, false);
+				}, null, '取消', null, false);
 			});
 
 			if (initialBranchesLocallyConfigured) {
 				document.getElementById('clearInitialBranches')!.addEventListener('click', () => {
-					dialog.showConfirmation('Are you sure you want to clear the branches that are initially shown when this repository is loaded in the Git Graph View?', 'Yes, clear', () => {
+					dialog.showConfirmation('"您确定要清除在Git Graph视图中加载该仓库时最初显示的分支吗?', '是，清除', () => {
 						if (this.currentRepo === null) return;
 						this.view.saveRepoStateValue(this.currentRepo, 'onRepoLoadShowCheckedOutBranch', GG.BooleanOverride.Default);
 						this.view.saveRepoStateValue(this.currentRepo, 'onRepoLoadShowSpecificBranches', null);
@@ -342,11 +342,11 @@ class SettingsWidget {
 				document.getElementById('editUserDetails')!.addEventListener('click', () => {
 					if (this.config === null) return;
 					const userName = this.config.user.name, userEmail = this.config.user.email;
-					dialog.showForm('Set the user name and email used by Git to record the Author and Committer of commit objects:', [
-						{ type: DialogInputType.Text, name: 'User Name', default: userName.local ?? userName.global ?? '', placeholder: null },
-						{ type: DialogInputType.Text, name: 'User Email', default: userEmail.local ?? userEmail.global ?? '', placeholder: null },
-						{ type: DialogInputType.Checkbox, name: 'Use Globally', value: userName.local === null && userEmail.local === null, info: 'Use the "User Name" and "User Email" globally for all Git repositories (it can be overridden per repository).' }
-					], 'Set User Details', (values) => {
+					dialog.showForm('设置用户名和邮箱，让Git可以记录提交对象的作者和提交人:', [
+						{ type: DialogInputType.Text, name: '用户名', default: userName.local ?? userName.global ?? '', placeholder: null },
+						{ type: DialogInputType.Text, name: '邮箱', default: userEmail.local ?? userEmail.global ?? '', placeholder: null },
+						{ type: DialogInputType.Checkbox, name: '全局配置', value: userName.local === null && userEmail.local === null, info: '所有的Git仓库全都使用相同的“用户名”和“邮箱”(它可以覆盖每个仓库)' }
+					], '设置用户信息', (values) => {
 						if (this.currentRepo === null) return;
 						const useGlobally = <boolean>values[2];
 						runAction({
@@ -366,7 +366,7 @@ class SettingsWidget {
 						if (this.config === null) return;
 						const userName = this.config.user.name, userEmail = this.config.user.email;
 						const isGlobal = userName.local === null && userEmail.local === null;
-						dialog.showConfirmation('Are you sure you want to remove the <b>' + (isGlobal ? 'globally' : 'locally') + ' configured</b> user name and email, which are used by Git to record the Author and Committer of commit objects?', 'Yes, remove', () => {
+						dialog.showConfirmation('你确定要删除 <b>' + (isGlobal ? 'gl全局obally' : '本地') + ' 配置</b> 的用户名和电子邮件, 这是Git用来记录提交对象的作者和提交人的?', '是，删除', () => {
 							if (this.currentRepo === null) return;
 							runAction({
 								command: 'deleteUserDetails',
@@ -379,14 +379,14 @@ class SettingsWidget {
 					});
 				}
 
-				const pushUrlPlaceholder = 'Leave blank to use the Fetch URL';
+				const pushUrlPlaceholder = '留空以使用拉取的URL';
 				document.getElementById('settingsAddRemote')!.addEventListener('click', () => {
-					dialog.showForm('Add a new remote to this repository:', [
-						{ type: DialogInputType.Text, name: 'Name', default: '', placeholder: null },
-						{ type: DialogInputType.Text, name: 'Fetch URL', default: '', placeholder: null },
-						{ type: DialogInputType.Text, name: 'Push URL', default: '', placeholder: pushUrlPlaceholder },
-						{ type: DialogInputType.Checkbox, name: 'Fetch Immediately', value: true }
-					], 'Add Remote', (values) => {
+					dialog.showForm('为这个仓库添加一个新的远程分支:', [
+						{ type: DialogInputType.Text, name: '名称', default: '', placeholder: null },
+						{ type: DialogInputType.Text, name: '拉取URL', default: '', placeholder: null },
+						{ type: DialogInputType.Text, name: '推送URL', default: '', placeholder: pushUrlPlaceholder },
+						{ type: DialogInputType.Checkbox, name: '立即拉取', value: true }
+					], '添加远程仓库', (values) => {
 						if (this.currentRepo === null) return;
 						runAction({ command: 'addRemote', repo: this.currentRepo, name: <string>values[0], url: <string>values[1], pushUrl: <string>values[2] !== '' ? <string>values[2] : null, fetch: <boolean>values[3] }, 'Adding Remote');
 					}, { type: TargetType.Repo });
@@ -395,11 +395,11 @@ class SettingsWidget {
 				addListenerToClass('editRemote', 'click', (e) => {
 					const remote = this.getRemoteForBtnEvent(e);
 					if (remote === null) return;
-					dialog.showForm('Edit the remote <b><i>' + escapeHtml(remote.name) + '</i></b>:', [
-						{ type: DialogInputType.Text, name: 'Name', default: remote.name, placeholder: null },
-						{ type: DialogInputType.Text, name: 'Fetch URL', default: remote.url !== null ? remote.url : '', placeholder: null },
-						{ type: DialogInputType.Text, name: 'Push URL', default: remote.pushUrl !== null ? remote.pushUrl : '', placeholder: pushUrlPlaceholder }
-					], 'Save Changes', (values) => {
+					dialog.showForm('编辑远程分支 <b><i>' + escapeHtml(remote.name) + '</i></b>:', [
+						{ type: DialogInputType.Text, name: '名称', default: remote.name, placeholder: null },
+						{ type: DialogInputType.Text, name: '拉取URL', default: remote.url !== null ? remote.url : '', placeholder: null },
+						{ type: DialogInputType.Text, name: '推送URL', default: remote.pushUrl !== null ? remote.pushUrl : '', placeholder: pushUrlPlaceholder }
+					], '保存', (values) => {
 						if (this.currentRepo === null) return;
 						runAction({ command: 'editRemote', repo: this.currentRepo, nameOld: remote.name, nameNew: <string>values[0], urlOld: remote.url, urlNew: <string>values[1] !== '' ? <string>values[1] : null, pushUrlOld: remote.pushUrl, pushUrlNew: <string>values[2] !== '' ? <string>values[2] : null }, 'Saving Changes to Remote');
 					}, { type: TargetType.Repo });
@@ -408,7 +408,7 @@ class SettingsWidget {
 				addListenerToClass('deleteRemote', 'click', (e) => {
 					const remote = this.getRemoteForBtnEvent(e);
 					if (remote === null) return;
-					dialog.showConfirmation('Are you sure you want to delete the remote <b><i>' + escapeHtml(remote.name) + '</i></b>?', 'Yes, delete', () => {
+					dialog.showConfirmation('你确定要删除远程分支 <b><i>' + escapeHtml(remote.name) + '</i></b>?', '是，删除', () => {
 						if (this.currentRepo === null) return;
 						runAction({ command: 'deleteRemote', repo: this.currentRepo, name: remote.name }, 'Deleting Remote');
 					}, { type: TargetType.Repo });
@@ -417,10 +417,10 @@ class SettingsWidget {
 				addListenerToClass('fetchRemote', 'click', (e) => {
 					const remote = this.getRemoteForBtnEvent(e);
 					if (remote === null) return;
-					dialog.showForm('Are you sure you want to fetch from the remote <b><i>' + escapeHtml(remote.name) + '</i></b>?', [
-						{ type: DialogInputType.Checkbox, name: 'Prune', value: initialState.config.dialogDefaults.fetchRemote.prune, info: 'Before fetching, remove any remote-tracking references that no longer exist on the remote.' },
-						{ type: DialogInputType.Checkbox, name: 'Prune Tags', value: initialState.config.dialogDefaults.fetchRemote.pruneTags, info: 'Before fetching, remove any local tags that no longer exist on the remote. Requires Git >= 2.17.0, and "Prune" to be enabled.' }
-					], 'Yes, fetch', (values) => {
+					dialog.showForm('你确定要获取远程分支 <b><i>' + escapeHtml(remote.name) + '</i></b>?', [
+						{ type: DialogInputType.Checkbox, name: '剪除', value: initialState.config.dialogDefaults.fetchRemote.prune, info: '在获取之前，删除远程分支上不再存在的任何远程跟踪引用。' },
+						{ type: DialogInputType.Checkbox, name: '剪除标签', value: initialState.config.dialogDefaults.fetchRemote.pruneTags, info: '在获取之前，删除远程上不再存在的任何本地标记。需要启用“剪除”，并且Git >= 2.17.0。' }
+					], '是，获取', (values) => {
 						if (this.currentRepo === null) return;
 						runAction({ command: 'fetch', repo: this.currentRepo, name: remote.name, prune: <boolean>values[0], pruneTags: <boolean>values[1] }, 'Fetching from Remote');
 					}, { type: TargetType.Repo });
@@ -429,7 +429,7 @@ class SettingsWidget {
 				addListenerToClass('pruneRemote', 'click', (e) => {
 					const remote = this.getRemoteForBtnEvent(e);
 					if (remote === null) return;
-					dialog.showConfirmation('Are you sure you want to prune remote-tracking references that no longer exist on the remote <b><i>' + escapeHtml(remote.name) + '</i></b>?', 'Yes, prune', () => {
+					dialog.showConfirmation('您确定要剪除在远程分支上不再存在的远程跟踪引用 <b><i>' + escapeHtml(remote.name) + '</i></b>?', '是，剪除', () => {
 						if (this.currentRepo === null) return;
 						runAction({ command: 'pruneRemote', repo: this.currentRepo, name: remote.name }, 'Pruning Remote');
 					}, { type: TargetType.Repo });
@@ -440,7 +440,7 @@ class SettingsWidget {
 					const source = <HTMLElement>(<Element>e.target).closest('.hideRemoteBtn')!;
 					const remote = this.config.remotes[parseInt(source.dataset.index!)].name;
 					const hideRemote = !this.repo.hideRemotes.includes(remote);
-					source.title = 'Click to ' + (hideRemote ? 'show' : 'hide') + ' branches of this remote.';
+					source.title = '单击此处可 ' + (hideRemote ? '显示' : '隐藏') + ' 此远程的分支。';
 					source.innerHTML = hideRemote ? SVG_ICONS.eyeClosed : SVG_ICONS.eyeOpen;
 					if (hideRemote) {
 						this.repo.hideRemotes.push(remote);
@@ -466,7 +466,7 @@ class SettingsWidget {
 				document.getElementById('removeIssueLinking')!.addEventListener('click', () => {
 					if (this.repo === null) return;
 					const locallyConfigured = this.repo.issueLinkingConfig !== null;
-					dialog.showConfirmation('Are you sure you want to remove ' + (locallyConfigured ? (globalState.issueLinkingConfig !== null ? 'the <b>locally configured</b> ' : '') + 'Issue Linking from this repository' : 'the <b>globally configured</b> Issue Linking in Git Graph') + '?', 'Yes, remove', () => {
+					dialog.showConfirmation('你确定要删除 ' + (locallyConfigured ? (globalState.issueLinkingConfig !== null ? '这个 <b>本地配置</b> ' : '') + '这个仓库的Issue链接' : '在Git Graph中<b>全局配置的</b> Issue链接') + '?', '是，删除', () => {
 						this.setIssueLinkingConfig(null, !locallyConfigured);
 					}, null);
 				});
@@ -477,7 +477,7 @@ class SettingsWidget {
 					if (this.repo === null || this.config === null) return;
 
 					if (this.config.remotes.length === 0) {
-						dialog.showError('Unable to configure the "Pull Request Creation" Integration', 'The repository must have at least one remote to configure the "Pull Request Creation" Integration. There are no remotes in the current repository.', null, null);
+						dialog.showError('无法配置“创建拉取请求”集成', '仓库必须至少有一个远程分支配置“pull Request Creation”集成。当前仓库中没有远程分支。', null, null);
 						return;
 					}
 
@@ -511,7 +511,7 @@ class SettingsWidget {
 
 				if (this.repo.pullRequestConfig !== null) {
 					document.getElementById('removePullRequestIntegration')!.addEventListener('click', () => {
-						dialog.showConfirmation('Are you sure you want to remove the configured "Pull Request Creation" Integration?', 'Yes, remove', () => {
+						dialog.showConfirmation('你确定要删除配置的“Pull Request Creation”集成吗?', '是，删除', () => {
 							this.setPullRequestConfig(null);
 						}, null);
 					});
@@ -523,7 +523,7 @@ class SettingsWidget {
 			});
 
 			document.getElementById('exportRepositoryConfig')!.addEventListener('click', () => {
-				dialog.showConfirmation('Exporting the Git Graph Repository Configuration will generate a file that can be committed in this repository. It allows others working in this repository to use the same configuration.', 'Yes, export', () => {
+				dialog.showConfirmation('导出Git Graph Repository配置将生成一个可以提交到该仓库中的文件。它允许在这个仓库中工作的其他人使用相同的配置。', '是，导出', () => {
 					if (this.currentRepo === null) return;
 					runAction({ command: 'exportRepoConfig', repo: this.currentRepo }, 'Exporting Repository Configuration');
 				}, null);
@@ -531,7 +531,7 @@ class SettingsWidget {
 		}
 
 		alterClass(this.widgetElem, CLASS_LOADING, this.loading);
-		this.loadingElem.innerHTML = this.loading ? '<span>' + SVG_ICONS.loading + 'Loading ...</span>' : '';
+		this.loadingElem.innerHTML = this.loading ? '<span>' + SVG_ICONS.loading + '加载中 ...</span>' : '';
 		this.widgetElem.scrollTop = this.scrollTop;
 		this.loadingElem.style.top = (this.scrollTop + (this.widgetElem.clientHeight / 2) - 12) + 'px';
 	}
@@ -578,27 +578,27 @@ class SettingsWidget {
 	 * @param isEdit Is the dialog editing an existing issue linking configuration.
 	 */
 	private showIssueLinkingDialog(defaultIssueRegex: string | null, defaultIssueUrl: string | null, defaultUseGlobally: boolean, isEdit: boolean) {
-		let html = '<b>' + (isEdit ? 'Edit Issue Linking for' : 'Add Issue Linking to') + ' this Repository</b>';
-		html += '<p style="font-size:12px; margin:6px 0;">The following example links <b>#123</b> in commit messages to <b>https://github.com/mhutchie/repo/issues/123</b>:</p>';
+		let html = '<b>' + '为当前仓库' + (isEdit ? '编辑Issue链接' : '添加Issue链接') + '</b>';
+		html += '<p style="font-size:12px; margin:6px 0;">下面的示例将提交消息中的 <b>#123</b> 链接到 <b>https://github.com/mhutchie/repo/issues/123</b>:</p>';
 		html += '<table style="display:inline-table; width:360px; text-align:left; font-size:12px; margin-bottom:2px;"><tr><td>Issue Regex:</td><td>#(\\d+)</td></tr><tr><td>Issue URL:</td><td>https://github.com/mhutchie/repo/issues/$1</td></tr></tbody></table>';
 
 		if (!isEdit && defaultIssueRegex === null && defaultIssueUrl === null) {
 			defaultIssueRegex = SettingsWidget.autoDetectIssueRegex(this.view.getCommits());
 			if (defaultIssueRegex !== null) {
-				html += '<p style="font-size:12px"><i>The prefilled Issue Regex was detected in commit messages in this repository. Review and/or correct it if necessary.</i></p>';
+				html += '<p style="font-size:12px"><i>在此仓库的提交消息中检测到预填充的Issue正则表达式。必要时检查and/or的正确性。</i></p>';
 			}
 		}
 
 		dialog.showForm(html, [
-			{ type: DialogInputType.Text, name: 'Issue Regex', default: defaultIssueRegex !== null ? defaultIssueRegex : '', placeholder: null, info: 'A regular expression that matches your issue numbers, with one or more capturing groups ( ) that will be substituted into the "Issue URL".' },
-			{ type: DialogInputType.Text, name: 'Issue URL', default: defaultIssueUrl !== null ? defaultIssueUrl : '', placeholder: null, info: 'The issue\'s URL in your issue tracking system, with placeholders ($1, $2, etc.) for the groups captured ( ) in the "Issue Regex".' },
-			{ type: DialogInputType.Checkbox, name: 'Use Globally', value: defaultUseGlobally, info: 'Use the "Issue Regex" and "Issue URL" for all repositories by default (it can be overridden per repository). Note: "Use Globally" is only suitable if identical Issue Linking applies to the majority of your repositories (e.g. when using JIRA or Pivotal Tracker).' }
-		], 'Save', (values) => {
+			{ type: DialogInputType.Text, name: 'Issue正则表达式', default: defaultIssueRegex !== null ? defaultIssueRegex : '', placeholder: null, info: '匹配issue编号的正则表达式，包含一个或多个捕获组()，这些组将被替换到"issue URL"' },
+			{ type: DialogInputType.Text, name: 'Issue URL', default: defaultIssueUrl !== null ? defaultIssueUrl : '', placeholder: null, info: 'issue跟踪系统中issue的URL，带有占位符($1，$2等)，用于在“issue正则表达式”中捕获的组()' },
+			{ type: DialogInputType.Checkbox, name: '全局配置', value: defaultUseGlobally, info: '默认情况下，对所有仓库使用“Issue Regex”和“Issue URL”(每个仓库都可以重写)。注意:“全局使用”仅适用于相同的issue链接，这适用于您的大多数仓库(例如，当使用JIRA或枢纽跟踪器)。' }
+		], '保存', (values) => {
 			let issueRegex = (<string>values[0]).trim(), issueUrl = (<string>values[1]).trim(), useGlobally = <boolean>values[2];
 			let regExpParseError = null;
 			try {
 				if (issueRegex.indexOf('(') === -1 || issueRegex.indexOf(')') === -1) {
-					regExpParseError = 'The regular expression does not contain a capturing group ( ).';
+					regExpParseError = '正则表达式不包含捕获组().';
 				} else if (new RegExp(issueRegex, 'gu')) {
 					regExpParseError = null;
 				}
@@ -606,17 +606,17 @@ class SettingsWidget {
 				regExpParseError = e.message;
 			}
 			if (regExpParseError !== null) {
-				dialog.showError('Invalid Issue Regex', regExpParseError, 'Go Back', () => {
+				dialog.showError('无效的Issue正则表达式', regExpParseError, '返回', () => {
 					this.showIssueLinkingDialog(issueRegex, issueUrl, useGlobally, isEdit);
 				});
 			} else if (!(/\$([1-9][0-9]*)/.test(issueUrl))) {
-				dialog.showError('Invalid Issue URL', 'The Issue URL does not contain any placeholders ($1, $2, etc.) for the issue number components captured in the Issue Regex.', 'Go Back', () => {
+				dialog.showError('无效的Issue正则表达式', '用于在Issue正则表达式中捕获的issue编号组件,issue URL不包含任何占位符($1、$2等)', '返回', () => {
 					this.showIssueLinkingDialog(issueRegex, issueUrl, useGlobally, isEdit);
 				});
 			} else {
 				this.setIssueLinkingConfig({ issue: issueRegex, url: issueUrl }, useGlobally);
 			}
-		}, null, 'Cancel', null, false);
+		}, null, '取消', null, false);
 	}
 
 	/**
@@ -663,23 +663,23 @@ class SettingsWidget {
 		let destRemoteOptions = sourceRemoteOptions.map((option) => option);
 		destRemoteOptions.push({ name: 'Not a remote', value: '-1' });
 
-		dialog.showForm('Configure "Pull Request Creation" Integration (Step&nbsp;1/2)', [
+		dialog.showForm('配置“创建拉取请求”集成(步骤&nbsp;1/2)', [
 			{
-				type: DialogInputType.Select, name: 'Provider',
+				type: DialogInputType.Select, name: '运营商',
 				options: providerOptions, default: defaultProvider,
-				info: 'In addition to the built-in publicly hosted Pull Request providers, custom providers can be configured using the Extension Setting "git-graph.customPullRequestProviders" (e.g. for use with privately hosted Pull Request providers).'
+				info: '除了内置的公共托管的推送请求运营商，定制运营商可以使用扩展设置“git-graph.customPullRequestProviders”(例如：用于私有托管的Pull Request provider)。'
 			},
 			{
-				type: DialogInputType.Select, name: 'Source Remote',
+				type: DialogInputType.Select, name: '远程分支源',
 				options: sourceRemoteOptions, default: sourceRemoteIndex.toString(),
-				info: 'The remote that corresponds to the source of the Pull Request.'
+				info: '与推送请求源相对应的远程分支'
 			},
 			{
-				type: DialogInputType.Select, name: 'Destination Remote',
+				type: DialogInputType.Select, name: '目标远程分支',
 				options: destRemoteOptions, default: destRemoteIndex.toString(),
-				info: 'The remote that corresponds to the destination / target of the Pull Request.'
+				info: '与推送请求的目的地/目标相对应的远端分支。'
 			}
-		], 'Next', (values) => {
+		], '下一步', (values) => {
 			if (this.config === null) return;
 
 			let newProvider = <GG.PullRequestProvider>parseInt(<string>values[0]);
@@ -754,7 +754,7 @@ class SettingsWidget {
 				.filter((branch) => branch.startsWith('remotes/' + config.destRemote + '/') && branch !== ('remotes/' + config.destRemote + '/HEAD'))
 				.map((branch) => branch.substring(config.destRemote!.length + 9))
 			: [];
-		const destBranchInfo = 'The name of the branch that is the destination / target of the Pull Request.';
+		const destBranchInfo = '分支的名称，它是推送请求的目的地/目标。';
 
 		const updateConfigWithFormValues = (values: DialogInputValue[]) => {
 			const hostRootUri = <string>values[0];
@@ -771,30 +771,30 @@ class SettingsWidget {
 		};
 
 		const inputs: DialogInput[] = [
-			{ type: DialogInputType.Text, name: 'Host Root URL', default: config.hostRootUrl, placeholder: null, info: 'The Pull Request provider\'s Host Root URL (e.g. https://github.com).' },
-			{ type: DialogInputType.Text, name: 'Source Owner', default: config.sourceOwner, placeholder: null, info: 'The owner of the repository that is the source of the Pull Request.' },
-			{ type: DialogInputType.Text, name: 'Source Repo', default: config.sourceRepo, placeholder: null, info: 'The name of the repository that is the source of the Pull Request.' },
-			{ type: DialogInputType.Text, name: 'Destination Owner', default: config.destOwner, placeholder: null, info: 'The owner of the repository that is the destination / target of the Pull Request.' },
-			{ type: DialogInputType.Text, name: 'Destination Repo', default: config.destRepo, placeholder: null, info: 'The name of the repository that is the destination / target of the Pull Request.' }
+			{ type: DialogInputType.Text, name: '主机根地址', default: config.hostRootUrl, placeholder: null, info: '推送请求运营商的主机根URL(例如:https://github.com)' },
+			{ type: DialogInputType.Text, name: '源所有者', default: config.sourceOwner, placeholder: null, info: '推送请求源仓库的拥有者' },
+			{ type: DialogInputType.Text, name: '源仓库', default: config.sourceRepo, placeholder: null, info: '推送请求源的仓库的名称' },
+			{ type: DialogInputType.Text, name: '目标所有者', default: config.destOwner, placeholder: null, info: '推送请求目标仓库的所有者' },
+			{ type: DialogInputType.Text, name: '目标仓库', default: config.destRepo, placeholder: null, info: '推送请求目标的仓库的名称' }
 		];
 		if (config.provider === GG.PullRequestProvider.GitLab) {
-			inputs.push({ type: DialogInputType.Text, name: 'Destination Project ID', default: config.destProjectId, placeholder: null, info: 'The GitLab Project ID of the destination / target of the Pull Request. Leave this field blank to use the default destination / target configured in GitLab.' });
+			inputs.push({ type: DialogInputType.Text, name: '目标工程ID', default: config.destProjectId, placeholder: null, info: 'GitLab项目ID的目的/目标的拉取请求。将此字段留空，以使用在GitLab中配置的默认目标。' });
 		}
 		inputs.push(config.destRemote === null || destBranches.length === 0
-			? { type: DialogInputType.Text, name: 'Destination Branch', default: config.destBranch, placeholder: null, info: destBranchInfo }
+			? { type: DialogInputType.Text, name: '目标分支', default: config.destBranch, placeholder: null, info: destBranchInfo }
 			: {
 				type: DialogInputType.Select,
-				name: 'Destination Branch',
+				name: '目标分支',
 				options: destBranches.map((branch, index) => ({ name: branch, value: index.toString() })),
 				default: destBranches.includes(config.destBranch) ? destBranches.indexOf(config.destBranch).toString() : '0',
 				info: destBranchInfo
 			}
 		);
 
-		dialog.showForm('Configure "Pull Request Creation" Integration (Step&nbsp;2/2)', inputs, 'Save Configuration', (values) => {
+		dialog.showForm('配置“创建拉取请求”集成(步骤&nbsp;2/2)', inputs, '保存', (values) => {
 			updateConfigWithFormValues(values);
 			this.setPullRequestConfig(config);
-		}, { type: TargetType.Repo }, 'Back', (values) => {
+		}, { type: TargetType.Repo }, '返回', (values) => {
 			updateConfigWithFormValues(values);
 			this.showCreatePullRequestIntegrationDialog1(config);
 		});

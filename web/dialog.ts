@@ -101,7 +101,7 @@ class Dialog {
 	 * @param target The target that the dialog was triggered on.
 	 */
 	public showConfirmation(message: string, actionName: string, actioned: () => void, target: DialogTarget | null) {
-		this.show(DialogType.Form, message, actionName, 'Cancel', () => {
+		this.show(DialogType.Form, message, actionName, '取消', () => {
 			this.close();
 			actioned();
 		}, null, target);
@@ -196,7 +196,7 @@ class Dialog {
 	 * @param secondaryActioned An optional callback to be invoked when the secondary action is selected by the user.
 	 * @param includeLineBreak Should a line break be added between the message and form inputs.
 	 */
-	public showForm(message: string, inputs: ReadonlyArray<DialogInput>, actionName: string, actioned: (values: DialogInputValue[]) => void, target: DialogTarget | null, secondaryActionName: string = 'Cancel', secondaryActioned: ((values: DialogInputValue[]) => void) | null = null, includeLineBreak: boolean = true) {
+	public showForm(message: string, inputs: ReadonlyArray<DialogInput>, actionName: string, actioned: (values: DialogInputValue[]) => void, target: DialogTarget | null, secondaryActionName: string = '取消', secondaryActioned: ((values: DialogInputValue[]) => void) | null = null, includeLineBreak: boolean = true) {
 		const multiElement = inputs.length > 1;
 		const multiCheckbox = multiElement && inputs.every((input) => input.type === DialogInputType.Checkbox);
 		const infoColRequired = inputs.some((input) => input.type !== DialogInputType.Checkbox && input.type !== DialogInputType.Radio && input.info);
