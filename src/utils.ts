@@ -267,13 +267,13 @@ export function archive(repo: string, ref: string, dataSource: DataSource): Then
 				if (extension === 'tar' || extension === 'zip') {
 					return dataSource.archive(repo, ref, uri.fsPath, extension);
 				} else {
-					return 'Invalid file extension "*.' + extension + '". The archive file must have a *.tar or *.zip extension.';
+					return '无效的文件扩展名 "*.' + extension + '". 存档文件的扩展名必须是*.tar或*.zip。.';
 				}
 			} else {
-				return 'No file name was provided for the archive.';
+				return '没有为存档提供文件名';
 			}
 		},
-		() => 'Visual Studio Code was unable to display the save dialog.'
+		() => 'visual studio Code无法显示保存对话框'
 	);
 }
 
@@ -297,7 +297,7 @@ export function copyFilePathToClipboard(repo: string, filePath: string, absolute
 export function copyToClipboard(text: string): Thenable<ErrorInfo> {
 	return vscode.env.clipboard.writeText(text).then(
 		() => null,
-		() => 'Visual Studio Code was unable to write to the Clipboard.'
+		() => 'visual studio Code无法写入剪贴板。'
 	);
 }
 
