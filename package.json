@@ -1,13 +1,13 @@
 {
 	"name": "git-graph",
 	"displayName": "Git Graph",
-	"version": "1.30.0",
+	"version": "1.30.0-alpha.zh-CN001",
 	"publisher": "mhutchie",
 	"author": {
 		"name": "Michael Hutchison",
 		"email": "mhutchie@16right.com"
 	},
-	"description": "View a Git Graph of your repository, and perform Git actions from the graph.",
+	"description": "在你的仓库中查看Git Graph，并从图形界面中执行Git操作。",
 	"keywords": [
 		"git",
 		"graph",
@@ -105,25 +105,25 @@
 				"git-graph.commitDetailsView.autoCenter": {
 					"type": "boolean",
 					"default": true,
-					"description": "Automatically center the Commit Details View when it is opened."
+					"description": "在打开提交详情视图时自动居中。"
 				},
 				"git-graph.commitDetailsView.fileView.fileTree.compactFolders": {
 					"type": "boolean",
 					"default": true,
-					"description": "Render the File Tree in the Commit Details View in a compacted form, such that folders with a single child folder are compressed into a single combined folder element."
+					"description": "以压缩形式呈现提交详细信息视图中的文件树，以便将具有单个子文件夹的文件夹压缩为单个组合文件夹元素。"
 				},
 				"git-graph.commitDetailsView.fileView.type": {
 					"type": "string",
 					"enum": [
 						"File Tree",
-						"File List"
+						"Flie List"
 					],
 					"enumDescriptions": [
-						"Display files in a tree structure.",
-						"Display files in a list (useful for repositories with deep folder structures)."
+						"以树形结构显示文件",
+						"在列表中显示文件(对于文件夹结构较深的存储库很有用)"
 					],
 					"default": "File Tree",
-					"description": "Sets the default type of File View used in the Commit Details View. This can be overridden per repository using the controls on the right side of the Commit Details View."
+					"description": "设置提交详情视图中使用的文件视图的默认类型。这可以使用提交详细信息视图右侧的控件覆盖每个存储库"
 				},
 				"git-graph.commitDetailsView.location": {
 					"type": "string",
@@ -132,11 +132,11 @@
 						"Docked to Bottom"
 					],
 					"enumDescriptions": [
-						"Show the Commit Details View inline with the graph & commits.",
-						"Show the Commit Details View docked to the bottom of the Git Graph View."
+						"提交细节视图和提交在同一行显示。",
+						"显示停靠在 Git 图表视图底部的提交详细信息视图"
 					],
 					"default": "Inline",
-					"description": "Specifies where the Commit Details View is rendered in the Git Graph View."
+					"description": "指定提交细节视图在Git Graph视图中呈现的位置"
 				},
 				"git-graph.contextMenuActionsVisibility": {
 					"type": "object",
@@ -147,27 +147,27 @@
 							"properties": {
 								"checkout": {
 									"type": "boolean",
-									"title": "Checkout Branch"
+									"title": "切换分支"
 								},
 								"rename": {
 									"type": "boolean",
-									"title": "Rename Branch..."
+									"title": "重命名分支..."
 								},
 								"delete": {
 									"type": "boolean",
-									"title": "Delete Branch..."
+									"title": "删除分支..."
 								},
 								"merge": {
 									"type": "boolean",
-									"title": "Merge into current branch..."
+									"title": "合并到当前分支..."
 								},
 								"rebase": {
 									"type": "boolean",
-									"title": "Rebase current branch on Branch..."
+									"title": "在分支上更改当前分支的基位..."
 								},
 								"push": {
 									"type": "boolean",
-									"title": "Push Branch..."
+									"title": "Push 分支..."
 								},
 								"viewIssue": {
 									"type": "boolean",
@@ -204,7 +204,7 @@
 								},
 								"createBranch": {
 									"type": "boolean",
-									"title": "Create Branch..."
+									"title": "创建分支..."
 								},
 								"checkout": {
 									"type": "boolean",
@@ -410,13 +410,13 @@
 							}
 						}
 					},
-					"markdownDescription": "Customise which context menu actions are visible. For example, if you want to hide the rebase action from the branch context menu, a suitable value for this setting is `{ \"branch\": { \"rebase\": false } }`. For more information of how to configure this setting, view the documentation [here](https://github.com/mhutchie/vscode-git-graph/wiki/Extension-Settings#context-menu-actions-visibility)."
+					"markdownDescription": "自定义哪些上下文菜单动作是可见的。例如，如果您想从分支上下文菜单中隐藏重基(rebase)操作，则此设置的合适值是`{ \"branch\": { \"rebase\": false } }`. 有关如何配置此设置的详细信息，请查看文档 [here](https://github.com/mhutchie/vscode-git-graph/wiki/Extension-Settings#context-menu-actions-visibility)."
 				},
 				"git-graph.customBranchGlobPatterns": {
 					"type": "array",
 					"items": {
 						"type": "object",
-						"title": "Branch Glob Pattern",
+						"title": "分支全局模式",
 						"required": [
 							"name",
 							"glob"
@@ -425,17 +425,17 @@
 							"name": {
 								"type": "string",
 								"title": "Name of pattern",
-								"description": "Name used to reference the pattern in the 'Branches' dropdown"
+								"description": "用于引用“分支”下拉框中的模式的名称"
 							},
 							"glob": {
 								"type": "string",
-								"title": "Glob pattern",
-								"description": "The Glob Pattern <glob-pattern>, as used in 'git log --glob=<glob-pattern>'. For example: heads/feature/*"
+								"title": "全局模式",
+								"description": "The 全局模式 <glob-pattern>, as used in 'git log --glob=<glob-pattern>'. For example: heads/feature/*"
 							}
 						}
 					},
 					"default": [],
-					"description": "An array of Custom Branch Glob Patterns to be shown in the 'Branches' dropdown. Example: [{\"name\": \"Feature Requests\", \"glob\": \"heads/feature/*\"}]"
+					"description": "要在“分支”下拉列表中显示的一组自定义分支全局模式。 例如: [{\"name\": \"Feature Requests\", \"glob\": \"heads/feature/*\"}]"
 				},
 				"git-graph.customEmojiShortcodeMappings": {
 					"type": "array",
@@ -460,7 +460,7 @@
 						}
 					},
 					"default": [],
-					"description": "An array of custom Emoji Shortcode mappings. Example: [{\"shortcode\": \":sparkles:\", \"emoji\":\"✨\"}]"
+					"description": "一组自定义表情符号简码映射。 例如: [{\"shortcode\": \":sparkles:\", \"emoji\":\"✨\"}]"
 				},
 				"git-graph.customPullRequestProviders": {
 					"type": "array",
@@ -475,17 +475,17 @@
 							"name": {
 								"type": "string",
 								"title": "Name of the Provider",
-								"description": "A unique, identifying, display name for the provider."
+								"description": "提供程序的唯一标识和显示名称。”."
 							},
 							"templateUrl": {
 								"type": "string",
 								"title": "Template URL",
-								"markdownDescription": "A template URL that can be used to create a Pull Request, after the $1 - $8 variables have been substituted to construct the final URL. For information on how to configure this setting, see the documentation [here](https://github.com/mhutchie/vscode-git-graph/wiki/Configuring-a-custom-Pull-Request-Provider)."
+								"markdownDescription": "一个模板URL，可以用来创建一个拉取请求, 在$1- $8变量被替换后，构建最终的URL。有关如何配置此设置的信息，请参阅文档 [here](https://github.com/mhutchie/vscode-git-graph/wiki/Configuring-a-custom-Pull-Request-Provider)."
 							}
 						}
 					},
 					"default": [],
-					"markdownDescription": "An array of custom Pull Request providers that can be used in the \"Pull Request Creation\" Integration. For information on how to configure this setting, see the documentation [here](https://github.com/mhutchie/vscode-git-graph/wiki/Configuring-a-custom-Pull-Request-Provider)."
+					"markdownDescription": "可以在“拉取请求创建”集成中使用的一组自定义拉取请求提供程序。有关如何配置此设置的信息，请参阅 [此处](https://github.com/mhutchie/vscode-git-graph/wiki/Configuring-a-custom-Pull-Request-Provider) 的文档。"
 				},
 				"git-graph.date.format": {
 					"type": "string",
@@ -497,14 +497,14 @@
 						"Relative"
 					],
 					"enumDescriptions": [
-						"Show the date and time (e.g. \"24 Mar 2019 21:34\")",
-						"Show the date only (e.g. \"24 Mar 2019\")",
-						"Show the ISO date and time (e.g. \"2019-03-24 21:34\")",
-						"Show the ISO date only (e.g. \"2019-03-24\")",
-						"Show relative times (e.g. \"5 minutes ago\")"
+						"显示日期和时间（例如“24 Mar 2019 21:34”）",
+						"仅显示日期（例如“2019 年 3 月 24 日”）",
+						"显示 ISO 日期和时间（例如“2019-03-24 21:34”）",
+						"仅显示 ISO 日期（例如“2019-03-24”）",
+						"显示相对时间（例如“5 分钟前”）"
 					],
 					"default": "Date & Time",
-					"description": "Specifies the date format to be used in the \"Date\" column on the Git Graph View."
+					"description": "指定要在 Git 图表视图的“时间”列中使用的时间格式。"
 				},
 				"git-graph.date.type": {
 					"type": "string",
@@ -513,26 +513,26 @@
 						"Commit Date"
 					],
 					"enumDescriptions": [
-						"Use the author date of a commit.",
-						"Use the committer date of a commit."
+						"使用提交时作者的时间",
+						"使用提交时提交者的时间"
 					],
 					"default": "Author Date",
-					"description": "Specifies the date type to be displayed in the \"Date\" column on the Git Graph View."
+					"description": "指定要在Git Graph视图的“时间”列中显示的时间类型。"
 				},
 				"git-graph.defaultColumnVisibility": {
 					"type": "object",
 					"properties": {
 						"Date": {
 							"type": "boolean",
-							"title": "Visibility of the Date column"
+							"title": "时间列的可见性"
 						},
 						"Author": {
 							"type": "boolean",
-							"title": "Visibility of the Author column"
+							"title": "作者列的可见性"
 						},
 						"Commit": {
 							"type": "boolean",
-							"title": "Visibility of the Commit column"
+							"title": "提交列的可见性"
 						}
 					},
 					"default": {
@@ -540,12 +540,12 @@
 						"Author": true,
 						"Commit": true
 					},
-					"description": "An object specifying the default visibility of the Date, Author & Commit columns. Example: {\"Date\": true, \"Author\": true, \"Commit\": true}"
+					"description": "指定日期、作者和提交列的默认可见性的对象。例如: {\"Date\": true, \"Author\": true, \"Commit\": true}"
 				},
 				"git-graph.dialog.addTag.pushToRemote": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the field indicating whether the tag should be pushed to a remote once it is added."
+					"description": "字段的默认状态，指添加标签后是否应将其推送到远程"
 				},
 				"git-graph.dialog.addTag.type": {
 					"type": "string",
@@ -554,47 +554,47 @@
 						"Lightweight"
 					],
 					"default": "Annotated",
-					"description": "Default type of the tag being added."
+					"description": "添加的标签的默认类型"
 				},
 				"git-graph.dialog.applyStash.reinstateIndex": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Reinstate Index\" checkbox."
+					"description": "“恢复索引”复选框的默认状态"
 				},
 				"git-graph.dialog.cherryPick.noCommit": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"No Commit\" checkbox."
+					"description": "“不提交”复选框的默认状态"
 				},
 				"git-graph.dialog.cherryPick.recordOrigin": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Record Origin\" checkbox."
+					"description": "“记录来源”复选框的默认状态"
 				},
 				"git-graph.dialog.createBranch.checkOut": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Check out\" checkbox."
+					"description": "切换复选框的默认状态"
 				},
 				"git-graph.dialog.deleteBranch.forceDelete": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Force Delete\" checkbox."
+					"description": "“强制删除”复选框的默认状态"
 				},
 				"git-graph.dialog.fetchIntoLocalBranch.forceFetch": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Force Fetch\" checkbox."
+					"description": "“强制获取”复选框的默认状态"
 				},
 				"git-graph.dialog.fetchRemote.prune": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Prune\" checkbox."
+					"description": "“修剪”复选框的默认状态"
 				},
 				"git-graph.dialog.fetchRemote.pruneTags": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Prune Tags\" checkbox."
+					"description": "“修剪标签”复选框的默认状态"
 				},
 				"git-graph.dialog.general.referenceInputSpaceSubstitution": {
 					"type": "string",
@@ -604,27 +604,27 @@
 						"Underscore"
 					],
 					"enumDescriptions": [
-						"Don't replace spaces.",
-						"Replace space characters with hyphens, for example: \"new branch\" -> \"new-branch\".",
-						"Replace space characters with underscores, for example: \"new branch\" -> \"new_branch\"."
+						"不要替换空格",
+						"用连字符替换空格字符，例如：\"new branch\" -> \"new-branch\"。",
+						"用下划线替换空格字符，例如: \"new branch\" -> \"new_branch\"."
 					],
 					"default": "None",
-					"description": "Specifies a substitution that is automatically performed when space characters are entered or pasted into reference inputs on dialogs (e.g. Create Branch, Add Tag, etc.)."
+					"description": "指定在对话框中输入或粘贴空格字符时自动执行的替换（例如，创建分支、添加标记等）"
 				},
 				"git-graph.dialog.merge.noCommit": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"No Commit\" checkbox."
+					"description": "“不提交”复选框的默认状态"
 				},
 				"git-graph.dialog.merge.noFastForward": {
 					"type": "boolean",
 					"default": true,
-					"description": "Default state of the \"Create a new commit even if fast-forward is possible\" checkbox."
+					"description": "“即使可以快进也创建新提交”复选框的默认状态"
 				},
 				"git-graph.dialog.merge.squashCommits": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Squash Commits\" checkbox."
+					"description": "“Squash Commits”复选框的默认状态"
 				},
 				"git-graph.dialog.merge.squashMessageFormat": {
 					"type": "string",
@@ -633,11 +633,11 @@
 						"Git SQUASH_MSG"
 					],
 					"enumDescriptions": [
-						"Use the squash message generated by Git Graph.",
-						"Use the detailed squash message generated by Git (stored in .git/SQUASH_MSG)."
+						"使用由Git Graph生成的挤压(squash)消息",
+						"使用Git生成的详细squash消息(存储在.git/ squash MSG中)"
 					],
 					"default": "Default",
-					"description": "Specifies the message format used for the squashed commit (when the \"Squash Commits\" option is selected)."
+					"description": "指定用于控制提交的消息格式(当选择了“控制提交(Squash Commits)”选项时)。"
 				},
 				"git-graph.dialog.popStash.reinstateIndex": {
 					"type": "boolean",
@@ -647,12 +647,12 @@
 				"git-graph.dialog.pullBranch.noFastForward": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Create a new commit even if fast-forward is possible\" checkbox."
+					"description": "“即使可以快进也创建新提交”复选框的默认状态"
 				},
 				"git-graph.dialog.pullBranch.squashCommits": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Squash Commits\" checkbox."
+					"description": "控制提交(Squash Commits)复选框的默认状态"
 				},
 				"git-graph.dialog.pullBranch.squashMessageFormat": {
 					"type": "string",
@@ -661,21 +661,21 @@
 						"Git SQUASH_MSG"
 					],
 					"enumDescriptions": [
-						"Use the squash message generated by Git Graph.",
-						"Use the detailed squash message generated by Git (stored in .git/SQUASH_MSG)."
+						"使用由Git Graph生成的挤压(squash)消息",
+						"使用Git生成的详细squash消息(存储在.git/ squash MSG中)"
 					],
 					"default": "Default",
-					"description": "Specifies the message format used for the squashed commit (when the \"Squash Commits\" option is selected)."
+					"description": "指定用于控制提交的消息格式(当选择了“控制提交(Squash Commits)”选项时)"
 				},
 				"git-graph.dialog.rebase.ignoreDate": {
 					"type": "boolean",
 					"default": true,
-					"description": "Default state of the \"Ignore Date (non-interactive rebase only)\" checkbox."
+					"description": "“忽略日期（仅限非交互式变基）”复选框的默认状态"
 				},
 				"git-graph.dialog.rebase.launchInteractiveRebase": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Launch Interactive Rebase in new Terminal\" checkbox."
+					"description": "“在新终端中启动交互式 Rebase”复选框的默认状态"
 				},
 				"git-graph.dialog.resetCurrentBranchToCommit.mode": {
 					"type": "string",
@@ -690,7 +690,7 @@
 						"Hard - Discard all changes"
 					],
 					"default": "Mixed",
-					"description": "Default mode to be used for the reset action."
+					"description": "用于重置操作的默认模式"
 				},
 				"git-graph.dialog.resetUncommittedChanges.mode": {
 					"type": "string",
@@ -703,29 +703,29 @@
 						"Hard - Discard all changes"
 					],
 					"default": "Mixed",
-					"description": "Default mode to be used for the reset action."
+					"description": "用于重置操作的默认模式"
 				},
 				"git-graph.dialog.stashUncommittedChanges.includeUntracked": {
 					"type": "boolean",
 					"default": true,
-					"description": "Default state of the \"Include Untracked\" checkbox."
+					"description": "“包括未跟踪”复选框的默认状态"
 				},
 				"git-graph.enhancedAccessibility": {
 					"type": "boolean",
 					"default": false,
-					"description": "Visual file change A|M|D|R|U indicators in the Commit Details View for users with colour blindness. In the future, this setting will enable any additional accessibility related features of Git Graph that aren't enabled by default."
+					"description": "色盲用户的提交详细信息视图中的可视文件更改 A|M|D|R|U 指示符.将来，这个设置将启用在Git Graph中任何默认情况下未启用的附加可访问性相关特性"
 				},
 				"git-graph.fileEncoding": {
 					"type": "string",
 					"default": "utf8",
-					"markdownDescription": "The character set encoding used when retrieving a specific version of repository files (e.g. in the Diff View). A list of all supported encodings can be found [here](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings).",
+					"markdownDescription": "检索特定版本的存储库文件时使用的字符集编码（例如在差异视图中）。可以在 [此处](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings) 找到所有受支持编码的列表",
 					"scope": "resource"
 				},
 				"git-graph.graph.colours": {
 					"type": "array",
 					"items": {
 						"type": "string",
-						"description": "Colour (HEX or RGB)",
+						"description": "HEX 或 RGB 颜色数组",
 						"pattern": "^\\s*(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgb[a]?\\s*\\(\\d{1,3},\\s*\\d{1,3},\\s*\\d{1,3}\\))\\s*$"
 					},
 					"default": [
@@ -742,7 +742,7 @@
 						"#6f24d6",
 						"#ffcc00"
 					],
-					"description": "Specifies the colours used on the graph."
+					"description": "指定图形上使用的颜色"
 				},
 				"git-graph.graph.style": {
 					"type": "string",
@@ -751,11 +751,11 @@
 						"angular"
 					],
 					"enumDescriptions": [
-						"Use smooth curves when transitioning between branches on the graph.",
-						"Use angular lines when transitioning between branches on the graph."
+						"在图表上的分支之间过渡时使用平滑曲线",
+						"在图表上的分支之间转换时使用折线"
 					],
 					"default": "rounded",
-					"description": "Specifies the style of the graph."
+					"description": "指定图形上分支之间的过渡样式."
 				},
 				"git-graph.graph.uncommittedChanges": {
 					"type": "string",
@@ -764,11 +764,11 @@
 						"Open Circle at the Checked Out Commit"
 					],
 					"enumDescriptions": [
-						"Display the Uncommitted Changes as a grey open circle, connected to the commit referenced by HEAD with a solid grey line. The current file system's state is therefore always displayed as an open circle.",
-						"Display the Uncommitted Changes as a grey closed circle, connected to the commit referenced by HEAD with a dotted grey line. The commit referenced by HEAD is therefore always displayed as an open circle."
+						"将未提交的更改显示为灰色的空心圆圈，用灰色实线连接到 HEAD 引用的提交。因此当前文件系统的状态始终显示为空心圆圈",
+						"将未提交的更改显示为灰色的实心圆圈，用灰色虚线连接到 HEAD 引用的提交。因此HEAD 引用的提交始终显示为空心圆圈。"
 					],
 					"default": "Open Circle at the Uncommitted Changes",
-					"description": "Specifies how the Uncommitted Changes are displayed on the graph."
+					"description": "指定未提交的更改在图表上的显示方式"
 				},
 				"git-graph.integratedTerminalShell": {
 					"type": "string",
