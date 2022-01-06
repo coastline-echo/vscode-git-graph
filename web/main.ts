@@ -146,7 +146,7 @@ class GitGraphView {
 		}
 
 		const fetchBtn = document.getElementById('fetchBtn')!, findBtn = document.getElementById('findBtn')!, settingsBtn = document.getElementById('settingsBtn')!, terminalBtn = document.getElementById('terminalBtn')!;
-		fetchBtn.title = '从远处' + (this.config.fetchAndPrune ? ' & 剪除' : '') + ' 获取';
+		fetchBtn.title = '从远处' + (this.config.fetchAndPrune ? ' & 剪除' : '') + '获取';
 		fetchBtn.innerHTML = SVG_ICONS.download;
 		fetchBtn.addEventListener('click', () => this.fetchFromRemotesAction());
 		findBtn.innerHTML = SVG_ICONS.search;
@@ -189,7 +189,7 @@ class GitGraphView {
 				this.loadViewTo = loadViewTo;
 			} else {
 				this.loadViewTo = null;
-				showErrorMessage('无法加载 "' + loadViewTo.repo + '" 仓库的Git Graph视图。它目前还没有包含在Git Graph中。');
+				showErrorMessage('无法加载 "' + loadViewTo.repo + '" 仓库的Git Graph视图。它目前还没有包含在Git Graph中');
 			}
 		} else {
 			this.loadViewTo = null;
@@ -993,7 +993,7 @@ class GitGraphView {
 					if (remotesWithBranch.length > 0) {
 						inputs.push({
 							type: DialogInputType.Checkbox,
-							name: '删除远程上的这个分支' + (this.gitRemotes.length > 1 ? 's' : ''),
+							name: '删除远程仓库上的这个分支' + (this.gitRemotes.length > 1 ? 's' : ''),
 							value: false,
 							info: '这个分支在远程' + (remotesWithBranch.length > 1 ? 's: ' : ' ') + formatCommaSeparatedList(remotesWithBranch.map((remote) => '"' + remote + '"'))
 						});
@@ -1032,14 +1032,14 @@ class GitGraphView {
 					if (multipleRemotes) {
 						inputs.unshift({
 							type: DialogInputType.Select,
-							name: '推送到远程分支',
+							name: '推送到远程仓库分支',
 							defaults: [this.getPushRemote(refName)],
 							options: this.gitRemotes.map((remote) => ({ name: remote, value: remote })),
 							multiple: true
 						});
 					}
 
-					dialog.showForm('你确定要推送分支 <b><i>' + escapeHtml(refName) + '</i></b>' + (multipleRemotes ? '' : ' 到远程分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + '</i></b>') + '吗?', inputs, '是，推送', (values) => {
+					dialog.showForm('你确定要推送分支 <b><i>' + escapeHtml(refName) + '</i></b>' + (multipleRemotes ? '' : ' 到远程仓库分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + '</i></b>') + '吗?', inputs, '是，推送', (values) => {
 						const remotes = multipleRemotes ? <string[]>values.shift() : [this.gitRemotes[0]];
 						const setUpstream = <boolean>values[0];
 						runAction({
@@ -1062,7 +1062,7 @@ class GitGraphView {
 				onClick: () => {
 					const config = this.gitRepos[this.currentRepo].pullRequestConfig;
 					if (config === null) return;
-					dialog.showCheckbox('您确定要为分支创建一个拉取请求 <b><i>' + escapeHtml(refName) + '</i></b>吗?', '推送分支会在创建拉取请求之前', true, '是，创建拉取请求', (push) => {
+					dialog.showCheckbox('你确定要为分支创建一个拉取请求 <b><i>' + escapeHtml(refName) + '</i></b>吗?', '推送分支会在创建拉取请求之前', true, '是，创建拉取请求', (push) => {
 						runAction({ command: 'createPullRequest', repo: this.currentRepo, config: config, sourceRemote: config.sourceRemote, sourceOwner: config.sourceOwner, sourceRepo: config.sourceRepo, sourceBranch: refName, push: push }, 'Creating Pull Request');
 					}, target);
 				}
@@ -1118,7 +1118,7 @@ class GitGraphView {
 					if (globalState.alwaysAcceptCheckoutCommit) {
 						checkoutCommit();
 					} else {
-						dialog.showCheckbox('您确定要切换到提交 <b><i>' + abbrevCommit(hash) + '</i></b> 吗? 这会导致处于 \'detached HEAD(游离)\' 状态.', '总是接受', false, '是，切换', (alwaysAccept) => {
+						dialog.showCheckbox('你确定要切换到提交 <b><i>' + abbrevCommit(hash) + '</i></b> 吗? 这会导致处于 \'detached HEAD(游离)\' 状态.', '总是接受', false, '是，切换', (alwaysAccept) => {
 							if (alwaysAccept) {
 								updateGlobalViewState('alwaysAcceptCheckoutCommit', true);
 							}
@@ -1142,7 +1142,7 @@ class GitGraphView {
 							name: 'Parent Hash',
 							options: options,
 							default: '1',
-							info: '选择主分支上的父哈希值，以cherry pick相对于它的提交。'
+							info: '选择主分支上的父哈希值，以cherry pick相对于它的提交'
 						});
 					}
 					inputs.push({
@@ -1154,7 +1154,7 @@ class GitGraphView {
 						type: DialogInputType.Checkbox,
 						name: '不提交',
 						value: this.config.dialogDefaults.cherryPick.noCommit,
-						info: 'Cherry pick的更改将被暂存，但不会提交，因此您可以选择提交此提交的特定部分。'
+						info: 'Cherry pick的更改将被暂存，但不会提交，因此你可以选择提交此提交的特定部分'
 					});
 
 					dialog.showForm('你确定要cherry pick到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?', inputs, '是, cherry pick', (values) => {
@@ -1178,11 +1178,11 @@ class GitGraphView {
 							name: abbrevCommit(hash) + (typeof this.commitLookup[hash] === 'number' ? ': ' + this.commits[this.commitLookup[hash]].message : ''),
 							value: (index + 1).toString()
 						}));
-						dialog.showSelect('您确定要回撤合并到 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗? 选择主分支上的父hash值，以恢复相对于以下节点的提交:', '1', options, '是，回撤', (parentIndex) => {
+						dialog.showSelect('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗? 选择主分支上的父hash值，以恢复相对于以下节点的提交:', '1', options, '是，回撤', (parentIndex) => {
 							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: parseInt(parentIndex) }, 'Reverting Commit');
 						}, target);
 					} else {
-						dialog.showConfirmation('您确定要回撤合并到 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗?', '是，回撤', () => {
+						dialog.showConfirmation('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗?', '是，回撤', () => {
 							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: 0 }, 'Reverting Commit');
 						}, target);
 					}
@@ -1191,7 +1191,7 @@ class GitGraphView {
 				title: '删除' + ELLIPSIS,
 				visible: visibility.drop && this.graph.dropCommitPossible(this.commitLookup[hash]),
 				onClick: () => {
-					dialog.showConfirmation('您确定要永久地删除 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意:通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
+					dialog.showConfirmation('你确定要永久地删除 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意:通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
 						runAction({ command: 'dropCommit', repo: this.currentRepo, commitHash: hash }, 'Dropping Commit');
 					}, target);
 				}
@@ -1247,10 +1247,10 @@ class GitGraphView {
 				visible: visibility.checkout,
 				onClick: () => this.checkoutBranchAction(refName, remote, null, target)
 			}, {
-				title: '删除远程分支' + ELLIPSIS,
+				title: '删除远程仓库分支' + ELLIPSIS,
 				visible: visibility.delete && remote !== '',
 				onClick: () => {
-					dialog.showConfirmation('你确定要删除远程分支 <b><i>' + escapeHtml(refName) + ' </i></b>吗?', '是，删除', () => {
+					dialog.showConfirmation('你确定要删除远程仓库分支 <b><i>' + escapeHtml(refName) + ' </i></b>吗?', '是，删除', () => {
 						runAction({ command: 'deleteRemoteBranch', repo: this.currentRepo, branchName: branchName, remote: remote }, 'Deleting Remote Branch');
 					}, target);
 				}
@@ -1258,11 +1258,11 @@ class GitGraphView {
 				title: '获取到本地分支' + ELLIPSIS,
 				visible: visibility.fetch && remote !== '' && this.gitBranches.includes(branchName) && this.gitBranchHead !== branchName,
 				onClick: () => {
-					dialog.showForm('你确定你想获取远程分支 <b><i>' + escapeHtml(refName) + '</i></b> 到本地分支 <b><i>' + escapeHtml(branchName) + ' </i></b>吗?', [{
+					dialog.showForm('你确定你想获取远程仓库分支 <b><i>' + escapeHtml(refName) + '</i></b> 到本地分支 <b><i>' + escapeHtml(branchName) + ' </i></b>吗?', [{
 						type: DialogInputType.Checkbox,
 						name: '强制获取',
 						value: this.config.dialogDefaults.fetchIntoLocalBranch.forceFetch,
-						info: '强制将本地分支复位到此远程分支。'
+						info: '强制将本地分支复位到此远程仓库分支'
 					}], '是，获取', (values) => {
 						runAction({ command: 'fetchIntoLocalBranch', repo: this.currentRepo, remote: remote, remoteBranch: branchName, localBranch: branchName, force: <boolean>values[0] }, 'Fetching Branch');
 					}, target);
@@ -1275,9 +1275,9 @@ class GitGraphView {
 				title: '拉取到当前分支' + ELLIPSIS,
 				visible: visibility.pull && remote !== '',
 				onClick: () => {
-					dialog.showForm('你确定要拉取远程分支 <b><i>' + escapeHtml(refName) + '</i></b> 到 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '吗? 如果是则需要合并:', [
+					dialog.showForm('你确定要拉取远程仓库分支 <b><i>' + escapeHtml(refName) + '</i></b> 到 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '吗? 如果是则需要合并:', [
 						{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进是可能的(Create a new commit even if fast-forward is possible)', value: this.config.dialogDefaults.pullBranch.noFastForward },
-						{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.pullBranch.squash, info: '在当前分支上创建单独提交，其效果与合并到这个远程分支相同。' }
+						{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.pullBranch.squash, info: '在当前分支上创建单独提交，其效果与合并到这个远程仓库分支相同' }
 					], '是，拉取', (values) => {
 						runAction({ command: 'pullBranch', repo: this.currentRepo, branchName: branchName, remote: remote, createNewCommit: <boolean>values[0], squash: <boolean>values[1] }, 'Pulling Branch');
 					}, target);
@@ -1345,7 +1345,7 @@ class GitGraphView {
 						type: DialogInputType.Checkbox,
 						name: '恢复索引',
 						value: this.config.dialogDefaults.applyStash.reinstateIndex,
-						info: '除了工作目录外，尝试恢复被更改的索引。'
+						info: '除了工作目录外，尝试恢复被更改的索引'
 					}], '是，恢复暂存状态', (values) => {
 						runAction({ command: 'applyStash', repo: this.currentRepo, selector: selector, reinstateIndex: <boolean>values[0] }, 'Applying Stash');
 					}, target);
@@ -1366,7 +1366,7 @@ class GitGraphView {
 						type: DialogInputType.Checkbox,
 						name: '恢复索引',
 						value: this.config.dialogDefaults.popStash.reinstateIndex,
-						info: '除了工作目录外，尝试恢复被更改的索引。'
+						info: '除了工作目录外，尝试恢复被更改的索引'
 					}], '是', (values) => {
 						runAction({ command: 'popStash', repo: this.currentRepo, selector: selector, reinstateIndex: <boolean>values[0] }, 'Popping Stash');
 					}, target);
@@ -1412,13 +1412,13 @@ class GitGraphView {
 				onClick: () => {
 					let message = '你确定想要删除标签 <b><i>' + escapeHtml(tagName) + ' </i></b>?';
 					if (this.gitRemotes.length > 1) {
-						let options = [{ name: '不要在任何远程分支上删除', value: '-1' }];
+						let options = [{ name: '不要在任何远程仓库分支上删除', value: '-1' }];
 						this.gitRemotes.forEach((remote, i) => options.push({ name: remote, value: i.toString() }));
-						dialog.showSelect(message + '<br>您还想删除远程分支上的标签吗？:', '-1', options, '是，删除', remoteIndex => {
+						dialog.showSelect(message + '<br>你还想删除远程仓库分支上的标签吗？:', '-1', options, '是，删除', remoteIndex => {
 							this.deleteTagAction(tagName, remoteIndex !== '-1' ? this.gitRemotes[parseInt(remoteIndex)] : null);
 						}, target);
 					} else if (this.gitRemotes.length === 1) {
-						dialog.showCheckbox(message, '在远程分支上也删除', false, '是，删除', deleteOnRemote => {
+						dialog.showCheckbox(message, '在远程仓库分支上也删除', false, '是，删除', deleteOnRemote => {
 							this.deleteTagAction(tagName, deleteOnRemote ? this.gitRemotes[0] : null);
 						}, target);
 					} else {
@@ -1443,13 +1443,13 @@ class GitGraphView {
 					};
 
 					if (this.gitRemotes.length === 1) {
-						dialog.showConfirmation('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + '</i></b> 到远程分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + ' </i></b>吗?', '是，推送', () => {
+						dialog.showConfirmation('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + '</i></b> 到远程仓库分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + ' </i></b>吗?', '是，推送', () => {
 							runPushTagAction([this.gitRemotes[0]]);
 						}, target);
 					} else if (this.gitRemotes.length > 1) {
 						const defaults = [this.getPushRemote()];
 						const options = this.gitRemotes.map((remote) => ({ name: remote, value: remote }));
-						dialog.showMultiSelect('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + ' </i></b>吗? 选择要将标签推到的远程分支:', defaults, options, '是，推送', (remotes) => {
+						dialog.showMultiSelect('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + ' </i></b>吗? 选择要将标签推到的远程仓库分支:', defaults, options, '是，推送', (remotes) => {
 							runPushTagAction(remotes);
 						}, target);
 					}
@@ -1482,7 +1482,7 @@ class GitGraphView {
 				onClick: () => {
 					dialog.showForm('你确定要暂存 <b>未提交的更改</b> 吗?', [
 						{ type: DialogInputType.Text, name: '消息', default: '', placeholder: '选择' },
-						{ type: DialogInputType.Checkbox, name: '包括未跟踪', value: this.config.dialogDefaults.stashUncommittedChanges.includeUntracked, info: '包括暂存的所有未跟踪文件，然后将它们从工作目录中清除。' }
+						{ type: DialogInputType.Checkbox, name: '包括未跟踪', value: this.config.dialogDefaults.stashUncommittedChanges.includeUntracked, info: '包括暂存的所有未跟踪文件，然后将它们从工作目录中清除' }
 					], '是，', (values) => {
 						runAction({ command: 'pushStash', repo: this.currentRepo, message: <string>values[0], includeUntracked: <boolean>values[1] }, 'Stashing uncommitted changes');
 					}, target);
@@ -1563,9 +1563,9 @@ class GitGraphView {
 		const mostRecentTags = mostRecentTagsIndex > -1 ? this.commits[mostRecentTagsIndex].tags.map((tag) => '"' + tag.name + '"') : [];
 
 		const inputs: DialogInput[] = [
-			{ type: DialogInputType.TextRef, name: '名称', default: initialName, info: mostRecentTags.length > 0 ? '在加载的提交中' + (mostRecentTags.length > 1 ? 's' : '') + ' 最近的标签 ' + (mostRecentTags.length > 1 ? '是' : '是') + ' ' + formatCommaSeparatedList(mostRecentTags) + '.' : undefined },
-			{ type: DialogInputType.Select, name: '类型', default: initialType === GG.TagType.Annotated ? '带注释' : '轻量级的', options: [{ name: 'Annotated', value: 'annotated' }, { name: 'Lightweight', value: 'lightweight' }] },
-			{ type: DialogInputType.Text, name: '消息', default: initialMessage, placeholder: '可选择', info: '消息只能添加到带注释的标记中。' }
+			{ type: DialogInputType.TextRef, name: '名称', default: initialName, info: mostRecentTags.length > 0 ? '在加载的提交中' + (mostRecentTags.length > 1 ? 's' : '') + ' 最近的标签' + (mostRecentTags.length > 1 ? '是' : '是') + ' ' + formatCommaSeparatedList(mostRecentTags) + '.' : undefined },
+			{ type: DialogInputType.Select, name: '类型', default: initialType === GG.TagType.Annotated ? 'annotated' : 'lightweight', options: [{ name: '带注释', value: '带注释' }, { name: '轻量级的', value: '轻量级的' }] },
+			{ type: DialogInputType.Text, name: '消息', default: initialMessage, placeholder: '可选择', info: '消息只能添加到带注释的标记中' }
 		];
 		if (this.gitRemotes.length > 1) {
 			const options = [{ name: '不要推送', value: '-1' }];
@@ -1575,10 +1575,10 @@ class GitGraphView {
 				: isInitialLoad && this.config.dialogDefaults.addTag.pushToRemote
 					? this.gitRemotes.indexOf(this.getPushRemote())
 					: -1;
-			inputs.push({ type: DialogInputType.Select, name: '推送到远程分支', options: options, default: defaultOption.toString(), info: '一旦这个标签被添加，就把它推送到远程仓库中。' });
+			inputs.push({ type: DialogInputType.Select, name: '推送到远程仓库分支', options: options, default: defaultOption.toString(), info: '一旦这个标签被添加，就把它推送到远程仓库中' });
 		} else if (this.gitRemotes.length === 1) {
 			const defaultValue = initialPushToRemote !== null || (isInitialLoad && this.config.dialogDefaults.addTag.pushToRemote);
-			inputs.push({ type: DialogInputType.Checkbox, name: '推送到远程分支', value: defaultValue, info: '一旦这个标签被添加，就将其推送到远程仓库中。' });
+			inputs.push({ type: DialogInputType.Checkbox, name: '推送到远程仓库分支', value: defaultValue, info: '一旦这个标签被添加，就将其推送到远程仓库中' });
 		}
 
 		dialog.showForm('给 <b><i>' + abbrevCommit(hash) + ' </i></b>提交添加标签:', inputs, '添加标签', (values) => {
@@ -1678,8 +1678,8 @@ class GitGraphView {
 	private mergeAction(obj: string, name: string, actionOn: GG.MergeActionOn, target: DialogTarget & (CommitTarget | RefTarget)) {
 		dialog.showForm('你确定要合并吗 ' + actionOn.toLowerCase() + ' <b><i>' + escapeHtml(name) + '</i></b> 到 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '?', [
 			{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进是可能的(Create a new commit even if fast-forward is possible)', value: this.config.dialogDefaults.merge.noFastForward },
-			{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.merge.squash, info: '在当前分支上创建单独提交，其效果与合并此提交相同。' + actionOn.toLowerCase() + '.' },
-			{ type: DialogInputType.Checkbox, name: '不提交', value: this.config.dialogDefaults.merge.noCommit, info: '合并的更改将被暂存，但不会被提交，因此您可以在提交之前检查或修改合并的结果。' }
+			{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.merge.squash, info: '在当前分支上创建单独提交，其效果与合并此提交相同' + actionOn.toLowerCase() + '.' },
+			{ type: DialogInputType.Checkbox, name: '不提交', value: this.config.dialogDefaults.merge.noCommit, info: '合并的更改将被暂存，但不会被提交，因此你可以在提交之前检查或修改合并的结果' }
 		], 'Yes, merge', (values) => {
 			runAction({ command: 'merge', repo: this.currentRepo, obj: obj, actionOn: actionOn, createNewCommit: <boolean>values[0], squash: <boolean>values[1], noCommit: <boolean>values[2] }, 'Merging ' + actionOn);
 		}, target);
@@ -2557,21 +2557,21 @@ class GitGraphView {
 						}).join(', ')
 						: 'None';
 					html += '<span class="cdvSummaryTop' + (expandedCommit.avatar !== null ? ' withAvatar' : '') + '"><span class="cdvSummaryTopRow"><span class="cdvSummaryKeyValues">'
-						+ '<b>Commit: </b>' + escapeHtml(commitDetails.hash) + '<br>'
-						+ '<b>Parents: </b>' + parents + '<br>'
+						+ '<b>提交: </b>' + escapeHtml(commitDetails.hash) + '<br>'
+						+ '<b>父节点: </b>' + parents + '<br>'
 						+ '<b>作者: </b>' + escapeHtml(commitDetails.author) + (commitDetails.authorEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.authorEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.authorEmail) + '</a>&gt;' : '') + '<br>'
-						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>作者 Date: </b>' + formatLongDate(commitDetails.authorDate) + '<br>' : '')
-						+ '<b>Committer: </b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
-						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? 'Committer ' : '') + 'Date: </b>' + formatLongDate(commitDetails.committerDate)
+						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>作者时间: </b>' + formatLongDate(commitDetails.authorDate) + '<br>' : '')
+						+ '<b>提交人: </b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
+						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? 'Committer ' : '') + '时间: </b>' + formatLongDate(commitDetails.committerDate)
 						+ '</span>'
 						+ (expandedCommit.avatar !== null ? '<span class="cdvSummaryAvatar"><img src="' + expandedCommit.avatar + '"></span>' : '')
 						+ '</span></span><br><br>' + textFormatter.format(commitDetails.body);
 				} else {
-					html += 'Displaying all uncommitted changes.';
+					html += '显示所有未提交的更改';
 				}
 			} else {
 				// Commit comparison should be shown
-				html += 'Displaying all changes from <b>' + commitOrder.from + '</b> to <b>' + (commitOrder.to !== UNCOMMITTED ? commitOrder.to : 'Uncommitted Changes') + '</b>.';
+				html += '显示从 <b>' + commitOrder.from + '</b> 到 <b>' + (commitOrder.to !== UNCOMMITTED ? commitOrder.to : '未提交的更改的所有更改') + '</b>.';
 			}
 			html += '</div><div id="cdvFiles">' + generateFileViewHtml(expandedCommit.fileTree!, expandedCommit.fileChanges!, expandedCommit.lastViewedFile, expandedCommit.contextMenuOpen.fileView, this.getFileViewType(), commitOrder.to === UNCOMMITTED) + '</div><div id="cdvDivider"></div>';
 		}
@@ -3056,7 +3056,7 @@ class GitGraphView {
 						onClick: () => triggerViewFileAtRevision(file, fileElem)
 					},
 					{
-						title: '使用工作文件查看差异',
+						title: '查看工作文件的差异',
 						visible: visibility.viewDiffWithWorkingFile && fileExistsAtThisRevisionAndDiffPossible,
 						onClick: () => triggerViewFileDiffWithWorkingFile(file, fileElem)
 					},
@@ -3193,7 +3193,7 @@ window.addEventListener('load', () => {
 		const msg: GG.ResponseMessage = event.data;
 		switch (msg.command) {
 			case 'addRemote':
-				refreshOrDisplayError(msg.error, '无法添加远程分支', true);
+				refreshOrDisplayError(msg.error, '无法添加远程仓库分支', true);
 				break;
 			case 'addTag':
 				if (msg.pushToRemote !== null && msg.errors.length === 2 && msg.errors[0] === null && isExtensionErrorInfo(msg.errors[1], GG.ErrorInfoExtensionPrefix.PushTagCommitNotOnRemote)) {
@@ -3216,17 +3216,17 @@ window.addEventListener('load', () => {
 				refreshOrDisplayError(msg.error, '无法切换提交');
 				break;
 			case 'cherrypickCommit':
-				refreshAndDisplayErrors(msg.errors, '无法Cherry Pick Commit');
+				refreshAndDisplayErrors(msg.errors, '无法Cherry Pick(选择提交)');
 				break;
 			case 'cleanUntrackedFiles':
-				refreshOrDisplayError(msg.error, '无法Clean Untracked Files');
+				refreshOrDisplayError(msg.error, '无法清理未跟踪的文件');
 				break;
 			case 'commitDetails':
 				if (msg.commitDetails !== null) {
 					gitGraph.showCommitDetails(msg.commitDetails, gitGraph.createFileTree(msg.commitDetails.fileChanges, msg.codeReview), msg.avatar, msg.codeReview, msg.codeReview !== null ? msg.codeReview.lastViewedFile : null, msg.refresh);
 				} else {
 					gitGraph.closeCommitDetails(true);
-					dialog.showError('无法load Commit Details', msg.error, null, null);
+					dialog.showError('无法加载提交详情', msg.error, null, null);
 				}
 				break;
 			case 'compareCommits':
@@ -3234,14 +3234,14 @@ window.addEventListener('load', () => {
 					gitGraph.showCommitComparison(msg.commitHash, msg.compareWithHash, msg.fileChanges, gitGraph.createFileTree(msg.fileChanges, msg.codeReview), msg.codeReview, msg.codeReview !== null ? msg.codeReview.lastViewedFile : null, msg.refresh);
 				} else {
 					gitGraph.closeCommitComparison(true);
-					dialog.showError('无法load Commit Comparison', msg.error, null, null);
+					dialog.showError('无法加载提交比较', msg.error, null, null);
 				}
 				break;
 			case 'copyFilePath':
-				finishOrDisplayError(msg.error, '无法Copy File Path to Clipboard');
+				finishOrDisplayError(msg.error, '无法复制文件路径到剪贴板');
 				break;
 			case 'copyToClipboard':
-				finishOrDisplayError(msg.error, '无法Copy ' + msg.type + ' to Clipboard');
+				finishOrDisplayError(msg.error, '无法复制 ' + msg.type + ' 剪切板');
 				break;
 			case 'createArchive':
 				finishOrDisplayError(msg.error, '无法创建存档', true);
@@ -3250,7 +3250,7 @@ window.addEventListener('load', () => {
 				refreshAndDisplayErrors(msg.errors, '无法创建分支');
 				break;
 			case 'createPullRequest':
-				finishOrDisplayErrors(msg.errors, '无法Create Pull Request', () => {
+				finishOrDisplayErrors(msg.errors, '无法创建拉取请求', () => {
 					if (msg.push) {
 						gitGraph.refresh(false);
 					}
@@ -3260,34 +3260,34 @@ window.addEventListener('load', () => {
 				handleResponseDeleteBranch(msg);
 				break;
 			case 'deleteRemote':
-				refreshOrDisplayError(msg.error, '无法Delete Remote', true);
+				refreshOrDisplayError(msg.error, '无法删除远程仓库', true);
 				break;
 			case 'deleteRemoteBranch':
-				refreshOrDisplayError(msg.error, '无法Delete Remote Branch');
+				refreshOrDisplayError(msg.error, '无法删除远程仓库分支');
 				break;
 			case 'deleteTag':
-				refreshOrDisplayError(msg.error, '无法Delete Tag');
+				refreshOrDisplayError(msg.error, '无法删除标签');
 				break;
 			case 'deleteUserDetails':
-				finishOrDisplayErrors(msg.errors, '无法Remove Git User Details', () => gitGraph.requestLoadConfig(), true);
+				finishOrDisplayErrors(msg.errors, '无法删除Git用户详细信息', () => gitGraph.requestLoadConfig(), true);
 				break;
 			case 'dropCommit':
-				refreshOrDisplayError(msg.error, '无法Drop Commit');
+				refreshOrDisplayError(msg.error, '无法删除提交');
 				break;
 			case 'dropStash':
-				refreshOrDisplayError(msg.error, '无法Drop Stash');
+				refreshOrDisplayError(msg.error, '无法删除暂存状态');
 				break;
 			case 'editRemote':
-				refreshOrDisplayError(msg.error, '无法Save Changes to Remote', true);
+				refreshOrDisplayError(msg.error, '无法将更改保存到远程仓库', true);
 				break;
 			case 'editUserDetails':
-				finishOrDisplayErrors(msg.errors, '无法Save Git User Details', () => gitGraph.requestLoadConfig(), true);
+				finishOrDisplayErrors(msg.errors, '无法保存Git用户详情', () => gitGraph.requestLoadConfig(), true);
 				break;
 			case 'exportRepoConfig':
-				refreshOrDisplayError(msg.error, '无法Export Repository Configuration');
+				refreshOrDisplayError(msg.error, '无法导出仓库配置');
 				break;
 			case 'fetch':
-				refreshOrDisplayError(msg.error, '无法Fetch from Remote(s)');
+				refreshOrDisplayError(msg.error, '无法从远处获取');
 				break;
 			case 'fetchAvatar':
 				imageResizer.resize(msg.image, (resizedImage) => {
@@ -3295,7 +3295,7 @@ window.addEventListener('load', () => {
 				});
 				break;
 			case 'fetchIntoLocalBranch':
-				refreshOrDisplayError(msg.error, '无法Fetch into Local Branch');
+				refreshOrDisplayError(msg.error, '无法获取到本地分支');
 				break;
 			case 'loadCommits':
 				gitGraph.processLoadCommitsResponse(msg);
@@ -3310,43 +3310,43 @@ window.addEventListener('load', () => {
 				gitGraph.loadRepos(msg.repos, msg.lastActiveRepo, msg.loadViewTo);
 				break;
 			case 'merge':
-				refreshOrDisplayError(msg.error, '无法Merge ' + msg.actionOn);
+				refreshOrDisplayError(msg.error, '无法合并 ' + msg.actionOn);
 				break;
 			case 'openExtensionSettings':
-				finishOrDisplayError(msg.error, '无法Open Extension Settings');
+				finishOrDisplayError(msg.error, '无法打开扩展设置');
 				break;
 			case 'openExternalDirDiff':
-				finishOrDisplayError(msg.error, '无法Open External Directory Diff', true);
+				finishOrDisplayError(msg.error, '无法打开外部目录差异', true);
 				break;
 			case 'openExternalUrl':
-				finishOrDisplayError(msg.error, '无法Open External URL');
+				finishOrDisplayError(msg.error, '无法打开外部URL');
 				break;
 			case 'openFile':
-				finishOrDisplayError(msg.error, '无法Open File');
+				finishOrDisplayError(msg.error, '无法打开文件');
 				break;
 			case 'openTerminal':
-				finishOrDisplayError(msg.error, '无法Open Terminal', true);
+				finishOrDisplayError(msg.error, '无法打开终端', true);
 				break;
 			case 'popStash':
-				refreshOrDisplayError(msg.error, '无法Pop Stash');
+				refreshOrDisplayError(msg.error, '无法(恢复并删除暂存状态)');
 				break;
 			case 'pruneRemote':
-				refreshOrDisplayError(msg.error, '无法Prune Remote');
+				refreshOrDisplayError(msg.error, '无法剪除远程仓库');
 				break;
 			case 'pullBranch':
-				refreshOrDisplayError(msg.error, '无法Pull Branch');
+				refreshOrDisplayError(msg.error, '无法拉取分支');
 				break;
 			case 'pushBranch':
-				refreshAndDisplayErrors(msg.errors, '无法Push Branch', msg.willUpdateBranchConfig);
+				refreshAndDisplayErrors(msg.errors, '无法推送分支', msg.willUpdateBranchConfig);
 				break;
 			case 'pushStash':
-				refreshOrDisplayError(msg.error, '无法Stash Uncommitted Changes');
+				refreshOrDisplayError(msg.error, '无法暂存未提交的更改');
 				break;
 			case 'pushTag':
 				if (msg.errors.length === 1 && isExtensionErrorInfo(msg.errors[0], GG.ErrorInfoExtensionPrefix.PushTagCommitNotOnRemote)) {
 					handleResponsePushTagCommitNotOnRemote(msg.repo, msg.tagName, msg.remotes, msg.commitHash, msg.errors[0]!);
 				} else {
-					refreshAndDisplayErrors(msg.errors, '无法Push Tag');
+					refreshAndDisplayErrors(msg.errors, '无法推送标签');
 				}
 				break;
 			case 'rebase':
@@ -3357,84 +3357,84 @@ window.addEventListener('load', () => {
 						gitGraph.refresh(false);
 					}
 				} else {
-					dialog.showError('无法Rebase current branch on ' + msg.actionOn, msg.error, null, null);
+					dialog.showError('无法在 ' + msg.actionOn, +'Rebase(复位)当前分支' + msg.error, null, null);
 				}
 				break;
 			case 'refresh':
 				gitGraph.refresh(false);
 				break;
 			case 'renameBranch':
-				refreshOrDisplayError(msg.error, '无法Rename Branch');
+				refreshOrDisplayError(msg.error, '无法重命名分支');
 				break;
 			case 'resetFileToRevision':
-				refreshOrDisplayError(msg.error, '无法Reset File to Revision');
+				refreshOrDisplayError(msg.error, '无法复位文件大修订版本');
 				break;
 			case 'resetToCommit':
-				refreshOrDisplayError(msg.error, '无法Reset to Commit');
+				refreshOrDisplayError(msg.error, '无法复位到提交');
 				break;
 			case 'revertCommit':
-				refreshOrDisplayError(msg.error, '无法Revert Commit');
+				refreshOrDisplayError(msg.error, '无法回撤到提交');
 				break;
 			case 'setGlobalViewState':
-				finishOrDisplayError(msg.error, '无法save the Global View State');
+				finishOrDisplayError(msg.error, '无法保存全局视图状态');
 				break;
 			case 'setWorkspaceViewState':
-				finishOrDisplayError(msg.error, '无法save the Workspace View State');
+				finishOrDisplayError(msg.error, '无法保存工作区视图状态');
 				break;
 			case 'startCodeReview':
 				if (msg.error === null) {
 					gitGraph.startCodeReview(msg.commitHash, msg.compareWithHash, msg.codeReview);
 				} else {
-					dialog.showError('无法Start Code Review', msg.error, null, null);
+					dialog.showError('无法开始代码评审', msg.error, null, null);
 				}
 				break;
 			case 'tagDetails':
 				if (msg.details !== null) {
 					gitGraph.renderTagDetails(msg.tagName, msg.commitHash, msg.details);
 				} else {
-					dialog.showError('无法retrieve Tag Details', msg.error, null, null);
+					dialog.showError('无法找回标签详情', msg.error, null, null);
 				}
 				break;
 			case 'updateCodeReview':
 				if (msg.error !== null) {
-					dialog.showError('无法update Code Review', msg.error, null, null);
+					dialog.showError('无法更新代码评审', msg.error, null, null);
 				}
 				break;
 			case 'viewDiff':
-				finishOrDisplayError(msg.error, '无法View Diff');
+				finishOrDisplayError(msg.error, '无法查看差异');
 				break;
 			case 'viewDiffWithWorkingFile':
-				finishOrDisplayError(msg.error, '无法View Diff with Working File');
+				finishOrDisplayError(msg.error, '无法查看工作文件的差异');
 				break;
 			case 'viewFileAtRevision':
-				finishOrDisplayError(msg.error, '无法View File at Revision');
+				finishOrDisplayError(msg.error, '无法此修订程序中查看文件');
 				break;
 			case 'viewScm':
-				finishOrDisplayError(msg.error, '无法open the Source Control View');
+				finishOrDisplayError(msg.error, '无法打开开源控件视图');
 				break;
 		}
 	});
 
 	function handleResponseDeleteBranch(msg: GG.ResponseDeleteBranch) {
 		if (msg.errors.length > 0 && msg.errors[0] !== null && msg.errors[0].includes('git branch -D')) {
-			dialog.showConfirmation('The branch <b><i>' + escapeHtml(msg.branchName) + '</i></b> is not fully merged. Would you like to force delete it?', 'Yes, force delete branch', () => {
+			dialog.showConfirmation('分支 <b><i>' + escapeHtml(msg.branchName) + '</i></b> 没有被完全合并。你要强制删除它吗?', '是的，强制删除分支', () => {
 				runAction({ command: 'deleteBranch', repo: msg.repo, branchName: msg.branchName, forceDelete: true, deleteOnRemotes: msg.deleteOnRemotes }, 'Deleting Branch');
 			}, { type: TargetType.Repo });
 		} else {
-			refreshAndDisplayErrors(msg.errors, '无法Delete Branch');
+			refreshAndDisplayErrors(msg.errors, '无法删除分支');
 		}
 	}
 
 	function handleResponsePushTagCommitNotOnRemote(repo: string, tagName: string, remotes: string[], commitHash: string, error: string) {
 		const remotesNotContainingCommit: string[] = parseExtensionErrorInfo(error, GG.ErrorInfoExtensionPrefix.PushTagCommitNotOnRemote);
 
-		const html = '<span class="dialogAlert">' + SVG_ICONS.alert + 'Warning: Commit is not on Remote' + (remotesNotContainingCommit.length > 1 ? 's ' : ' ') + '</span><br>' +
+		const html = '<span class="dialogAlert">' + SVG_ICONS.alert + '警告:不是在远程分支上提交' + (remotesNotContainingCommit.length > 1 ? 's ' : ' ') + '</span><br>' +
 			'<span class="messageContent">' +
-			'<p style="margin:0 0 6px 0;">The tag <b><i>' + escapeHtml(tagName) + '</i></b> is on a commit that isn\'t on any known branch on the remote' + (remotesNotContainingCommit.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotesNotContainingCommit.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + '.</p>' +
-			'<p style="margin:0;">Would you like to proceed to push the tag to the remote' + (remotes.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotes.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + ' anyway?</p>' +
+			'<p style="margin:0 0 6px 0;">标签 <b><i>' + escapeHtml(tagName) + '</i></b> 是否在不属于远程仓库任何一个已知分支的提交上' + (remotesNotContainingCommit.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotesNotContainingCommit.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + '.</p>' +
+			'<p style="margin:0;">你要继续将标签推到远程吗' + (remotes.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotes.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + ' 不管怎样?</p>' +
 			'</span>';
 
-		dialog.showForm(html, [{ type: DialogInputType.Checkbox, name: 'Always Proceed', value: false }], 'Proceed to Push', (values) => {
+		dialog.showForm(html, [{ type: DialogInputType.Checkbox, name: '总是继续', value: false }], '继续推送', (values) => {
 			if (<boolean>values[0]) {
 				updateGlobalViewState('pushTagSkipRemoteCheck', true);
 			}
@@ -3446,7 +3446,7 @@ window.addEventListener('load', () => {
 				commitHash: commitHash,
 				skipRemoteCheck: true
 			}, 'Pushing Tag');
-		}, { type: TargetType.Repo }, 'Cancel', null, true);
+		}, { type: TargetType.Repo }, '取消', null, true);
 	}
 
 	function refreshOrDisplayError(error: GG.ErrorInfo, errorMessage: string, configChanges: boolean = false) {
