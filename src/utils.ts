@@ -9,7 +9,7 @@ import { ExtensionState } from './extensionState';
 import { ErrorInfo, GitFileStatus, GitRepoSet, PullRequestConfig, PullRequestProvider, RepoDropdownOrder } from './types';
 
 export const UNCOMMITTED = '*';
-export const UNABLE_TO_FIND_GIT_MSG = 'Unable to find a Git executable. Either: Set the Visual Studio Code Setting "git.path" to the path and filename of an existing Git executable, or install Git and restart Visual Studio Code.';
+export const UNABLE_TO_FIND_GIT_MSG = 'Unable to find a Git executable. Either: Set the Vs code Setting "git.path" to the path and filename of an existing Git executable, or install Git and restart Vs code.';
 
 
 /* Path Manipulation */
@@ -273,7 +273,7 @@ export function archive(repo: string, ref: string, dataSource: DataSource): Then
 				return '没有为存档提供文件名';
 			}
 		},
-		() => 'visual studio Code无法显示保存对话框'
+		() => 'Vs code无法显示保存对话框'
 	);
 }
 
@@ -297,7 +297,7 @@ export function copyFilePathToClipboard(repo: string, filePath: string, absolute
 export function copyToClipboard(text: string): Thenable<ErrorInfo> {
 	return vscode.env.clipboard.writeText(text).then(
 		() => null,
-		() => 'visual studio Code无法写入剪贴板。'
+		() => 'Vs code无法写入剪贴板。'
 	);
 }
 
@@ -335,7 +335,7 @@ export function createPullRequest(config: PullRequestConfig, sourceOwner: string
 
 	const url = templateUrl.replace(/\$([1-8])/g, (_, index) => urlFieldValues[parseInt(index) - 1]);
 
-	return openExternalUrl(url, 'Pull Request URL');
+	return openExternalUrl(url, '拉取请求URL');
 }
 
 /**
@@ -345,7 +345,7 @@ export function createPullRequest(config: PullRequestConfig, sourceOwner: string
 export function openExtensionSettings(): Thenable<ErrorInfo> {
 	return vscode.commands.executeCommand('workbench.action.openSettings', '@ext:mhutchie.git-graph').then(
 		() => null,
-		() => 'Visual Studio Code was unable to open the Git Graph Extension Settings.'
+		() => 'vs code无法打开Git Graph扩展设置'
 	);
 }
 
@@ -356,7 +356,7 @@ export function openExtensionSettings(): Thenable<ErrorInfo> {
  * @returns A promise resolving to the ErrorInfo of the executed command.
  */
 export function openExternalUrl(url: string, type: string = 'External URL'): Thenable<ErrorInfo> {
-	const getErrorMessage = () => 'Visual Studio Code was unable to open the ' + type + ': ' + url;
+	const getErrorMessage = () => 'VS Code 无法打开 ' + type + ': ' + url;
 	try {
 		return vscode.env.openExternal(vscode.Uri.parse(url)).then(
 			(success) => success ? null : getErrorMessage(),
@@ -398,10 +398,10 @@ export async function openFile(repo: string, filePath: string, hash: string | nu
 			viewColumn: viewColumn === null ? getConfig().openNewTabEditorGroup : viewColumn
 		}).then(
 			() => null,
-			() => 'Visual Studio Code was unable to open ' + newFilePath + '.'
+			() => 'Vs code无法打开 ' + newFilePath + '.'
 		);
 	} else {
-		return 'The file ' + newFilePath + ' doesn\'t currently exist in this repository.';
+		return '文件 ' + newFilePath + ' 当前不存在于这个仓库中';
 	}
 }
 
@@ -431,7 +431,7 @@ export function viewDiff(repo: string, fromHash: string, toHash: string, oldFile
 			viewColumn: getConfig().openNewTabEditorGroup
 		}).then(
 			() => null,
-			() => 'Visual Studio Code was unable to load the diff editor for ' + newFilePath + '.'
+			() => 'Vs code无法加载差异编辑器 ' + newFilePath + '.'
 		);
 	} else {
 		return openFile(repo, newFilePath);
@@ -482,7 +482,7 @@ export function viewFileAtRevision(repo: string, hash: string, filePath: string)
 		viewColumn: getConfig().openNewTabEditorGroup
 	}).then(
 		() => null,
-		() => 'Visual Studio Code was unable to open ' + filePath + ' at commit ' + abbrevCommit(hash) + '.'
+		() => 'Vs code无法打开 ' + filePath + ' 在提交 ' + abbrevCommit(hash) + '.'
 	);
 }
 
@@ -493,7 +493,7 @@ export function viewFileAtRevision(repo: string, hash: string, filePath: string)
 export function viewScm(): Thenable<ErrorInfo> {
 	return vscode.commands.executeCommand('workbench.view.scm').then(
 		() => null,
-		() => 'Visual Studio Code was unable to open the Source Control View.'
+		() => 'Vs code无法打开开源控制视图'
 	);
 }
 
@@ -840,5 +840,5 @@ function parseVersion(version: string) {
  * @returns The message for the user.
  */
 export function constructIncompatibleGitVersionMessage(executable: GitExecutable, version: GitVersionRequirement, feature?: string) {
-	return 'A newer version of Git (>= ' + version + ') is required for ' + (feature ? feature : 'this feature') + '. Git ' + executable.version + ' is currently installed. Please install a newer version of Git to use this feature.';
+	return '更新Git的版本(>= ' + version + ') 需要 ' + (feature ? feature : '这个特点') + '. Git ' + executable.version + ' 目前正在安装。请安装更新版本的Git来使用此特性';
 }
