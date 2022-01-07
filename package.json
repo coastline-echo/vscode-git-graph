@@ -1,7 +1,7 @@
 {
 	"name": "git-graph",
 	"displayName": "Git Graph",
-	"version": "1.30.0-alpha.zh-CN001",
+	"version": "1.31.0-beta-Chinese.2",
 	"publisher": "mhutchie",
 	"author": {
 		"name": "Michael Hutchison",
@@ -44,7 +44,7 @@
 			{
 				"category": "Git Graph",
 				"command": "git-graph.view",
-				"title": "View Git Graph (git log)",
+				"title": "ViewGit Graph(git log)",
 				"icon": {
 					"light": "resources/cmd-icon-light.svg",
 					"dark": "resources/cmd-icon-dark.svg"
@@ -120,10 +120,10 @@
 					],
 					"enumDescriptions": [
 						"以树形结构显示文件",
-						"在列表中显示文件(对于文件夹结构较深的存储库很有用)"
+						"在列表中显示文件(对于文件夹结构较深的仓库很有用)"
 					],
 					"default": "File Tree",
-					"description": "设置提交详情视图中使用的文件视图的默认类型。这可以使用提交详细信息视图右侧的控件覆盖每个存储库"
+					"description": "设置提交详情视图中使用的文件视图的默认类型。这可以使用提交详细信息视图右侧的控件覆盖每个仓库"
 				},
 				"git-graph.commitDetailsView.location": {
 					"type": "string",
@@ -133,7 +133,7 @@
 					],
 					"enumDescriptions": [
 						"提交细节视图和提交在同一行显示。",
-						"显示停靠在 Git 图表视图底部的提交详细信息视图"
+						"显示停靠在Git Graph视图底部的提交详细信息视图"
 					],
 					"default": "Inline",
 					"description": "指定提交细节视图在Git Graph视图中呈现的位置"
@@ -504,7 +504,7 @@
 						"显示相对时间（例如“5 分钟前”）"
 					],
 					"default": "Date & Time",
-					"description": "指定要在 Git 图表视图的“时间”列中使用的时间格式。"
+					"description": "指定要在Git Graph视图的“时间”列中使用的时间格式。"
 				},
 				"git-graph.date.type": {
 					"type": "string",
@@ -718,7 +718,7 @@
 				"git-graph.fileEncoding": {
 					"type": "string",
 					"default": "utf8",
-					"markdownDescription": "检索特定版本的存储库文件时使用的字符集编码（例如在差异视图中）。可以在 [此处](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings) 找到所有受支持编码的列表",
+					"markdownDescription": "检索特定版本的仓库文件时使用的字符集编码（例如在差异视图中）。可以在 [此处](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings) 找到所有受支持编码的列表",
 					"scope": "resource"
 				},
 				"git-graph.graph.colours": {
@@ -765,7 +765,7 @@
 					],
 					"enumDescriptions": [
 						"将未提交的更改显示为灰色的空心圆圈，用灰色实线连接到 HEAD 引用的提交。因此当前文件系统的状态始终显示为空心圆圈",
-						"将未提交的更改显示为灰色的实心圆圈，用灰色虚线连接到 HEAD 引用的提交。因此HEAD 引用的提交始终显示为空心圆圈。"
+						"将未提交的更改显示为灰色的实心圆圈，用灰色虚线连接到 HEAD 引用的提交。因此HEAD引用的提交始终显示为空心圆圈。"
 					],
 					"default": "Open Circle at the Uncommitted Changes",
 					"description": "指定未提交的更改在图表上的显示方式"
@@ -773,7 +773,7 @@
 				"git-graph.integratedTerminalShell": {
 					"type": "string",
 					"default": "",
-					"description": "Specifies the path and filename of the Shell executable to be used by the Visual Studio Code Integrated Terminal, when it is opened by Git Graph. For example, to use Git Bash on Windows this setting would commonly be set to \"C:\\Program Files\\Git\\bin\\bash.exe\". If this setting is left blank, the default Shell is used.",
+					"description": "指定由Git Graph打开时 Visual Studio Code 集成终端要使用的 Shell 可执行文件的路径和文件名。例如，要在 Windows 上使用 Git Bash，此设置通常设置为 \"C:\\Program Files\\Git\\bin\\bash.exe\"。如果此设置留空，则使用默认 Shell",
 					"scope": "machine"
 				},
 				"git-graph.keyboardShortcut.find": {
@@ -808,7 +808,7 @@
 						"CTRL/CMD + Z"
 					],
 					"default": "CTRL/CMD + F",
-					"description": "The keybinding for the keyboard shortcut that opens the Find Widget in the Git Graph View."
+					"description": "在Git Graph视图中打开查找小组件的键盘快捷键的键绑定"
 				},
 				"git-graph.keyboardShortcut.refresh": {
 					"type": "string",
@@ -842,7 +842,7 @@
 						"CTRL/CMD + Z"
 					],
 					"default": "CTRL/CMD + R",
-					"description": "The keybinding for the keyboard shortcut that refreshes the Git Graph View."
+					"description": "用于刷新Git Graph视图的键盘快捷键的键绑定"
 				},
 				"git-graph.keyboardShortcut.scrollToHead": {
 					"type": "string",
@@ -876,7 +876,7 @@
 						"CTRL/CMD + Z"
 					],
 					"default": "CTRL/CMD + H",
-					"description": "The keybinding for the keyboard shortcut that scrolls the Git Graph View to be centered on the commit referenced by HEAD."
+					"description": "滚动Git Graph视图的键盘快捷键的键绑定，使其以 HEAD 引用的提交为中心"
 				},
 				"git-graph.keyboardShortcut.scrollToStash": {
 					"type": "string",
@@ -910,17 +910,17 @@
 						"CTRL/CMD + Z"
 					],
 					"default": "CTRL/CMD + S",
-					"description": "The keybinding for the keyboard shortcut that scrolls the Git Graph View to the first (or next) stash in the loaded commits. The Shift Key Modifier can be applied to this keybinding to scroll the Git Graph View to the last (or previous) stash in the loaded commits."
+					"description": "将Git Graph视图滚动到加载提交中的第一个（或下一个）暂存的键盘快捷键的键绑定。可以将 Shift 键修饰符应用于此键绑定，以将Git Graph视图滚动到已加载提交中的最后一个（或上一个）暂存。"
 				},
 				"git-graph.markdown": {
 					"type": "boolean",
 					"default": true,
-					"description": "Parse and render a frequently used subset of inline Markdown formatting rules in commit messages and tag details (bold, italics, bold & italics, and inline code blocks)."
+					"description": "在提交消息和标签详细信息（粗体、斜体、粗斜体和内联代码块）中解析和呈现内联 Markdown 格式规则的常用子集"
 				},
 				"git-graph.maxDepthOfRepoSearch": {
 					"type": "number",
 					"default": 0,
-					"description": "Specifies the maximum depth of subfolders to search when discovering repositories in the workspace. Note: Sub-repos are not automatically detected when searching subfolders, however they can be manually added by running the command \"Git Graph: Add Git Repository\" in the Command Palette."
+					"description": "指定在工作区中发现仓库时要搜索的子文件夹的最大深度。注意：搜索子文件夹时不会自动检测子仓库，但可以通过在命令面板中运行 \"Git Graph: Add Git Repository\" 命令手动添加它们"
 				},
 				"git-graph.openNewTabEditorGroup": {
 					"type": "string",
@@ -938,25 +938,25 @@
 						"Nine"
 					],
 					"enumDescriptions": [
-						"Open the new tab in the Active Editor Group.",
-						"Open the new tab beside the Active Editor Group.",
-						"Open the new tab in the First Editor Group.",
-						"Open the new tab in the Second Editor Group.",
-						"Open the new tab in the Third Editor Group.",
-						"Open the new tab in the Fourth Editor Group.",
-						"Open the new tab in the Fifth Editor Group.",
-						"Open the new tab in the Sixth Editor Group.",
-						"Open the new tab in the Seventh Editor Group.",
-						"Open the new tab in the Eighth Editor Group.",
-						"Open the new tab in the Ninth Editor Group."
+						"在活动编辑器组中打开新选项卡",
+						"打开活动编辑器组旁边的新选项卡",
+						"在第一个编辑器组中打开新选项卡",
+						"在第二个编辑器组中打开新选项卡",
+						"在第三个编辑器组中打开新选项卡",
+						"在第四个编辑器组中打开新选项卡",
+						"在第五个编辑器组中打开新选项卡",
+						"在第六个编辑器组中打开新选项卡",
+						"在第七个编辑器组中打开新选项卡",
+						"在第八个编辑器组中打开新选项卡",
+						"在第九个编辑器组中打开新选项卡"
 					],
 					"default": "Active",
-					"description": "Specifies the Editor Group where Git Graph should open new tabs, when performing the following actions from the Git Graph View: Viewing the Visual Studio Code Diff View, Opening a File, Viewing a File at a Specific Revision."
+					"description": "从Git Graph视图执行以下操作时，指定Git Graph应在其中打开新选项卡的编辑器组：查看 Visual Studio 代码差异视图、打开文件、查看特定修订版的文件"
 				},
 				"git-graph.openToTheRepoOfTheActiveTextEditorDocument": {
 					"type": "boolean",
 					"default": false,
-					"description": "Open the Git Graph View to the repository containing the active Text Editor document."
+					"description": "打开包含活动文本编辑器文档的仓库的Git Graph视图"
 				},
 				"git-graph.referenceLabels.alignment": {
 					"type": "string",
@@ -966,47 +966,47 @@
 						"Branches (aligned to the graph) & Tags (on the right)"
 					],
 					"enumDescriptions": [
-						"Show branch & tag labels on the left of the commit message in the 'Description' column.",
-						"Show branch labels on the left of the commit message in the 'Description' column, and tag labels on the right.",
-						"Show branch labels aligned to the graph in the 'Graph' column, and tag labels on the right in the 'Description' column."
+						"在“描述”列中的提交消息左侧显示分支和标签标签",
+						"在“描述”列中的提交消息左侧显示分支标签，在右侧显示标签标签",
+						"在“图形”列中显示与图形对齐的分支标签，并在“说明”列中显示右侧的标签标签。"
 					],
 					"default": "Normal",
-					"description": "Specifies how branch and tag reference labels are aligned for each commit."
+					"description": "指定如何为每个提交对齐分支和标签引用标签"
 				},
 				"git-graph.referenceLabels.combineLocalAndRemoteBranchLabels": {
 					"type": "boolean",
 					"default": true,
-					"description": "Combine local and remote branch labels if they refer to the same branch, and are on the same commit."
+					"description": "如果本地和远程分支标签引用同一个分支，并且在同一个提交中，则将它们组合起来"
 				},
 				"git-graph.repository.commits.fetchAvatars": {
 					"type": "boolean",
 					"default": false,
-					"description": "Fetch avatars of commit authors and committers. By enabling this setting, you consent to commit author and committer email addresses being sent GitHub, GitLab or Gravatar, depending on the repositories remote origin."
+					"description": "获取提交作者和提交者的头像。通过启用此设置，您同意提交作者和提交者电子邮件地址发送到 GitHub、GitLab 或 Gravatar，具体取决于仓库远程源"
 				},
 				"git-graph.repository.commits.initialLoad": {
 					"type": "number",
 					"default": 300,
-					"description": "Specifies the number of commits to initially load."
+					"description": "S指定初始加载的提交次数"
 				},
 				"git-graph.repository.commits.loadMore": {
 					"type": "number",
 					"default": 100,
-					"description": "Specifies the number of additional commits to load when the \"Load More Commits\" button is pressed, or more commits are automatically loaded."
+					"description": "指定按下“加载更多提交”按钮或自动加载更多提交时要加载的附加提交的数量"
 				},
 				"git-graph.repository.commits.loadMoreAutomatically": {
 					"type": "boolean",
 					"default": true,
-					"description": "When the view has been scrolled to the bottom, automatically load more commits if they exist (instead of having to press the \"Load More Commits\" button)."
+					"description": "当视图滚动到底部时，如果存在则自动加载更多提交（而不必按“加载更多提交”按钮）"
 				},
 				"git-graph.repository.commits.mute.commitsThatAreNotAncestorsOfHead": {
 					"type": "boolean",
 					"default": false,
-					"description": "Display commits that aren't ancestors of the checked-out branch / commit with a muted text color. Muting will only occur if the commit referenced by HEAD is within the loaded commits on the Git Graph View."
+					"description": "使用柔和的文本颜色显示不是已检出分支/提交的祖先的提交。仅当 HEAD 引用的提交位于Git Graph视图上加载的提交内时，才会发生静音。"
 				},
 				"git-graph.repository.commits.mute.mergeCommits": {
 					"type": "boolean",
 					"default": true,
-					"description": "Display merge commits with a muted text color."
+					"description": "使用柔和的文本颜色显示合并提交"
 				},
 				"git-graph.repository.commits.order": {
 					"type": "string",
@@ -1016,106 +1016,106 @@
 						"topo"
 					],
 					"enumDescriptions": [
-						"Show commits in the commit timestamp order.",
-						"Show commits in the author timestamp order.",
-						"Avoid showing commits on multiple lines of history intermixed."
+						"按提交时间戳顺序显示提交",
+						"按作者时间戳顺序显示提交",
+						"避免在混合的多行历史记录上显示提交"
 					],
 					"default": "date",
-					"markdownDescription": "Specifies the order of commits on the Git Graph View. See [git log](https://git-scm.com/docs/git-log#_commit_ordering) for more information on each order option. This can be overridden per repository via the Git Graph View's Column Header Context Menu."
+					"markdownDescription": "指定Git Graph视图上的提交顺序。有关每个订单选项的更多信息，请参阅 [git log](https://git-scm.com/docs/git-log#_commit_ordering) 这可以通过Git Graph视图的列标题上下文菜单覆盖每个仓库"
 				},
 				"git-graph.repository.commits.showSignatureStatus": {
 					"type": "boolean",
 					"default": false,
-					"description": "Show the commit's signature status to the right of the Committer in the Commit Details View (only for signed commits). Hovering over the signature icon displays a tooltip with the signature details. Requires Git (>= 2.4.0) & GPG (or equivalent) to be installed on the same machine that is running Visual Studio Code."
+					"description": "在提交详细信息视图中的提交者右侧显示提交的签名状态（仅适用于签名提交）。将鼠标悬停在签名图标上会显示带有签名详细信息的工具提示。需要在运行 Visual Studio Code 的同一台机器上安装 Git（>= 2.4.0）和 GPG（或等效版本）"
 				},
 				"git-graph.repository.fetchAndPrune": {
 					"type": "boolean",
 					"default": false,
-					"description": "Before fetching from remote(s) using the Fetch button on the Git Graph View Control Bar, remove any remote-tracking references that no longer exist on the remote(s)."
+					"description": "在使用Git图形视图控制条上的获取按钮从远程获取之前，删除远程上不再存在的任何远程跟踪引用"
 				},
 				"git-graph.repository.fetchAndPruneTags": {
 					"type": "boolean",
 					"default": false,
-					"description": "Before fetching from remote(s) using the Fetch button on the Git Graph View Control Bar, remove any local tags that no longer exist on the remote(s). Requires Git >= 2.17.0, and the \"Repository: Fetch And Prune\" setting to be enabled. Caution: If you work in repositories that have multiple remotes, it is not recommended to use this setting (instead you can prune tags for a specific remote via \"Fetch Remote\" Dialog from the Repository Settings Widget on the Git Graph View)."
+					"description": "在使用Git图形视图控制条上的获取按钮从远程获取之前，除远程上不再存在的任何本地标签。需要 Git >= 2.17.0，并启用“Repository: Fetch And Prune”设置。注意：如果您在具有多个远程的仓库中工作，则不建议使用此设置（相反，您可以通过Git Graph视图上的仓库设置小部件中的“获取远程”对话框修剪特定远程的标签）"
 				},
 				"git-graph.repository.includeCommitsMentionedByReflogs": {
 					"type": "boolean",
 					"default": false,
-					"description": "Include commits only mentioned by reflogs in the Git Graph View (only applies when showing all branches). This can be overridden per repository in the Git Graph View's Repository Settings Widget."
+					"description": "在Git Graph视图中包含仅由 reflogs 提及的提交（仅在显示所有分支时适用）。这可以在Git图形视图的仓库设置小部件中覆盖每个仓库"
 				},
 				"git-graph.repository.onLoad.scrollToHead": {
 					"type": "boolean",
 					"default": false,
-					"description": "Automatically scroll the Git Graph View to be centered on the commit referenced by HEAD. This will only occur if the commit referenced by HEAD is within the loaded commits on the Git Graph View."
+					"description": "自动滚动Git Graph视图以使其以 HEAD 引用的提交为中心。仅当 HEAD 引用的提交位于Git Graph视图上加载的提交内时，才会发生这种情况"
 				},
 				"git-graph.repository.onLoad.showCheckedOutBranch": {
 					"type": "boolean",
 					"default": false,
-					"description": "Show the checked out branch when a repository is loaded in the Git Graph View. This setting can be used in conjunction with \"Repository > On Load: Show Specific Branches\". Default: false (show all branches)"
+					"description": "在Git Graph视图中加载仓库时显示签出的分支。此设置可与“Repository > On Load: Show Specific Branches”结合使用。默认值:false(显示所有分支)"
 				},
 				"git-graph.repository.onLoad.showSpecificBranches": {
 					"type": "array",
 					"items": {
 						"type": "string",
-						"description": "A local branch name (e.g. \"master\"), a remote-tracking branch name prefixed with \"remotes/\" (e.g. \"remotes/origin/master\"), or a glob pattern defined in git-graph.customBranchGlobPatterns prefixed with \"--glob=\" (e.g. \"--glob=heads/feature/*\")."
+						"description": "本地分支名称（例如\"master\"）, 以“remotes/”为前缀的远程跟踪分支名称例如 \"remotes/origin/master\"), 或者在 git-graph.customBranchGlobPatterns 中以“--glob=”为前缀的全局模式(例如. \"--glob=heads/feature/*\")."
 					},
 					"default": [],
-					"markdownDescription": "Show specific branches when a repository is loaded in the Git Graph View. Branches can be specified as follows: A local branch name (e.g. `master`), a remote-tracking branch name prefixed with \"remotes/\" (e.g. `remotes/origin/master`), or a glob pattern defined in `git-graph.customBranchGlobPatterns` prefixed with \"--glob=\" (e.g. `--glob=heads/feature/*`). This setting can be used in conjunction with \"Repository > On Load: Show Checked Out Branch\". Default: [] (show all branches)"
+					"markdownDescription": "在Git Graph视图中加载仓库时显示特定分支。可以按如下方式指定分支：本地分支名称(例如 `master` ), 以“remotes/”为前缀的远程跟踪分支名称(例如 `remotes/origin/master`), 或者在 `git-graph.customBranchGlobPatterns`中以“--glob=”为前缀的全局模式(例如. `--glob=heads/feature/*`). 此设置可与 \"Repository > On Load: Show Checked Out Branch\"结合使用。默认值:[](显示所有分支)"
 				},
 				"git-graph.repository.onlyFollowFirstParent": {
 					"type": "boolean",
 					"default": false,
-					"markdownDescription": "Only follow the first parent of commits when discovering the commits to load in the Git Graph View. See [--first-parent](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent) to find out more about this setting. This can be overridden per repository in the Git Graph View's Repository Settings Widget."
+					"markdownDescription": "在Git Graph视图中发现要加载的提交时，仅关注提交的第一个父项。请参阅 [--first-parent](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent) 以了解有关此设置的更多信息。这可以在Git图形视图的仓库设置小部件中覆盖每个仓库"
 				},
 				"git-graph.repository.showCommitsOnlyReferencedByTags": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show Commits that are only referenced by tags in Git Graph."
+					"description": "显示仅由Git Graph中的标签引用的提交"
 				},
 				"git-graph.repository.showRemoteBranches": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show Remote Branches in Git Graph by default. This can be overridden per repository from the Git Graph View's Control Bar."
+					"description": "默认情况下在Git Graph中显示远程分支。这可以从Git Graph视图的控制栏覆盖每个仓库"
 				},
 				"git-graph.repository.showRemoteHeads": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show Remote HEAD Symbolic References in Git Graph (e.g. \"origin/HEAD\")."
+					"description": "在Git Graph中显示远程 HEAD 符号引用（例如“origin/HEAD”）"
 				},
 				"git-graph.repository.showStashes": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show Stashes in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget."
+					"description": "默认情况下在Git Graph中显示暂存区。这可以在Git图形视图的仓库设置小部件中覆盖每个仓库"
 				},
 				"git-graph.repository.showTags": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show Tags in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget."
+					"description": "默认情况下在Git Graph中显示标签。这可以在Git图形视图的仓库设置小部件中覆盖每个仓库"
 				},
 				"git-graph.repository.showUncommittedChanges": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show uncommitted changes. If you work on large repositories, disabling this setting can reduce the load time of the Git Graph View."
+					"description": "显示未提交的更改。如果您处理大型仓库，禁用此设置可以减少Git Graph视图的加载时间"
 				},
 				"git-graph.repository.showUntrackedFiles": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show untracked files when viewing the uncommitted changes. If you work on large repositories, disabling this setting can reduce the load time of the Git Graph View."
+					"description": "查看未提交的更改时显示未跟踪的文件。如果您处理大型仓库，禁用此设置可以减少Git Graph视图的加载时间"
 				},
 				"git-graph.repository.sign.commits": {
 					"type": "boolean",
 					"default": false,
-					"description": "Enables commit signing with GPG or X.509."
+					"description": "使用 GPG 或 X.509 启用提交签名"
 				},
 				"git-graph.repository.sign.tags": {
 					"type": "boolean",
 					"default": false,
-					"description": "Enables tag signing with GPG or X.509."
+					"description": "使用 GPG 或 X.509 启用标记签名"
 				},
 				"git-graph.repository.useMailmap": {
 					"type": "boolean",
 					"default": false,
-					"markdownDescription": "Respect [.mailmap](https://git-scm.com/docs/git-check-mailmap#_mapping_authors) files when displaying author & committer names and email addresses."
+					"markdownDescription": "在显示作者和提交者姓名及电子邮件地址时尊重 [.mailmap](https://git-scm.com/docs/git-check-mailmap#_mapping_authors) 文件"
 				},
 				"git-graph.repositoryDropdownOrder": {
 					"type": "string",
@@ -1125,22 +1125,22 @@
 						"Workspace Full Path"
 					],
 					"enumDescriptions": [
-						"Sort repositories alphabetically by the full path of the repository.",
-						"Sort repositories alphabetically by the name of the repository.",
-						"Sort repositories according to the Visual Studio Code Workspace Folder order, then alphabetically by the full path of the repository."
+						"按仓库的完整路径的字母顺序对仓库进行排序",
+						"按仓库名称的字母顺序对仓库进行排序",
+						"根据 Visual Studio Code 工作区文件夹顺序对仓库进行排序，然后按仓库的完整路径的字母顺序排列"
 					],
 					"default": "Workspace Full Path",
-					"description": "Specifies the order that repositories are sorted in the repository dropdown on the Git Graph View (only visible when more than one repository exists in the current Visual Studio Code Workspace)."
+					"description": "指定仓库在Git Graph视图的仓库下拉列表中的排序顺序（仅当当前 Visual Studio Code 工作区中存在多个仓库时才可见）"
 				},
 				"git-graph.retainContextWhenHidden": {
 					"type": "boolean",
 					"default": true,
-					"description": "Specifies if the Git Graph View's Visual Studio Code context is kept when the panel is no longer visible (e.g. moved to background tab). Enabling this setting will make Git Graph load significantly faster when switching back to the Git Graph tab, however has a higher memory overhead."
+					"description": "指定当面板不再可见（例如移动到背景选项卡）时是否保留Git Graph视图的 Visual Studio Code 上下文。当切换回Git Graph选项卡时，启用此设置将使Git Graph加载速度显着加快，但具有更高的内存开销"
 				},
 				"git-graph.showStatusBarItem": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show a Status Bar Item that opens the Git Graph View when clicked."
+					"description": "显示单击时打开Git Graph视图的状态栏项"
 				},
 				"git-graph.sourceCodeProviderIntegrationLocation": {
 					"type": "string",
@@ -1149,11 +1149,11 @@
 						"More Actions"
 					],
 					"enumDescriptions": [
-						"Show the 'View Git Graph' action on the title of SCM Providers",
-						"Show the 'View Git Graph' action in the 'More Actions...' menu on the title of SCM Providers"
+						"在 SCM Providers 的标题上显示“查看Git 图表”操作",
+						"在 SCM Providers 标题的“更多操作...”菜单中显示“查看Git Graph”操作"
 					],
 					"default": "Inline",
-					"description": "Specifies where the \"View Git Graph\" action appears on the title of SCM Providers."
+					"description": "指定“查看 Git 图表”操作出现在 SCM Providers标题上的位置"
 				},
 				"git-graph.tabIconColourTheme": {
 					"type": "string",
@@ -1162,16 +1162,16 @@
 						"grey"
 					],
 					"enumDescriptions": [
-						"Show a colour icon which suits most Visual Studio Code colour themes",
-						"Show a grey icon which suits Visual Studio Code colour themes that are predominantly grayscale"
+						"显示适合大多数 Visual Studio Code 颜色主题的颜色图标",
+						"显示一个灰色图标，它适合主要是灰度的 Visual Studio Code 颜色主题"
 					],
 					"default": "colour",
-					"description": "Specifies the colour theme of the icon displayed on the Git Graph tab."
+					"description": "指定Git Graph选项卡上显示的图标的颜色主题"
 				},
 				"git-graph.autoCenterCommitDetailsView": {
 					"type": "boolean",
 					"default": true,
-					"description": "Automatically center the commit details view when it is opened.",
+					"description": "打开时自动将提交详细信息视图居中",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.commitDetailsView.autoCenter",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.commitDetailsView.autoCenter#`"
 				},
@@ -1197,10 +1197,10 @@
 					],
 					"enumDescriptions": [
 						"Show the Commit Details View inline with the graph",
-						"Show the Commit Details View docked to the bottom of the Git Graph view"
+						"Show the Commit Details View docked to the bottom of theGit Graphview"
 					],
 					"default": "Inline",
-					"description": "Specifies where the Commit Details View is rendered in the Git Graph view.",
+					"description": "指定提交细节视图在Git Graph视图中呈现的位置",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.commitDetailsView.location",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.commitDetailsView.location#`"
 				},
@@ -1217,7 +1217,7 @@
 						"Avoid showing commits on multiple lines of history intermixed."
 					],
 					"default": "date",
-					"markdownDescription": "Specifies the order of commits on the Git Graph view. See [git log](https://git-scm.com/docs/git-log#_commit_ordering) for more information on each order option.",
+					"markdownDescription": "Specifies the order of commits on theGit Graphview. See [git log](https://git-scm.com/docs/git-log#_commit_ordering) for more information on each order option.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.commits.order",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.commits.order#`"
 				},
@@ -1238,7 +1238,7 @@
 						"Show relative times, for example \"5 minutes ago\""
 					],
 					"default": "Date & Time",
-					"description": "Specifies the date format to be used in the \"Date\" column on the Git Graph View.",
+					"description": "Specifies the date format to be used in the \"Date\" column on theGit GraphView.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.date.format",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.date.format#`"
 				},
@@ -1253,7 +1253,7 @@
 						"Use the committer date of a commit"
 					],
 					"default": "Author Date",
-					"description": "Specifies the date type to be displayed in the \"Date\" column on the Git Graph View.",
+					"description": "Specifies the date type to be displayed in the \"Date\" column on theGit GraphView.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.date.type",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.date.type#`"
 				},
@@ -1275,7 +1275,7 @@
 				"git-graph.fetchAndPrune": {
 					"type": "boolean",
 					"default": false,
-					"description": "Before fetching from remote(s) using the Fetch button on the Git Graph View Control Bar, remove any remote-tracking references that no longer exist on the remote(s).",
+					"description": "Before fetching from remote(s) using the Fetch button on theGit Graph视图Control Bar, remove any remote-tracking references that no longer exist on the remote(s).",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.fetchAndPrune",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.fetchAndPrune#`"
 				},
@@ -1329,7 +1329,7 @@
 				"git-graph.includeCommitsMentionedByReflogs": {
 					"type": "boolean",
 					"default": false,
-					"description": "Include commits only mentioned by reflogs in the Git Graph View (only applies when showing all branches). This can be overridden per repository in the Git Graph View's Repository Settings Widget.",
+					"description": "Include commits only mentioned by reflogs in theGit Graph视图(only applies when showing all branches). 这可以在Git图形视图的仓库设置小部件中覆盖每个仓库",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.includeCommitsMentionedByReflogs",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.includeCommitsMentionedByReflogs#`"
 				},
@@ -1357,7 +1357,7 @@
 				"git-graph.muteCommitsThatAreNotAncestorsOfHead": {
 					"type": "boolean",
 					"default": false,
-					"description": "Display commits that aren't ancestors of the checked-out branch / commit with a muted text color. Muting will only occur if the commit referenced by HEAD is within the loaded commits on the Git Graph View.",
+					"description": "Display commits that aren't ancestors of the checked-out branch / commit with a muted text color. Muting will only occur if the commit referenced by HEAD is within the loaded commits on theGit GraphView.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.commits.mute.commitsThatAreNotAncestorsOfHead",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.commits.mute.commitsThatAreNotAncestorsOfHead#`"
 				},
@@ -1371,7 +1371,7 @@
 				"git-graph.onlyFollowFirstParent": {
 					"type": "boolean",
 					"default": false,
-					"markdownDescription": "Only follow the first parent of commits when discovering the commits to load in the Git Graph View. See [--first-parent](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent) to find out more about this setting.",
+					"markdownDescription": "Only follow the first parent of commits when discovering the commits to load in theGit GraphView. See [--first-parent](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent) to find out more about this setting.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.onlyFollowFirstParent",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.onlyFollowFirstParent#`"
 				},
@@ -1411,7 +1411,7 @@
 				"git-graph.openRepoToHead": {
 					"type": "boolean",
 					"default": false,
-					"description": "When opening or switching repositories in the Git Graph View, automatically scroll the view to be centered on the commit referenced by HEAD. This will only occur if the commit referenced by HEAD is within the loaded commits on the Git Graph View.",
+					"description": "When opening or switching repositories in theGit GraphView, automatically scroll the view to be centered on the commit referenced by HEAD. This will only occur if the commit referenced by HEAD is within the loaded commits on theGit GraphView.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.onLoad.scrollToHead",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.onLoad.scrollToHead#`"
 				},
@@ -1442,7 +1442,7 @@
 				"git-graph.showCurrentBranchByDefault": {
 					"type": "boolean",
 					"default": false,
-					"description": "Show the current branch by default when Git Graph is opened. Default: false (show all branches)",
+					"description": "Show the current branch by default whenGit Graphis opened. Default: false (show all branches)",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.onLoad.showCheckedOutBranch",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.onLoad.showCheckedOutBranch#`"
 				},
@@ -1456,21 +1456,21 @@
 				"git-graph.showTags": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show Tags in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget.",
+					"description": "Show Tags inGit Graphby default. 这可以在Git图形视图的仓库设置小部件中覆盖每个仓库",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.showTags",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.showTags#`"
 				},
 				"git-graph.showUncommittedChanges": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show uncommitted changes. If you work on large repositories, disabling this setting can reduce the load time of the Git Graph View.",
+					"description": "Show uncommitted changes. If you work on large repositories, disabling this setting can reduce the load time of theGit GraphView.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.showUncommittedChanges",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.showUncommittedChanges#`"
 				},
 				"git-graph.showUntrackedFiles": {
 					"type": "boolean",
 					"default": true,
-					"description": "Show untracked files when viewing the uncommitted changes. If you work on large repositories, disabling this setting can reduce the load time of the Git Graph View.",
+					"description": "Show untracked files when viewing the uncommitted changes. If you work on large repositories, disabling this setting can reduce the load time of theGit GraphView.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.showUntrackedFiles",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.showUntrackedFiles#`"
 				},
