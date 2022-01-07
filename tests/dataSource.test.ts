@@ -2570,7 +2570,7 @@ describe('DataSource', () => {
 				'remote.origin.pushurl\nhttps://github.com/mhutchie/vscode-git-graph-push.git\0' +
 				'remote.origin.fetch\n+refs/heads/*:refs/remotes/origin/*\0'
 			);
-			mockGitThrowingErrorOnce('fatal: unable to read config file \'c:/users/michael/.gitconfig\': no such file or directory');
+			mockGitThrowingErrorOnce('失败： 无法读取配置文件 \'c:/users/michael/.Gitconfig \':没有这样的文件或目录');
 
 			// Run
 			const result = await dataSource.getConfig('/path/to/repo', ['origin']);

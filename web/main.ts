@@ -1563,7 +1563,7 @@ class GitGraphView {
 		const mostRecentTags = mostRecentTagsIndex > -1 ? this.commits[mostRecentTagsIndex].tags.map((tag) => '"' + tag.name + '"') : [];
 
 		const inputs: DialogInput[] = [
-			{ type: DialogInputType.TextRef, name: '名称', default: initialName, info: mostRecentTags.length > 0 ? '在加载的提交中' + (mostRecentTags.length > 1 ? 's' : '') + ' 最近的标签' + (mostRecentTags.length > 1 ? '是' : '是') + ' ' + formatCommaSeparatedList(mostRecentTags) + '.' : undefined },
+			{ type: DialogInputType.TextRef, name: '名称', default: initialName, info: mostRecentTags.length > 0 ? '在加载的提交中' + (mostRecentTags.length > 1 ? 's' : '') + '最近的标签' + (mostRecentTags.length > 1 ? '是' : '是') + ' ' + formatCommaSeparatedList(mostRecentTags) + '.' : undefined },
 			{ type: DialogInputType.Select, name: '类型', default: initialType === GG.TagType.Annotated ? 'annotated' : 'lightweight', options: [{ name: '带注释', value: '带注释' }, { name: '轻量级的', value: '轻量级的' }] },
 			{ type: DialogInputType.Text, name: '消息', default: initialMessage, placeholder: '可选择', info: '消息只能添加到带注释的标记中' }
 		];

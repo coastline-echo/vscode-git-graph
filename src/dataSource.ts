@@ -1412,12 +1412,12 @@ export class DataSource extends Disposable {
 		}).catch((errorMessage) => {
 			if (typeof errorMessage === 'string') {
 				const message = errorMessage.toLowerCase();
-				if (message.startsWith('fatal: unable to read config file') && message.endsWith('no such file or directory')) {
+				if (message.startsWith('失败：无法读取配置文件') && message.endsWith('没有这样的文件或目录')) {
 					// If the Git command failed due to the configuration file not existing, return an empty list instead of throwing the exception
 					return {};
 				}
 			} else {
-				errorMessage = 'An unexpected error occurred while spawning the Git child process.';
+				errorMessage = '生成Git子进程时发生意外错误。';
 			}
 			throw errorMessage;
 		});
