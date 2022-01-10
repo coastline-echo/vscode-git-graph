@@ -1,7 +1,7 @@
 {
 	"name": "git-graph",
 	"displayName": "Git Graph",
-	"version": "1.31.0-beta-Chinese.3",
+	"version": "1.31.0-beta-Chinese.4",
 	"publisher": "mhutchie",
 	"author": {
 		"name": "Michael Hutchison",
@@ -44,7 +44,7 @@
 			{
 				"category": "Git Graph",
 				"command": "git-graph.view",
-				"title": "ViewGit Graph(git log)",
+				"title": "查看Git Graph(git日志)",
 				"icon": {
 					"light": "resources/cmd-icon-light.svg",
 					"dark": "resources/cmd-icon-dark.svg"
@@ -53,12 +53,12 @@
 			{
 				"category": "Git Graph",
 				"command": "git-graph.addGitRepository",
-				"title": "Add Git Repository..."
+				"title": "添加Git仓库..."
 			},
 			{
 				"category": "Git Graph",
 				"command": "git-graph.clearAvatarCache",
-				"title": "Clear Avatar Cache"
+				"title": "清除头像缓存"
 			},
 			{
 				"category": "Git Graph",
@@ -68,32 +68,32 @@
 			{
 				"category": "Git Graph",
 				"command": "git-graph.endSpecificWorkspaceCodeReview",
-				"title": "End a specific Code Review in Workspace..."
+				"title": "在工作区中结束一个特定的代码评审..."
 			},
 			{
 				"category": "Git Graph",
 				"command": "git-graph.fetch",
-				"title": "Fetch from Remote(s)"
+				"title": "从远程仓库获取"
 			},
 			{
 				"category": "Git Graph",
 				"command": "git-graph.removeGitRepository",
-				"title": "Remove Git Repository..."
+				"title": "删除Git仓库..."
 			},
 			{
 				"category": "Git Graph",
 				"command": "git-graph.resumeWorkspaceCodeReview",
-				"title": "Resume a specific Code Review in Workspace..."
+				"title": "在工作区中恢复一个特定的代码评审..."
 			},
 			{
 				"category": "Git Graph",
 				"command": "git-graph.version",
-				"title": "Get Version Information"
+				"title": "获取版本信息;"
 			},
 			{
 				"category": "Git Graph",
 				"command": "git-graph.openFile",
-				"title": "Open File",
+				"title": "打开文件",
 				"icon": "$(go-to-file)",
 				"enablement": "isInDiffEditor && resourceScheme == git-graph && git-graph:codiconsSupported"
 			}
@@ -981,7 +981,7 @@
 				"git-graph.repository.commits.fetchAvatars": {
 					"type": "boolean",
 					"default": false,
-					"description": "获取提交作者和提交者的头像。通过启用此设置，您同意提交作者和提交者电子邮件地址发送到 GitHub、GitLab 或 Gravatar，具体取决于仓库远程源"
+					"description": "获取提交作者和提交者的头像。通过启用此设置，您同意提交作者和提交者电子邮件地址发送到 GitHub、GitLab 或 Gravatar，具体取决于仓库远程源地址"
 				},
 				"git-graph.repository.commits.initialLoad": {
 					"type": "number",
