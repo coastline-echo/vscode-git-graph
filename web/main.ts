@@ -1932,7 +1932,7 @@ class GitGraphView {
 	}
 
 	private loadMoreCommits() {
-		this.footerElem.innerHTML = '<h2 id="loadingHeader">' + SVG_ICONS.loading + 'Loading ...</h2>';
+		this.footerElem.innerHTML = '<h2 id="loadingHeader">' + SVG_ICONS.loading + '加载中...</h2>';
 		this.maxCommits += this.config.loadMoreCommits;
 		this.saveState();
 		this.requestLoadRepoInfoAndCommits(false, true);
