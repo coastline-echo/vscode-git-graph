@@ -146,7 +146,7 @@ class GitGraphView {
 		}
 
 		const fetchBtn = document.getElementById('fetchBtn')!, findBtn = document.getElementById('findBtn')!, settingsBtn = document.getElementById('settingsBtn')!, terminalBtn = document.getElementById('terminalBtn')!;
-		fetchBtn.title = '从远处' + (this.config.fetchAndPrune ? ' & 剪除' : '') + '获取';
+		fetchBtn.title = '从远程' + (this.config.fetchAndPrune ? ' & 剪除' : '') + '获取';
 		fetchBtn.innerHTML = SVG_ICONS.download;
 		fetchBtn.addEventListener('click', () => this.fetchFromRemotesAction());
 		findBtn.innerHTML = SVG_ICONS.search;
@@ -159,7 +159,7 @@ class GitGraphView {
 				command: 'openTerminal',
 				repo: this.currentRepo,
 				name: this.gitRepos[this.currentRepo].name || getRepoName(this.currentRepo)
-			}, 'Opening Terminal');
+			}, '打开终端');
 		});
 	}
 
@@ -980,8 +980,8 @@ class GitGraphView {
 				title: '重命名分支' + ELLIPSIS,
 				visible: visibility.rename,
 				onClick: () => {
-					dialog.showRefInput('输入分支 <b><i>' + escapeHtml(refName) + '</i></b>的新名称:', refName, '重命名分支', (newName) => {
-						runAction({ command: 'renameBranch', repo: this.currentRepo, oldName: refName, newName: newName }, 'Renaming Branch');
+					dialog.showRefInput('输入分支 <b><i>' + escapeHtml(refName) + '</i></b> 的新名称:', refName, '重命名分支', (newName) => {
+						runAction({ command: 'renameBranch', repo: this.currentRepo, oldName: refName, newName: newName }, '分支重命名中');
 					}, target);
 				}
 			}, {
@@ -999,7 +999,7 @@ class GitGraphView {
 						});
 					}
 					dialog.showForm('你确定要删除分支 <b><i>' + escapeHtml(refName) + '</i></b>?', inputs, '是，删除', (values) => {
-						runAction({ command: 'deleteBranch', repo: this.currentRepo, branchName: refName, forceDelete: <boolean>values[0], deleteOnRemotes: remotesWithBranch.length > 0 && <boolean>values[1] ? remotesWithBranch : [] }, 'Deleting Branch');
+						runAction({ command: 'deleteBranch', repo: this.currentRepo, branchName: refName, forceDelete: <boolean>values[0], deleteOnRemotes: remotesWithBranch.length > 0 && <boolean>values[1] ? remotesWithBranch : [] }, '分支删除中');
 					}, target);
 				}
 			}, {
@@ -1050,7 +1050,7 @@ class GitGraphView {
 							setUpstream: setUpstream,
 							mode: <GG.GitPushBranchMode>values[1],
 							willUpdateBranchConfig: setUpstream && remotes.length > 0 && (this.gitConfig === null || typeof this.gitConfig.branches[refName] === 'undefined' || this.gitConfig.branches[refName].remote !== remotes[remotes.length - 1])
-						}, 'Pushing Branch');
+						}, '分支推送中');
 					}, target);
 				}
 			}
@@ -1063,7 +1063,7 @@ class GitGraphView {
 					const config = this.gitRepos[this.currentRepo].pullRequestConfig;
 					if (config === null) return;
 					dialog.showCheckbox('你确定要为分支创建一个拉取请求 <b><i>' + escapeHtml(refName) + '</i></b>吗?', '推送分支会在创建拉取请求之前', true, '是，创建拉取请求', (push) => {
-						runAction({ command: 'createPullRequest', repo: this.currentRepo, config: config, sourceRemote: config.sourceRemote, sourceOwner: config.sourceOwner, sourceRepo: config.sourceRepo, sourceBranch: refName, push: push }, 'Creating Pull Request');
+						runAction({ command: 'createPullRequest', repo: this.currentRepo, config: config, sourceRemote: config.sourceRemote, sourceOwner: config.sourceOwner, sourceRepo: config.sourceRepo, sourceBranch: refName, push: push }, '拉取请求创建中');
 					}, target);
 				}
 			}
@@ -1072,7 +1072,7 @@ class GitGraphView {
 				title: '创建存档',
 				visible: visibility.createArchive,
 				onClick: () => {
-					runAction({ command: 'createArchive', repo: this.currentRepo, ref: refName }, 'Creating Archive');
+					runAction({ command: 'createArchive', repo: this.currentRepo, ref: refName }, '存档创建中');
 				}
 			},
 			{
@@ -1105,16 +1105,16 @@ class GitGraphView {
 				visible: visibility.addTag,
 				onClick: () => this.addTagAction(hash, '', this.config.dialogDefaults.addTag.type, '', null, target)
 			}, {
-				title: '创建分支' + ELLIPSIS,
+				title: '创建新分支' + ELLIPSIS,
 				visible: visibility.createBranch,
 				onClick: () => this.createBranchAction(hash, '', this.config.dialogDefaults.createBranch.checkout, target)
 			}
 		], [
 			{
-				title: '切换' + (globalState.alwaysAcceptCheckoutCommit ? '' : ELLIPSIS),
+				title: '切换到' + (globalState.alwaysAcceptCheckoutCommit ? '' : ELLIPSIS),
 				visible: visibility.checkout,
 				onClick: () => {
-					const checkoutCommit = () => runAction({ command: 'checkoutCommit', repo: this.currentRepo, commitHash: hash }, 'Checking out Commit');
+					const checkoutCommit = () => runAction({ command: 'checkoutCommit', repo: this.currentRepo, commitHash: hash }, '正在切换到提交');
 					if (globalState.alwaysAcceptCheckoutCommit) {
 						checkoutCommit();
 					} else {
@@ -1166,7 +1166,7 @@ class GitGraphView {
 							parentIndex: parentIndex,
 							recordOrigin: <boolean>values[0],
 							noCommit: <boolean>values[1]
-						}, 'Cherry picking Commit');
+						}, '正在Cherry pick到提交');
 					}, target);
 				}
 			}, {
@@ -1178,12 +1178,12 @@ class GitGraphView {
 							name: abbrevCommit(hash) + (typeof this.commitLookup[hash] === 'number' ? ': ' + this.commits[this.commitLookup[hash]].message : ''),
 							value: (index + 1).toString()
 						}));
-						dialog.showSelect('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗? 选择主分支上的父hash值，以恢复相对于以下节点的提交:', '1', options, '是，回撤', (parentIndex) => {
-							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: parseInt(parentIndex) }, 'Reverting Commit');
+						dialog.showSelect('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗? 选择主分支上的父hash值，以恢复相对于以下节点的提交:', '1', options, '是，回撤', (parentIndex) => {
+							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: parseInt(parentIndex) }, '正在回撤到提交');
 						}, target);
 					} else {
-						dialog.showConfirmation('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗?', '是，回撤', () => {
-							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: 0 }, 'Reverting Commit');
+						dialog.showConfirmation('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?', '是，回撤', () => {
+							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: 0 }, '正在回撤到提交');
 						}, target);
 					}
 				}
@@ -1191,8 +1191,8 @@ class GitGraphView {
 				title: '删除' + ELLIPSIS,
 				visible: visibility.drop && this.graph.dropCommitPossible(this.commitLookup[hash]),
 				onClick: () => {
-					dialog.showConfirmation('你确定要永久地删除 <b><i>' + abbrevCommit(hash) + ' </i></b>提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意:通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
-						runAction({ command: 'dropCommit', repo: this.currentRepo, commitHash: hash }, 'Dropping Commit');
+					dialog.showConfirmation('你确定要永久地删除 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意:通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
+						runAction({ command: 'dropCommit', repo: this.currentRepo, commitHash: hash }, '正在删除提交');
 					}, target);
 				}
 			}
@@ -1202,19 +1202,19 @@ class GitGraphView {
 				visible: visibility.merge,
 				onClick: () => this.mergeAction(hash, abbrevCommit(hash), GG.MergeActionOn.Commit, target)
 			}, {
-				title: '在这个提交的基础上重新建立当前分支' + ELLIPSIS,
+				title: '基于该提交重新建立当前分支(Rebase)' + ELLIPSIS,
 				visible: visibility.rebase,
 				onClick: () => this.rebaseAction(hash, abbrevCommit(hash), GG.RebaseActionOn.Commit, target)
 			}, {
 				title: '复位当前分支到此处' + ELLIPSIS,
 				visible: visibility.reset,
 				onClick: () => {
-					dialog.showSelect('你确定要复位 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + ' 提交吗 <b><i>' + abbrevCommit(hash) + '</i></b>?', this.config.dialogDefaults.resetCommit.mode, [
+					dialog.showSelect('你确定要复位 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗 ?', this.config.dialogDefaults.resetCommit.mode, [
 						{ name: '软模式 - 保持工作目录和索引均不变', value: GG.GitResetMode.Soft },
 						{ name: '混合模式 - 不碰工作目录,只是复位索引', value: GG.GitResetMode.Mixed },
 						{ name: '硬模式 - 放弃所有本地修改', value: GG.GitResetMode.Hard }
 					], '是，复位', (mode) => {
-						runAction({ command: 'resetToCommit', repo: this.currentRepo, commit: hash, resetMode: <GG.GitResetMode>mode }, 'Resetting to Commit');
+						runAction({ command: 'resetToCommit', repo: this.currentRepo, commit: hash, resetMode: <GG.GitResetMode>mode }, '正在复位到提交');
 					}, target);
 				}
 			}
@@ -1247,24 +1247,24 @@ class GitGraphView {
 				visible: visibility.checkout,
 				onClick: () => this.checkoutBranchAction(refName, remote, null, target)
 			}, {
-				title: '删除远程仓库分支' + ELLIPSIS,
+				title: '删除远程仓库' + ELLIPSIS,
 				visible: visibility.delete && remote !== '',
 				onClick: () => {
-					dialog.showConfirmation('你确定要删除远程仓库分支 <b><i>' + escapeHtml(refName) + ' </i></b>吗?', '是，删除', () => {
-						runAction({ command: 'deleteRemoteBranch', repo: this.currentRepo, branchName: branchName, remote: remote }, 'Deleting Remote Branch');
+					dialog.showConfirmation('你确定要删除远程仓库分支 <b><i>' + escapeHtml(refName) + '</i></b> 吗?', '是，删除', () => {
+						runAction({ command: 'deleteRemoteBranch', repo: this.currentRepo, branchName: branchName, remote: remote }, '正在删除远程仓库');
 					}, target);
 				}
 			}, {
 				title: '获取到本地分支' + ELLIPSIS,
 				visible: visibility.fetch && remote !== '' && this.gitBranches.includes(branchName) && this.gitBranchHead !== branchName,
 				onClick: () => {
-					dialog.showForm('你确定你想获取远程仓库分支 <b><i>' + escapeHtml(refName) + '</i></b> 到本地分支 <b><i>' + escapeHtml(branchName) + ' </i></b>吗?', [{
+					dialog.showForm('你确定你想获取远程仓库分支 <b><i>' + escapeHtml(refName) + '</i></b> 到本地分支 <b><i>' + escapeHtml(branchName) + '</i></b> 吗?', [{
 						type: DialogInputType.Checkbox,
 						name: '强制获取',
 						value: this.config.dialogDefaults.fetchIntoLocalBranch.forceFetch,
 						info: '强制将本地分支复位到此远程仓库分支'
 					}], '是，获取', (values) => {
-						runAction({ command: 'fetchIntoLocalBranch', repo: this.currentRepo, remote: remote, remoteBranch: branchName, localBranch: branchName, force: <boolean>values[0] }, 'Fetching Branch');
+						runAction({ command: 'fetchIntoLocalBranch', repo: this.currentRepo, remote: remote, remoteBranch: branchName, localBranch: branchName, force: <boolean>values[0] }, '正在获取分支');
 					}, target);
 				}
 			}, {
@@ -1279,7 +1279,7 @@ class GitGraphView {
 						{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进是可能的(Create a new commit even if fast-forward is possible)', value: this.config.dialogDefaults.pullBranch.noFastForward },
 						{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.pullBranch.squash, info: '在当前分支上创建单独提交，其效果与合并到这个远程仓库分支相同' }
 					], '是，拉取', (values) => {
-						runAction({ command: 'pullBranch', repo: this.currentRepo, branchName: branchName, remote: remote, createNewCommit: <boolean>values[0], squash: <boolean>values[1] }, 'Pulling Branch');
+						runAction({ command: 'pullBranch', repo: this.currentRepo, branchName: branchName, remote: remote, createNewCommit: <boolean>values[0], squash: <boolean>values[1] }, '正在拉取分支');
 					}, target);
 				}
 			}
@@ -1310,7 +1310,7 @@ class GitGraphView {
 				title: '创建存档',
 				visible: visibility.createArchive,
 				onClick: () => {
-					runAction({ command: 'createArchive', repo: this.currentRepo, ref: refName }, 'Creating Archive');
+					runAction({ command: 'createArchive', repo: this.currentRepo, ref: refName }, '正在创建存档');
 				}
 			},
 			{
@@ -1341,28 +1341,28 @@ class GitGraphView {
 				title: '恢复暂存状态' + ELLIPSIS,
 				visible: visibility.apply,
 				onClick: () => {
-					dialog.showForm('你确定想要恢复暂存状态 <b><i>' + escapeHtml(selector.substring(5)) + ' </i></b>吗?', [{
+					dialog.showForm('你确定想要恢复暂存状态 <b><i>' + escapeHtml(selector.substring(5)) + '</i></b> 吗?', [{
 						type: DialogInputType.Checkbox,
 						name: '恢复索引',
 						value: this.config.dialogDefaults.applyStash.reinstateIndex,
 						info: '除了工作目录外，尝试恢复被更改的索引'
 					}], '是，恢复暂存状态', (values) => {
-						runAction({ command: 'applyStash', repo: this.currentRepo, selector: selector, reinstateIndex: <boolean>values[0] }, 'Applying Stash');
+						runAction({ command: 'applyStash', repo: this.currentRepo, selector: selector, reinstateIndex: <boolean>values[0] }, '正在恢复暂存状态');
 					}, target);
 				}
 			}, {
 				title: '从暂存区创建分支' + ELLIPSIS,
 				visible: visibility.createBranch,
 				onClick: () => {
-					dialog.showRefInput('从暂存区已 <b><i>' + escapeHtml(selector.substring(5)) + ' </i></b>创建一个分支:', '', '创建分支', (branchName) => {
-						runAction({ command: 'branchFromStash', repo: this.currentRepo, selector: selector, branchName: branchName }, 'Creating Branch');
+					dialog.showRefInput('从暂存区已 <b><i>' + escapeHtml(selector.substring(5)) + '</i></b> 创建一个分支:', '', '创建分支', (branchName) => {
+						runAction({ command: 'branchFromStash', repo: this.currentRepo, selector: selector, branchName: branchName }, '正在创建分支');
 					}, target);
 				}
 			}, {
 				title: 'Pop Stash(恢复并删除暂存状态)' + ELLIPSIS,
 				visible: visibility.pop,
 				onClick: () => {
-					dialog.showForm('你确定想要恢复并删除暂存状态 <b><i>' + escapeHtml(selector.substring(5)) + ' </i></b>吗?', [{
+					dialog.showForm('你确定想要恢复并删除暂存状态 <b><i>' + escapeHtml(selector.substring(5)) + '</i></b> 吗?', [{
 						type: DialogInputType.Checkbox,
 						name: '恢复索引',
 						value: this.config.dialogDefaults.popStash.reinstateIndex,
@@ -1372,11 +1372,11 @@ class GitGraphView {
 					}, target);
 				}
 			}, {
-				title: '删除暂存状态' + ELLIPSIS,
+				title: '删除暂存' + ELLIPSIS,
 				visible: visibility.drop,
 				onClick: () => {
-					dialog.showConfirmation('你确定想要删除暂存状态 <b><i>' + escapeHtml(selector.substring(5)) + ' </i></b>吗?', '是，删除', () => {
-						runAction({ command: 'dropStash', repo: this.currentRepo, selector: selector }, 'Dropping Stash');
+					dialog.showConfirmation('你确定想要删除暂存状态 <b><i>' + escapeHtml(selector.substring(5)) + '</i></b> 吗?', '是，删除', () => {
+						runAction({ command: 'dropStash', repo: this.currentRepo, selector: selector }, '正在删除暂存');
 					}, target);
 				}
 			}
@@ -1404,13 +1404,13 @@ class GitGraphView {
 				title: '查看详情',
 				visible: visibility.viewDetails && isAnnotated,
 				onClick: () => {
-					runAction({ command: 'tagDetails', repo: this.currentRepo, tagName: tagName, commitHash: hash }, 'Retrieving Tag Details');
+					runAction({ command: 'tagDetails', repo: this.currentRepo, tagName: tagName, commitHash: hash }, '正在检索标记详情');
 				}
 			}, {
 				title: '删除标签' + ELLIPSIS,
 				visible: visibility.delete,
 				onClick: () => {
-					let message = '你确定想要删除标签 <b><i>' + escapeHtml(tagName) + ' </i></b>?';
+					let message = '你确定想要删除标签 <b><i>' + escapeHtml(tagName) + '</i></b> ?';
 					if (this.gitRemotes.length > 1) {
 						let options = [{ name: '不要在任何远程仓库分支上删除', value: '-1' }];
 						this.gitRemotes.forEach((remote, i) => options.push({ name: remote, value: i.toString() }));
@@ -1439,17 +1439,17 @@ class GitGraphView {
 							remotes: remotes,
 							commitHash: hash,
 							skipRemoteCheck: globalState.pushTagSkipRemoteCheck
-						}, 'Pushing Tag');
+						}, '正在推送标签');
 					};
 
 					if (this.gitRemotes.length === 1) {
-						dialog.showConfirmation('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + '</i></b> 到远程仓库分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + ' </i></b>吗?', '是，推送', () => {
+						dialog.showConfirmation('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + '</i></b> 到远程仓库分支 <b><i>' + escapeHtml(this.gitRemotes[0]) + '</i></b> 吗?', '是，推送', () => {
 							runPushTagAction([this.gitRemotes[0]]);
 						}, target);
 					} else if (this.gitRemotes.length > 1) {
 						const defaults = [this.getPushRemote()];
 						const options = this.gitRemotes.map((remote) => ({ name: remote, value: remote }));
-						dialog.showMultiSelect('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + ' </i></b>吗? 选择要将标签推到的远程仓库分支:', defaults, options, '是，推送', (remotes) => {
+						dialog.showMultiSelect('你确定想要推送标签 <b><i>' + escapeHtml(tagName) + '</i></b> 吗? 选择要将标签推到的远程仓库分支:', defaults, options, '是，推送', (remotes) => {
 							runPushTagAction(remotes);
 						}, target);
 					}
@@ -1460,7 +1460,7 @@ class GitGraphView {
 				title: '创建存档',
 				visible: visibility.createArchive,
 				onClick: () => {
-					runAction({ command: 'createArchive', repo: this.currentRepo, ref: tagName }, 'Creating Archive');
+					runAction({ command: 'createArchive', repo: this.currentRepo, ref: tagName }, '正在创建存档');
 				}
 			},
 			{
@@ -1484,7 +1484,7 @@ class GitGraphView {
 						{ type: DialogInputType.Text, name: '消息', default: '', placeholder: '选择' },
 						{ type: DialogInputType.Checkbox, name: '包括未跟踪', value: this.config.dialogDefaults.stashUncommittedChanges.includeUntracked, info: '包括暂存的所有未跟踪文件，然后将它们从工作目录中清除' }
 					], '是，', (values) => {
-						runAction({ command: 'pushStash', repo: this.currentRepo, message: <string>values[0], includeUntracked: <boolean>values[1] }, 'Stashing uncommitted changes');
+						runAction({ command: 'pushStash', repo: this.currentRepo, message: <string>values[0], includeUntracked: <boolean>values[1] }, '正在暂存未提交的更改');
 					}, target);
 				}
 			}
@@ -1497,7 +1497,7 @@ class GitGraphView {
 						{ name: '混合模式 - 不碰工作目录,只是复位索引', value: GG.GitResetMode.Mixed },
 						{ name: '硬模式 - 放弃所有本地修改', value: GG.GitResetMode.Hard }
 					], '是，复位', (mode) => {
-						runAction({ command: 'resetToCommit', repo: this.currentRepo, commit: 'HEAD', resetMode: <GG.GitResetMode>mode }, 'Resetting uncommitted changes');
+						runAction({ command: 'resetToCommit', repo: this.currentRepo, commit: 'HEAD', resetMode: <GG.GitResetMode>mode }, '正在复位未提交的更改');
 					}, target);
 				}
 			}, {
@@ -1505,7 +1505,7 @@ class GitGraphView {
 				visible: visibility.clean,
 				onClick: () => {
 					dialog.showCheckbox('你确定要清除所有未跟踪的文件吗?', '清理未跟踪的目录', true, '是，清理', directories => {
-						runAction({ command: 'cleanUntrackedFiles', repo: this.currentRepo, directories: directories }, 'Cleaning untracked files');
+						runAction({ command: 'cleanUntrackedFiles', repo: this.currentRepo, directories: directories }, '正在清理未跟踪的文件');
 					}, target);
 				}
 			}
@@ -1581,7 +1581,7 @@ class GitGraphView {
 			inputs.push({ type: DialogInputType.Checkbox, name: '推送到远程仓库分支', value: defaultValue, info: '一旦这个标签被添加，就将其推送到远程仓库中' });
 		}
 
-		dialog.showForm('给 <b><i>' + abbrevCommit(hash) + ' </i></b>提交添加标签:', inputs, '添加标签', (values) => {
+		dialog.showForm('给 <b><i>' + abbrevCommit(hash) + '</i></b> 提交添加标签:', inputs, '添加标签', (values) => {
 			const tagName = <string>values[0];
 			const type = <string>values[1] === 'annotated' ? GG.TagType.Annotated : GG.TagType.Lightweight;
 			const message = <string>values[2];
@@ -1602,7 +1602,7 @@ class GitGraphView {
 					pushToRemote: pushToRemote,
 					pushSkipRemoteCheck: globalState.pushTagSkipRemoteCheck,
 					force: force
-				}, 'Adding Tag');
+				}, '正在添加标签');
 			};
 
 			if (this.gitTags.includes(tagName)) {
@@ -1638,14 +1638,14 @@ class GitGraphView {
 									squash: this.config.dialogDefaults.pullBranch.squash
 								}
 								: null
-						}, 'Checking out Branch' + (canPullFromRemote ? ' & Pulling Changes' : ''));
+						}, '正在切换分支' + (canPullFromRemote ? ' & 正在拉取更改' : ''));
 					}, target);
 				} else {
-					runAction({ command: 'checkoutBranch', repo: this.currentRepo, branchName: newBranch, remoteBranch: refName, pullAfterwards: null }, 'Checking out Branch');
+					runAction({ command: 'checkoutBranch', repo: this.currentRepo, branchName: newBranch, remoteBranch: refName, pullAfterwards: null }, '正在切换分支');
 				}
 			}, target);
 		} else {
-			runAction({ command: 'checkoutBranch', repo: this.currentRepo, branchName: refName, remoteBranch: null, pullAfterwards: null }, 'Checking out Branch');
+			runAction({ command: 'checkoutBranch', repo: this.currentRepo, branchName: refName, remoteBranch: null, pullAfterwards: null }, '正在切换分支');
 		}
 	}
 
@@ -1657,22 +1657,22 @@ class GitGraphView {
 			const branchName = <string>values[0], checkOut = <boolean>values[1];
 			if (this.gitBranches.includes(branchName)) {
 				dialog.showTwoButtons('一个名为 <b><i>' + escapeHtml(branchName) + '</i></b> 的分支已经存在, 你想用这个新的分支替换它吗?', '是的，替换现有的分支', () => {
-					runAction({ command: 'createBranch', repo: this.currentRepo, branchName: branchName, commitHash: hash, checkout: checkOut, force: true }, 'Creating Branch');
+					runAction({ command: 'createBranch', repo: this.currentRepo, branchName: branchName, commitHash: hash, checkout: checkOut, force: true }, '正在创建分支');
 				}, '不, 选择另一个分支名称', () => {
 					this.createBranchAction(hash, branchName, checkOut, target);
 				}, target);
 			} else {
-				runAction({ command: 'createBranch', repo: this.currentRepo, branchName: branchName, commitHash: hash, checkout: checkOut, force: false }, 'Creating Branch');
+				runAction({ command: 'createBranch', repo: this.currentRepo, branchName: branchName, commitHash: hash, checkout: checkOut, force: false }, '正在创建分支');
 			}
 		}, target);
 	}
 
 	private deleteTagAction(refName: string, deleteOnRemote: string | null) {
-		runAction({ command: 'deleteTag', repo: this.currentRepo, tagName: refName, deleteOnRemote: deleteOnRemote }, 'Deleting Tag');
+		runAction({ command: 'deleteTag', repo: this.currentRepo, tagName: refName, deleteOnRemote: deleteOnRemote }, '正在删除标签');
 	}
 
 	private fetchFromRemotesAction() {
-		runAction({ command: 'fetch', repo: this.currentRepo, name: null, prune: this.config.fetchAndPrune, pruneTags: this.config.fetchAndPruneTags }, 'Fetching from Remote(s)');
+		runAction({ command: 'fetch', repo: this.currentRepo, name: null, prune: this.config.fetchAndPrune, pruneTags: this.config.fetchAndPruneTags }, '从远程获取');
 	}
 
 	private mergeAction(obj: string, name: string, actionOn: GG.MergeActionOn, target: DialogTarget & (CommitTarget | RefTarget)) {
@@ -1681,7 +1681,7 @@ class GitGraphView {
 			{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.merge.squash, info: '在当前分支上创建单独提交，其效果与合并此提交相同' + actionOn.toLowerCase() + '.' },
 			{ type: DialogInputType.Checkbox, name: '不提交', value: this.config.dialogDefaults.merge.noCommit, info: '合并的更改将被暂存，但不会被提交，因此你可以在提交之前检查或修改合并的结果' }
 		], 'Yes, merge', (values) => {
-			runAction({ command: 'merge', repo: this.currentRepo, obj: obj, actionOn: actionOn, createNewCommit: <boolean>values[0], squash: <boolean>values[1], noCommit: <boolean>values[2] }, 'Merging ' + actionOn);
+			runAction({ command: 'merge', repo: this.currentRepo, obj: obj, actionOn: actionOn, createNewCommit: <boolean>values[0], squash: <boolean>values[1], noCommit: <boolean>values[2] }, '正在合并 ' + actionOn);
 		}, target);
 	}
 
@@ -1932,7 +1932,7 @@ class GitGraphView {
 	}
 
 	private loadMoreCommits() {
-		this.footerElem.innerHTML = '<h2 id="loadingHeader">' + SVG_ICONS.loading + 'Loading ...</h2>';
+		this.footerElem.innerHTML = '<h2 id="loadingHeader">' + SVG_ICONS.loading + '加载中...</h2>';
 		this.maxCommits += this.config.loadMoreCommits;
 		this.saveState();
 		this.requestLoadRepoInfoAndCommits(false, true);
@@ -2686,7 +2686,7 @@ class GitGraphView {
 						fromHash: commitOrder.from,
 						toHash: commitOrder.to,
 						isGui: this.gitConfig.guiDiffTool !== null
-					}, 'Opening External Directory Diff');
+					}, '正在打开外部目录差异');
 				});
 			}
 		}
@@ -2932,8 +2932,8 @@ class GitGraphView {
 			if (expandedCommit === null) return;
 
 			const commitHash = getCommitHashForFile(file, expandedCommit);
-			dialog.showConfirmation('你确定要复位 <b><i>' + escapeHtml(file.newFilePath) + '</i></b> 使其处于提交的状态 <b><i>' + abbrevCommit(commitHash) + '</i></b>吗? 对该文件所做的任何未提交的更改都将被覆盖.', '是，复位文件', () => {
-				runAction({ command: 'resetFileToRevision', repo: this.currentRepo, commitHash: commitHash, filePath: file.newFilePath }, 'Resetting file');
+			dialog.showConfirmation('你确定要复位 <b><i>' + escapeHtml(file.newFilePath) + '</i></b> 使其处于提交的状态 <b><i>' + abbrevCommit(commitHash) + '</i></b> 吗? 对该文件所做的任何未提交的更改都将被覆盖。', '是，复位文件', () => {
+				runAction({ command: 'resetFileToRevision', repo: this.currentRepo, commitHash: commitHash, filePath: file.newFilePath }, '正在复位文件');
 			}, {
 				type: TargetType.CommitDetailsView,
 				hash: commitHash,
@@ -3418,7 +3418,7 @@ window.addEventListener('load', () => {
 	function handleResponseDeleteBranch(msg: GG.ResponseDeleteBranch) {
 		if (msg.errors.length > 0 && msg.errors[0] !== null && msg.errors[0].includes('git branch -D')) {
 			dialog.showConfirmation('分支 <b><i>' + escapeHtml(msg.branchName) + '</i></b> 没有被完全合并。你要强制删除它吗?', '是的，强制删除分支', () => {
-				runAction({ command: 'deleteBranch', repo: msg.repo, branchName: msg.branchName, forceDelete: true, deleteOnRemotes: msg.deleteOnRemotes }, 'Deleting Branch');
+				runAction({ command: 'deleteBranch', repo: msg.repo, branchName: msg.branchName, forceDelete: true, deleteOnRemotes: msg.deleteOnRemotes }, '正在删除分支');
 			}, { type: TargetType.Repo });
 		} else {
 			refreshAndDisplayErrors(msg.errors, '无法删除分支');
@@ -3445,7 +3445,7 @@ window.addEventListener('load', () => {
 				remotes: remotes,
 				commitHash: commitHash,
 				skipRemoteCheck: true
-			}, 'Pushing Tag');
+			}, '标签推送中');
 		}, { type: TargetType.Repo }, '取消', null, true);
 	}
 
