@@ -1,7 +1,7 @@
 {
 	"name": "git-graph",
 	"displayName": "Git Graph",
-	"version": "1.31.0-beta-Chinese.5",
+	"version": "1.31.0-beta-Chinese.6",
 	"publisher": "mhutchie",
 	"author": {
 		"name": "Michael Hutchison",
@@ -642,7 +642,7 @@
 				"git-graph.dialog.popStash.reinstateIndex": {
 					"type": "boolean",
 					"default": false,
-					"description": "Default state of the \"Reinstate Index\" checkbox."
+					"description": " “Reinstate Index(恢复索引)” 复选框的默认状态"
 				},
 				"git-graph.dialog.pullBranch.noFastForward": {
 					"type": "boolean",
@@ -773,7 +773,7 @@
 				"git-graph.integratedTerminalShell": {
 					"type": "string",
 					"default": "",
-					"description": "指定由Git Graph打开时 Visual Studio Code 集成终端要使用的 Shell 可执行文件的路径和文件名。例如，要在 Windows 上使用 Git Bash，此设置通常设置为 \"C:\\Program Files\\Git\\bin\\bash.exe\"。如果此设置留空，则使用默认 Shell",
+					"description": "指定由Git Graph打开时 VS Code 集成终端要使用的 Shell 可执行文件的路径和文件名。例如，要在 Windows 上使用 Git Bash，此设置通常设置为 \"C:\\Program Files\\Git\\bin\\bash.exe\"。如果此设置留空，则使用默认 Shell",
 					"scope": "machine"
 				},
 				"git-graph.keyboardShortcut.find": {
@@ -986,7 +986,7 @@
 				"git-graph.repository.commits.initialLoad": {
 					"type": "number",
 					"default": 300,
-					"description": "S指定初始加载的提交次数"
+					"description": "指定初始加载的提交次数"
 				},
 				"git-graph.repository.commits.loadMore": {
 					"type": "number",
@@ -1026,7 +1026,7 @@
 				"git-graph.repository.commits.showSignatureStatus": {
 					"type": "boolean",
 					"default": false,
-					"description": "在提交详细信息视图中的提交者右侧显示提交的签名状态（仅适用于签名提交）。将鼠标悬停在签名图标上会显示带有签名详细信息的工具提示。需要在运行 Visual Studio Code 的同一台机器上安装 Git（>= 2.4.0）和 GPG（或等效版本）"
+					"description": "在提交详细信息视图中的提交者右侧显示提交的签名状态（仅适用于签名提交）。将鼠标悬停在签名图标上会显示带有签名详细信息的工具提示。需要在运行 VS Code 的同一台机器上安装 Git（>= 2.4.0）和 GPG（或等效版本）"
 				},
 				"git-graph.repository.fetchAndPrune": {
 					"type": "boolean",
@@ -1127,15 +1127,15 @@
 					"enumDescriptions": [
 						"按仓库的完整路径的字母顺序对仓库进行排序",
 						"按仓库名称的字母顺序对仓库进行排序",
-						"根据 Visual Studio Code 工作区文件夹顺序对仓库进行排序，然后按仓库的完整路径的字母顺序排列"
+						"根据 VS Code 工作区文件夹顺序对仓库进行排序，然后按仓库的完整路径的字母顺序排列"
 					],
 					"default": "Workspace Full Path",
-					"description": "指定仓库在Git Graph视图的仓库下拉列表中的排序顺序（仅当当前 Visual Studio Code 工作区中存在多个仓库时才可见）"
+					"description": "指定仓库在Git Graph视图的仓库下拉列表中的排序顺序（仅当当前 VS Code 工作区中存在多个仓库时才可见）"
 				},
 				"git-graph.retainContextWhenHidden": {
 					"type": "boolean",
 					"default": true,
-					"description": "指定当面板不再可见（例如移动到背景选项卡）时是否保留Git Graph视图的 Visual Studio Code 上下文。当切换回Git Graph选项卡时，启用此设置将使Git Graph加载速度显着加快，但具有更高的内存开销"
+					"description": "指定当面板不再可见（例如移动到背景选项卡）时是否保留Git Graph视图的 VS Code 上下文。当切换回Git Graph选项卡时，启用此设置将使Git Graph加载速度显着加快，但具有更高的内存开销"
 				},
 				"git-graph.showStatusBarItem": {
 					"type": "boolean",
@@ -1162,8 +1162,8 @@
 						"grey"
 					],
 					"enumDescriptions": [
-						"显示适合大多数 Visual Studio Code 颜色主题的颜色图标",
-						"显示一个灰色图标，它适合主要是灰度的 Visual Studio Code 颜色主题"
+						"显示适合大多数 VS Code 颜色主题的颜色图标",
+						"显示一个灰色图标，它适合主要是灰度的 VS Code 颜色主题"
 					],
 					"default": "colour",
 					"description": "指定Git Graph选项卡上显示的图标的颜色主题"
@@ -1391,20 +1391,20 @@
 						"Nine"
 					],
 					"enumDescriptions": [
-						"Open the Visual Studio Code Diff View in the Active Editor Group.",
-						"Open the Visual Studio Code Diff View beside the Active Editor Group.",
-						"Open the Visual Studio Code Diff View in the First Editor Group.",
-						"Open the Visual Studio Code Diff View in the Second Editor Group.",
-						"Open the Visual Studio Code Diff View in the Third Editor Group.",
-						"Open the Visual Studio Code Diff View in the Fourth Editor Group.",
-						"Open the Visual Studio Code Diff View in the Fifth Editor Group.",
-						"Open the Visual Studio Code Diff View in the Sixth Editor Group.",
-						"Open the Visual Studio Code Diff View in the Seventh Editor Group.",
-						"Open the Visual Studio Code Diff View in the Eighth Editor Group.",
-						"Open the Visual Studio Code Diff View in the Ninth Editor Group."
+						"Open the VS Code Diff View in the Active Editor Group.",
+						"Open the VS Code Diff View beside the Active Editor Group.",
+						"Open the VS Code Diff View in the First Editor Group.",
+						"Open the VS Code Diff View in the Second Editor Group.",
+						"Open the VS Code Diff View in the Third Editor Group.",
+						"Open the VS Code Diff View in the Fourth Editor Group.",
+						"Open the VS Code Diff View in the Fifth Editor Group.",
+						"Open the VS Code Diff View in the Sixth Editor Group.",
+						"Open the VS Code Diff View in the Seventh Editor Group.",
+						"Open the VS Code Diff View in the Eighth Editor Group.",
+						"Open the VS Code Diff View in the Ninth Editor Group."
 					],
 					"default": "Active",
-					"description": "Specifies which Editor Group the Visual Studio Code Diff View is opened in.",
+					"description": "Specifies which Editor Group the VS Code Diff View is opened in.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.openNewTabEditorGroup",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.openNewTabEditorGroup#`"
 				},
@@ -1449,7 +1449,7 @@
 				"git-graph.showSignatureStatus": {
 					"type": "boolean",
 					"default": false,
-					"description": "Show the commit's signature status to the right of the Committer in the Commit Details View (only for signed commits). Hovering over the signature icon displays a tooltip with the signature details. Requires Git (>= 2.4.0) & GPG (or equivalent) to be installed on the same machine that is running Visual Studio Code.",
+					"description": "Show the commit's signature status to the right of the Committer in the Commit Details View (only for signed commits). Hovering over the signature icon displays a tooltip with the signature details. Requires Git (>= 2.4.0) & GPG (or equivalent) to be installed on the same machine that is running VS Code.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.commits.showSignatureStatus",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.commits.showSignatureStatus#`"
 				},
