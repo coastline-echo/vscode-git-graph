@@ -605,7 +605,7 @@
 					],
 					"enumDescriptions": [
 						"不要替换空格",
-						"用连字符替换空格字符，例如：\"new branch\" -> \"new-branch\"。",
+						"用连字符替换空格字符，例如: \"new branch\" -> \"new-branch\"。",
 						"用下划线替换空格字符，例如: \"new branch\" -> \"new_branch\"."
 					],
 					"default": "None",
@@ -920,7 +920,7 @@
 				"git-graph.maxDepthOfRepoSearch": {
 					"type": "number",
 					"default": 0,
-					"description": "指定在工作区中发现仓库时要搜索的子文件夹的最大深度。注意：搜索子文件夹时不会自动检测子仓库，但可以通过在命令面板中运行 \"Git Graph: Add Git Repository\" 命令手动添加它们"
+					"description": "指定在工作区中发现仓库时要搜索的子文件夹的最大深度。注意: 搜索子文件夹时不会自动检测子仓库，但可以通过在命令面板中运行 \"Git Graph: Add Git Repository\" 命令手动添加它们"
 				},
 				"git-graph.openNewTabEditorGroup": {
 					"type": "string",
@@ -951,7 +951,7 @@
 						"在第九个编辑器组中打开新选项卡"
 					],
 					"default": "Active",
-					"description": "从Git Graph视图执行以下操作时，指定Git Graph应在其中打开新选项卡的编辑器组：查看 Visual Studio 代码差异视图、打开文件、查看特定修订版的文件"
+					"description": "从Git Graph视图执行以下操作时，指定Git Graph应在其中打开新选项卡的编辑器组:查看 Visual Studio 代码差异视图、打开文件、查看特定修订版的文件"
 				},
 				"git-graph.openToTheRepoOfTheActiveTextEditorDocument": {
 					"type": "boolean",
@@ -1036,7 +1036,7 @@
 				"git-graph.repository.fetchAndPruneTags": {
 					"type": "boolean",
 					"default": false,
-					"description": "在使用Git图形视图控制条上的获取按钮从远程获取之前，除远程上不再存在的任何本地标签。需要 Git >= 2.17.0，并启用“Repository: Fetch And Prune”设置。注意：如果您在具有多个远程的仓库中工作，则不建议使用此设置（相反，您可以通过Git Graph视图上的仓库设置小部件中的“获取远程”对话框修剪特定远程的标签）"
+					"description": "在使用Git图形视图控制条上的获取按钮从远程获取之前，除远程上不再存在的任何本地标签。需要 Git >= 2.17.0，并启用“Repository: Fetch And Prune”设置。注意:如果您在具有多个远程的仓库中工作，则不建议使用此设置（相反，您可以通过Git Graph视图上的仓库设置小部件中的“获取远程”对话框修剪特定远程的标签）"
 				},
 				"git-graph.repository.includeCommitsMentionedByReflogs": {
 					"type": "boolean",
@@ -1060,7 +1060,7 @@
 						"description": "本地分支名称（例如\"master\"）, 以“remotes/”为前缀的远程跟踪分支名称例如 \"remotes/origin/master\"), 或者在 git-graph.customBranchGlobPatterns 中以“--glob=”为前缀的全局模式(例如. \"--glob=heads/feature/*\")."
 					},
 					"default": [],
-					"markdownDescription": "在Git Graph视图中加载仓库时显示特定分支。可以按如下方式指定分支：本地分支名称(例如 `master` ), 以“remotes/”为前缀的远程跟踪分支名称(例如 `remotes/origin/master`), 或者在 `git-graph.customBranchGlobPatterns`中以“--glob=”为前缀的全局模式(例如. `--glob=heads/feature/*`). 此设置可与 \"Repository > On Load: Show Checked Out Branch\"结合使用。默认值:[](显示所有分支)"
+					"markdownDescription": "在Git Graph视图中加载仓库时显示特定分支。可以按如下方式指定分支:本地分支名称(例如 `master` ), 以“remotes/”为前缀的远程跟踪分支名称(例如 `remotes/origin/master`), 或者在 `git-graph.customBranchGlobPatterns`中以“--glob=”为前缀的全局模式(例如. `--glob=heads/feature/*`). 此设置可与 \"Repository > On Load: Show Checked Out Branch\"结合使用。默认值:[](显示所有分支)"
 				},
 				"git-graph.repository.onlyFollowFirstParent": {
 					"type": "boolean",
