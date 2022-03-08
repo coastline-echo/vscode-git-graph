@@ -307,7 +307,7 @@ class Dialog {
 	 * @param actioned An optional callback to be invoked when the primary action is triggered.
 	 */
 	public showError(message: string, reason: GG.ErrorInfo, actionName: string | null, actioned: (() => void) | null) {
-		this.show(DialogType.Message, '<span class="dialogAlert">' + SVG_ICONS.alert + 'Error: ' + message + '</span>' + (reason !== null ? '<br><span class="messageContent errorContent">' + escapeHtml(reason).split('\n').join('<br>') + '</span>' : ''), actionName, '取消', () => {
+		this.show(DialogType.Message, '<span class="dialogAlert">' + SVG_ICONS.alert + '错误：' + message + '</span>' + (reason !== null ? '<br><span class="messageContent errorContent">' + escapeHtml(reason).split('\n').join('<br>') + '</span>' : ''), actionName, '取消', () => {
 			this.close();
 			if (actioned !== null) actioned();
 		}, null, null);

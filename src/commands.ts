@@ -185,12 +185,12 @@ export class CommandManager extends Disposable {
 	private clearAvatarCache() {
 		this.avatarManager.clearCache().then((errorInfo) => {
 			if (errorInfo === null) {
-				showInformationMessage('Avatar缓存被成功清除。');
+				showInformationMessage('头像缓存被成功清除。');
 			} else {
 				showErrorMessage(errorInfo);
 			}
 		}, () => {
-			showErrorMessage('运行“清除Avatar缓存”命令时发生意外错误。');
+			showErrorMessage('运行“清除头像缓存”命令时发生意外错误。');
 		});
 	}
 
@@ -341,7 +341,7 @@ export class CommandManager extends Disposable {
 				}
 			});
 		} else {
-			return showErrorMessage('无法打开文件:没有使用所需的参数调用命令');
+			return showErrorMessage('无法打开文件：没有使用所需的参数调用命令');
 		}
 	}
 

@@ -861,8 +861,7 @@ class GitGraphView {
 			const commitDot = commit.hash === this.commitHead
 				? '<span class="commitHeadDot" title="' + (branchCheckedOutAtCommit !== null
 					? '当前是否在此提交时切换 ' + escapeHtml('"' + branchCheckedOutAtCommit + '"') + ' 这个分支'
-					: '当前已切换这个提交'
-				) + '."></span>'
+					: '当前已切换这个提交') + '"></span>'
 				: '';
 
 			html += '<tr class="commit' + (commit.hash === currentHash ? ' current' : '') + (mutedCommits[i] ? ' mute' : '') + '"' + (commit.hash !== UNCOMMITTED ? '' : ' id="uncommittedChanges"') + ' data-id="' + i + '" data-color="' + vertexColours[i] + '">' +
@@ -1191,7 +1190,7 @@ class GitGraphView {
 				title: '删除' + ELLIPSIS,
 				visible: visibility.drop && this.graph.dropCommitPossible(this.commitLookup[hash]),
 				onClick: () => {
-					dialog.showConfirmation('你确定要永久地删除 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意:通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
+					dialog.showConfirmation('你确定要永久地删除 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意：通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
 						runAction({ command: 'dropCommit', repo: this.currentRepo, commitHash: hash }, '正在删除提交');
 					}, target);
 				}
@@ -2557,12 +2556,12 @@ class GitGraphView {
 						}).join(', ')
 						: 'None';
 					html += '<span class="cdvSummaryTop' + (expandedCommit.avatar !== null ? ' withAvatar' : '') + '"><span class="cdvSummaryTopRow"><span class="cdvSummaryKeyValues">'
-						+ '<b>提交: </b>' + escapeHtml(commitDetails.hash) + '<br>'
-						+ '<b>父节点: </b>' + parents + '<br>'
-						+ '<b>作者: </b>' + escapeHtml(commitDetails.author) + (commitDetails.authorEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.authorEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.authorEmail) + '</a>&gt;' : '') + '<br>'
+						+ '<b>提交：</b>' + escapeHtml(commitDetails.hash) + '<br>'
+						+ '<b>父节点：</b>' + parents + '<br>'
+						+ '<b>作者：</b>' + escapeHtml(commitDetails.author) + (commitDetails.authorEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.authorEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.authorEmail) + '</a>&gt;' : '') + '<br>'
 						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>作者时间: </b>' + formatLongDate(commitDetails.authorDate) + '<br>' : '')
-						+ '<b>提交人: </b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
-						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? 'Committer ' : '') + '时间: </b>' + formatLongDate(commitDetails.committerDate)
+						+ '<b>提交人：</b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
+						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? 'Committer ' : '') + '时间：</b>' + formatLongDate(commitDetails.committerDate)
 						+ '</span>'
 						+ (expandedCommit.avatar !== null ? '<span class="cdvSummaryAvatar"><img src="' + expandedCommit.avatar + '"></span>' : '')
 						+ '</span></span><br><br>' + textFormatter.format(commitDetails.body);
@@ -3428,7 +3427,7 @@ window.addEventListener('load', () => {
 	function handleResponsePushTagCommitNotOnRemote(repo: string, tagName: string, remotes: string[], commitHash: string, error: string) {
 		const remotesNotContainingCommit: string[] = parseExtensionErrorInfo(error, GG.ErrorInfoExtensionPrefix.PushTagCommitNotOnRemote);
 
-		const html = '<span class="dialogAlert">' + SVG_ICONS.alert + '警告:不是在远程分支上提交' + (remotesNotContainingCommit.length > 1 ? 's ' : ' ') + '</span><br>' +
+		const html = '<span class="dialogAlert">' + SVG_ICONS.alert + '警告：不是在远程分支上提交' + (remotesNotContainingCommit.length > 1 ? 's ' : ' ') + '</span><br>' +
 			'<span class="messageContent">' +
 			'<p style="margin:0 0 6px 0;">标签 <b><i>' + escapeHtml(tagName) + '</i></b> 是否在不属于远程仓库任何一个已知分支的提交上' + (remotesNotContainingCommit.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotesNotContainingCommit.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + '.</p>' +
 			'<p style="margin:0;">你要继续将标签推到远程吗' + (remotes.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotes.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + ' 不管怎样?</p>' +

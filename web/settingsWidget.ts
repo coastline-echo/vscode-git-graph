@@ -204,10 +204,10 @@ class SettingsWidget {
 			const issueLinkingConfig = this.repo.issueLinkingConfig || globalState.issueLinkingConfig;
 			if (issueLinkingConfig !== null) {
 				const escapedIssue = escapeHtml(issueLinkingConfig.issue), escapedUrl = escapeHtml(issueLinkingConfig.url);
-				html += '<table><tr><td class="left">Issue正则表达式:</td><td class="leftWithEllipsis" title="' + escapedIssue + '">' + escapedIssue + '</td></tr><tr><td class="left">Issue URL:</td><td class="leftWithEllipsis" title="' + escapedUrl + '">' + escapedUrl + '</td></tr></table>' +
-					'<div class="settingsSectionButtons"><div id="editIssueLinking" class="editBtn">' + SVG_ICONS.pencil + 'Edit</div><div id="removeIssueLinking" class="removeBtn">' + SVG_ICONS.close + 'Remove</div></div>';
+				html += '<table><tr><td class="left">Issue正则表达：</td><td class="leftWithEllipsis" title="' + escapedIssue + '">' + escapedIssue + '</td></tr><tr><td class="left">Issue URL：</td><td class="leftWithEllipsis" title="' + escapedUrl + '">' + escapedUrl + '</td></tr></table>' +
+					'<div class="settingsSectionButtons"><div id="editIssueLinking" class="editBtn">' + SVG_ICONS.pencil + '编辑</div><div id="removeIssueLinking" class="removeBtn">' + SVG_ICONS.close + '删除</div></div>';
 			} else {
-				html += '<span>issue链接将提交&amp标签消息中的issue编号转换为超链接，在issue跟踪系统中打开该issue。如果一个分支的名称包含一个issue编号，那么issue可以通过分支的上下文菜单来查看。<br />如果一个分支的名称包含一个issue编号，issue可以通过分支的上下文菜单查看。</span>' +
+				html += '<span>issue链接将\"提交消息\"中的issue编号转换为超链接，从而在issue跟踪系统中打开该issue。<br />如果一个分支的名称包含一个issue编号，issue可以通过分支的上下文菜单查看。</span>' +
 					'<div class="settingsSectionButtons"><div id="editIssueLinking" class="addBtn">' + SVG_ICONS.plus + '添加Issue链接</div></div>';
 			}
 			html += '</div>';
@@ -231,7 +231,7 @@ class SettingsWidget {
 						'<tr><td class="left">Source Repo:</td><td class="leftWithEllipsis" title="' + source + '">' + source + '</td></tr>' +
 						'<tr><td class="left">Destination Repo:</td><td class="leftWithEllipsis" title="' + destination + '">' + destination + '</td></tr>' +
 						'<tr><td class="left">Destination Branch:</td><td class="leftWithEllipsis" title="' + destinationBranch + '">' + destinationBranch + '</td></tr></table>' +
-						'<div class="settingsSectionButtons"><div id="editPullRequestIntegration" class="editBtn">' + SVG_ICONS.pencil + 'Edit</div><div id="removePullRequestIntegration" class="removeBtn">' + SVG_ICONS.close + 'Remove</div></div>';
+						'<div class="settingsSectionButtons"><div id="editPullRequestIntegration" class="editBtn">' + SVG_ICONS.pencil + '编辑</div><div id="removePullRequestIntegration" class="removeBtn">' + SVG_ICONS.close + '删除</div></div>';
 				} else {
 					html += '<span>创建拉取请求会自动打开并且直接从一个分支的上下文菜单中预填充一个拉取请求表单。</span>' +
 						'<div class="settingsSectionButtons"><div id="editPullRequestIntegration" class="addBtn">' + SVG_ICONS.plus + '综合配置"创建拉取请求"</div></div>';
@@ -250,7 +250,7 @@ class SettingsWidget {
 				if (this.currentRepo === null || this.repo === null) return;
 				dialog.showForm('为这个仓库指定一个名称:', [
 					{ type: DialogInputType.Text, name: '保存', default: this.repo.name || '', placeholder: getRepoName(this.currentRepo) }
-				], 'Save Name', (values) => {
+				], '保存名称', (values) => {
 					if (this.currentRepo === null) return;
 					this.view.saveRepoStateValue(this.currentRepo, 'name', <string>values[0] || null);
 					this.view.renderRepoDropdownOptions();
@@ -274,7 +274,7 @@ class SettingsWidget {
 				if (this.repo === null) return;
 				const showCheckedOutBranch = getOnRepoLoadShowCheckedOutBranch(this.repo.onRepoLoadShowCheckedOutBranch);
 				const showSpecificBranches = getOnRepoLoadShowSpecificBranches(this.repo.onRepoLoadShowSpecificBranches);
-				dialog.showForm('<b>配置初始分支</b><p style="margin:6px 0;">配置在Git Graph视图中加载仓库时最初显示的分支。</p><p style="font-size:12px; margin:6px 0 0 0;">注意:当“切换分支”被禁用，且没有选择“具体的分支”时，将显示所有的分支。</p>', [
+				dialog.showForm('<b>配置初始分支</b><p style="margin:6px 0;">配置在Git Graph视图中加载仓库时最初显示的分支。</p><p style="font-size:12px; margin:6px 0 0 0;">注意：当“切换分支”被禁用，且没有选择“具体的分支”时，将显示所有的分支。</p>', [
 					{ type: DialogInputType.Checkbox, name: '切换分支', value: showCheckedOutBranch },
 					{ type: DialogInputType.Select, name: '具体的分支', options: this.view.getBranchOptions(), defaults: showSpecificBranches, multiple: true }
 				], '保存', (values) => {
@@ -343,8 +343,8 @@ class SettingsWidget {
 					if (this.config === null) return;
 					const userName = this.config.user.name, userEmail = this.config.user.email;
 					dialog.showForm('设置用户名和邮箱，让Git可以记录提交对象的作者和提交人:', [
-						{ type: DialogInputType.Text, name: '用户名', default: userName.local ?? userName.global ?? '', placeholder: null },
-						{ type: DialogInputType.Text, name: '邮箱', default: userEmail.local ?? userEmail.global ?? '', placeholder: null },
+						{ type: DialogInputType.Text, name: '用户名', default: userName.local ?? userName.global ?? '', placeholder: '设置提交时要显示的用户名' },
+						{ type: DialogInputType.Text, name: '邮箱', default: userEmail.local ?? userEmail.global ?? '', placeholder: '提交人的邮箱' },
 						{ type: DialogInputType.Checkbox, name: '全局配置', value: userName.local === null && userEmail.local === null, info: '所有的Git仓库全都使用相同的“用户名”和“邮箱”(它可以覆盖每个仓库)' }
 					], '设置用户信息', (values) => {
 						if (this.currentRepo === null) return;
@@ -579,8 +579,8 @@ class SettingsWidget {
 	 */
 	private showIssueLinkingDialog(defaultIssueRegex: string | null, defaultIssueUrl: string | null, defaultUseGlobally: boolean, isEdit: boolean) {
 		let html = '<b>' + '为当前仓库' + (isEdit ? '编辑Issue链接' : '添加Issue链接') + '</b>';
-		html += '<p style="font-size:12px; margin:6px 0;">下面的示例将提交消息中的 <b>#123</b> 链接到 <b>https://github.com/mhutchie/repo/issues/123</b>:</p>';
-		html += '<table style="display:inline-table; width:360px; text-align:left; font-size:12px; margin-bottom:2px;"><tr><td>Issue Regex:</td><td>#(\\d+)</td></tr><tr><td>Issue URL:</td><td>https://github.com/mhutchie/repo/issues/$1</td></tr></tbody></table>';
+		html += '<p style="font-size:12px; margin:6px 0;">下面的示例将提交消息中的 <b>#123</b> 链接到 <b>https://github.com/mhutchie/repo/issues/123</b>：</p>';
+		html += '<table style="display:inline-table; width:360px; text-align:left; font-size:12px; margin-bottom:2px;"><tr><td>Issue正则表达式：</td><td>#(\\d+)</td></tr><tr><td>Issue URL：</td><td>https://github.com/mhutchie/repo/issues/$1</td></tr></tbody></table>';
 
 		if (!isEdit && defaultIssueRegex === null && defaultIssueUrl === null) {
 			defaultIssueRegex = SettingsWidget.autoDetectIssueRegex(this.view.getCommits());
@@ -590,9 +590,9 @@ class SettingsWidget {
 		}
 
 		dialog.showForm(html, [
-			{ type: DialogInputType.Text, name: 'Issue正则表达式', default: defaultIssueRegex !== null ? defaultIssueRegex : '', placeholder: null, info: '匹配issue编号的正则表达式，包含一个或多个捕获组()，这些组将被替换到"issue URL"' },
+			{ type: DialogInputType.Text, name: 'Issue正则表达式', default: defaultIssueRegex !== null ? defaultIssueRegex : '#(\d+)', placeholder: null, info: '匹配issue编号的正则表达式，包含一个或多个捕获组()，这些组将被替换到"issue URL"' },
 			{ type: DialogInputType.Text, name: 'Issue URL', default: defaultIssueUrl !== null ? defaultIssueUrl : '', placeholder: null, info: 'issue跟踪系统中issue的URL，带有占位符($1，$2等)，用于在“issue正则表达式”中捕获的组()' },
-			{ type: DialogInputType.Checkbox, name: '全局配置', value: defaultUseGlobally, info: '默认情况下，对所有仓库使用“Issue Regex”和“Issue URL”(每个仓库都可以重写)。注意:“全局使用”仅适用于相同的issue链接，这适用于您的大多数仓库(例如，当使用JIRA或枢纽跟踪器)。' }
+			{ type: DialogInputType.Checkbox, name: '全局配置', value: defaultUseGlobally, info: '默认情况下，对所有仓库使用“Issue Regex”和“Issue URL”(每个仓库都可以重写)。注意：“全局使用”仅适用于相同的issue链接，这适用于您的大多数仓库(例如，当使用JIRA或枢纽跟踪器)。' }
 		], '保存', (values) => {
 			let issueRegex = (<string>values[0]).trim(), issueUrl = (<string>values[1]).trim(), useGlobally = <boolean>values[2];
 			let regExpParseError = null;

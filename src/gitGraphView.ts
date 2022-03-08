@@ -718,8 +718,8 @@ export class GitGraphView extends Disposable {
 			body = `<body>
 			<div id="view" tabindex="-1">
 				<div id="controls">
-					<span id="repoControl"><span class="unselectable">仓库: </span><div id="repoDropdown" class="dropdown"></div></span>
-					<span id="branchControl"><span class="unselectable">分支: </span><div id="branchDropdown" class="dropdown"></div></span>
+					<span id="repoControl"><span class="unselectable">仓库：</span><div id="repoDropdown" class="dropdown"></div></span>
+					<span id="branchControl"><span class="unselectable">分支：</span><div id="branchDropdown" class="dropdown"></div></span>
 					<label id="showRemoteBranchesControl"><input type="checkbox" id="showRemoteBranchesCheckbox" tabindex="-1"><span class="customCheckbox"></span>显示远程分支</label>
 					<div id="findBtn" title="查找"></div>
 					<div id="terminalBtn" title="打开此仓库的终端"></div>
