@@ -1675,11 +1675,11 @@ class GitGraphView {
 	}
 
 	private mergeAction(obj: string, name: string, actionOn: GG.MergeActionOn, target: DialogTarget & (CommitTarget | RefTarget)) {
-		dialog.showForm('你确定要合并吗 ' + actionOn.toLowerCase() + ' <b><i>' + escapeHtml(name) + '</i></b> 到 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '?', [
-			{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进是可能的(Create a new commit even if fast-forward is possible)', value: this.config.dialogDefaults.merge.noFastForward },
+		dialog.showForm('你确定要合并 ' + actionOn.toLowerCase() + ' <b><i>' + escapeHtml(name) + '</i></b> 到' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '吗?', [
+			{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进(fast-forward)是可能的', value: this.config.dialogDefaults.merge.noFastForward },
 			{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.merge.squash, info: '在当前分支上创建单独提交，其效果与合并此提交相同' + actionOn.toLowerCase() + '.' },
 			{ type: DialogInputType.Checkbox, name: '不提交', value: this.config.dialogDefaults.merge.noCommit, info: '合并的更改将被暂存，但不会被提交，因此你可以在提交之前检查或修改合并的结果' }
-		], 'Yes, merge', (values) => {
+		], '是，合并', (values) => {
 			runAction({ command: 'merge', repo: this.currentRepo, obj: obj, actionOn: actionOn, createNewCommit: <boolean>values[0], squash: <boolean>values[1], noCommit: <boolean>values[2] }, '正在合并 ' + actionOn);
 		}, target);
 	}
