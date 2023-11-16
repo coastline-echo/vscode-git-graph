@@ -2559,9 +2559,9 @@ class GitGraphView {
 						+ '<b>提交：</b>' + escapeHtml(commitDetails.hash) + '<br>'
 						+ '<b>父节点：</b>' + parents + '<br>'
 						+ '<b>作者：</b>' + escapeHtml(commitDetails.author) + (commitDetails.authorEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.authorEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.authorEmail) + '</a>&gt;' : '') + '<br>'
-						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>作者时间: </b>' + formatLongDate(commitDetails.authorDate) + '<br>' : '')
-						+ '<b>提交人：</b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
-						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? 'Committer ' : '') + '时间：</b>' + formatLongDate(commitDetails.committerDate)
+						+ (commitDetails.authorDate !== commitDetails.committerDate ? '<b>作者日期: </b>' + formatLongDate(commitDetails.authorDate) + '<br>' : '')
+						+ '<b>提交者：</b>' + escapeHtml(commitDetails.committer) + (commitDetails.committerEmail !== '' ? ' &lt;<a class="' + CLASS_EXTERNAL_URL + '" href="mailto:' + escapeHtml(commitDetails.committerEmail) + '" tabindex="-1">' + escapeHtml(commitDetails.committerEmail) + '</a>&gt;' : '') + (commitDetails.signature !== null ? generateSignatureHtml(commitDetails.signature) : '') + '<br>'
+						+ '<b>' + (commitDetails.authorDate !== commitDetails.committerDate ? '提交者' : '') + '日期：</b>' + formatLongDate(commitDetails.committerDate)
 						+ '</span>'
 						+ (expandedCommit.avatar !== null ? '<span class="cdvSummaryAvatar"><img src="' + expandedCommit.avatar + '"></span>' : '')
 						+ '</span></span><br><br>' + textFormatter.format(commitDetails.body);
