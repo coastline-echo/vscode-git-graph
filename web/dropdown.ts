@@ -5,7 +5,7 @@ interface DropdownOption {
 }
 
 /**
- * Implements the dropdown inputs used in the Git Graph View's top control bar.
+ * 实现 Git Graph View 顶部控制栏中使用的下拉输入
  */
 class Dropdown {
 	private readonly showInfo: boolean;
@@ -27,13 +27,13 @@ class Dropdown {
 	private readonly filterInput: HTMLInputElement;
 
 	/**
-	 * Constructs a Dropdown instance.
-	 * @param id The ID of the HTML Element that the dropdown should be rendered in.
-	 * @param showInfo Should an information icon be shown on the right of each dropdown item.
-	 * @param multipleAllowed Can multiple items be selected.
-	 * @param dropdownType The type of content the dropdown is being used for.
-	 * @param changeCallback A callback to be invoked when the selected item(s) of the dropdown changes.
-	 * @returns The Dropdown instance.
+	 * 构造一个下拉菜单实例。
+	 * @param id 下拉菜单应在其中呈现的 HTML 元素的 ID
+	 * @param showInfo 是否应在每个下拉菜单的右侧显示一个信息图标
+	 * @param multipleAllowed 能否选择多个项目
+	 * @param dropdownType 下拉菜单的内容类型，用于显示在过滤输入框的占位符中
+	 * @param changeCallback 下拉菜单的选定项更改时要调用的回调
+	 * @returns 下拉菜单实例
 	 */
 	constructor(id: string, showInfo: boolean, multipleAllowed: boolean, dropdownType: string, changeCallback: (values: string[]) => void) {
 		this.showInfo = showInfo;
@@ -49,14 +49,14 @@ class Dropdown {
 
 		this.filterInput = filter.appendChild(document.createElement('input'));
 		this.filterInput.className = 'dropdownFilterInput';
-		this.filterInput.placeholder = 'Filter ' + dropdownType + '...';
+		this.filterInput.placeholder = '过滤 ' + dropdownType + '...';
 
 		this.optionsElem = this.menuElem.appendChild(document.createElement('div'));
 		this.optionsElem.className = 'dropdownOptions';
 
 		this.noResultsElem = this.menuElem.appendChild(document.createElement('div'));
 		this.noResultsElem.className = 'dropdownNoResults';
-		this.noResultsElem.innerHTML = 'No results found.';
+		this.noResultsElem.innerHTML = '未找到结果';
 
 		this.currentValueElem = this.elem.appendChild(document.createElement('div'));
 		this.currentValueElem.className = 'dropdownCurrentValue';
@@ -90,9 +90,9 @@ class Dropdown {
 	}
 
 	/**
-	 * Set the options that should be displayed in the dropdown.
-	 * @param options An array of the options to display in the dropdown.
-	 * @param optionsSelected An array of the selected options in the dropdown.
+	 * 设置应显示在下拉菜单中的选项。
+	 * @param options 在下拉菜单中显示的选项数组
+	 * @param optionsSelected 下拉菜单中已选选项的数组
 	 */
 	public setOptions(options: ReadonlyArray<DropdownOption>, optionsSelected: string[]) {
 		this.options = options;
@@ -116,9 +116,9 @@ class Dropdown {
 	}
 
 	/**
-	 * Is a value selected in the dropdown (respecting "Show All")
-	 * @param value The value to check.
-	 * @returns TRUE => The value is selected, FALSE => The value is not selected.
+	 * 是否在下拉菜单中选择一个值（遵守 "全部显示 "原则）
+	 * @param value 要检查的值
+	 * @returns TRUE => 值已选择，FALSE => 值未选择
 	 */
 	public isSelected(value: string) {
 		if (this.options.length > 0) {
@@ -136,8 +136,8 @@ class Dropdown {
 	}
 
 	/**
-	 * Select a specific value in the dropdown.
-	 * @param value The value to select.
+	 * 在下拉菜单中选择一个特定的值
+	 * @param value 要选择的值
 	 */
 	public selectOption(value: string) {
 		const optionIndex = this.options.findIndex((option) => value === option.value);
@@ -156,8 +156,8 @@ class Dropdown {
 	}
 
 	/**
-	 * Unselect a specific value in the dropdown.
-	 * @param value The value to unselect.
+	 * 在下拉列表中取消选择特定值
+	 * @param value 要取消选择的值
 	 */
 	public unselectOption(value: string) {
 		const optionIndex = this.options.findIndex((option) => value === option.value);
@@ -188,22 +188,22 @@ class Dropdown {
 	}
 
 	/**
-	 * Refresh the rendered dropdown to apply style changes.
+	 * 刷新已呈现的下拉菜单以应用样式更改
 	 */
 	public refresh() {
 		if (this.options.length > 0) this.render();
 	}
 
 	/**
-	 * Is the dropdown currently open (i.e. is the list of options visible).
-	 * @returns TRUE => The dropdown is open, FALSE => The dropdown is not open
+	 * 下拉菜单当前是否打开（即选项列表是否可见）
+	 * @returns TRUE => 下拉菜单打开，FALSE => 下拉菜单未打开
 	 */
 	public isOpen() {
 		return this.dropdownVisible;
 	}
 
 	/**
-	 * Close the dropdown.
+	 * 关闭下拉菜单
 	 */
 	public close() {
 		this.elem.classList.remove('dropdownOpen');
@@ -212,7 +212,9 @@ class Dropdown {
 	}
 
 	/**
-	 * Render the dropdown.
+	 * 渲染下拉菜单的内容。
+	 * 这应该只在第一次渲染下拉菜单时调用。
+	 * 后续调用应该使用 refresh() 方法。
 	 */
 	private render() {
 		this.elem.classList.add('loaded');
@@ -244,7 +246,7 @@ class Dropdown {
 	}
 
 	/**
-	 * Filter the options displayed in the dropdown list, based on the filter criteria specified by the user.
+	 * 根据用户指定的筛选条件，筛选下拉列表中显示的选项
 	 */
 	private filter() {
 		let val = this.filterInput.value.toLowerCase(), match, matches = false;
@@ -258,14 +260,14 @@ class Dropdown {
 	}
 
 	/**
-	 * Get an array of the selected dropdown options.
-	 * @param names TRUE => Return the names of the selected options, FALSE => Return the values of the selected options.
-	 * @returns The array of the selected options.
+	 * 获取所选下拉菜单选项的数组
+	 * @param names TRUE => 返回所选选项的名称，FALSE => 返回所选选项的值
+	 * @returns 所选下拉菜单选项的数组
 	 */
 	private getSelectedOptions(names: boolean) {
 		let selected = [];
 		if (this.multipleAllowed && this.optionsSelected[0]) {
-			// Note: Show All is always the first option (0 index) when multiple selected items are allowed
+			// 注意：当允许多个选定项目时，“显示全部”始终是第一个选项 （0 索引）
 			return [names ? this.options[0].name : this.options[0].value];
 		}
 		for (let i = 0; i < this.options.length; i++) {
@@ -275,11 +277,11 @@ class Dropdown {
 	}
 
 	/**
-	 * Select a dropdown option.
-	 * @param option The index of the option to select.
+	 * 选择下拉选项
+	 * @param option 要选择的选项的索引
 	 */
 	private onOptionClick(option: number) {
-		// Note: Show All is always the first option (0 index) when multiple selected items are allowed
+		// 注意：当允许多个选定项目时，“显示全部”始终是第一个选项 （0 索引）
 		let change = false;
 		let doubleClick = this.doubleClickTimeout !== null && this.lastClicked === option;
 		if (this.doubleClickTimeout !== null) this.clearDoubleClickTimeout();
@@ -350,7 +352,7 @@ class Dropdown {
 	}
 
 	/**
-	 * Clear the timeout used to detect double clicks.
+	 * 清除用于检测双击的超时
 	 */
 	private clearDoubleClickTimeout() {
 		if (this.doubleClickTimeout !== null) {

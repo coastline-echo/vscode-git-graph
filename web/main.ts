@@ -79,11 +79,11 @@ class GitGraphView {
 
 		this.graph = new Graph('commitGraph', viewElem, this.config.graph, this.config.mute);
 
-		this.repoDropdown = new Dropdown('repoDropdown', true, false, 'Repos', (values) => {
+		this.repoDropdown = new Dropdown('repoDropdown', true, false, '仓库', (values) => {
 			this.loadRepo(values[0]);
 		});
 
-		this.branchDropdown = new Dropdown('branchDropdown', false, true, 'Branches', (values) => {
+		this.branchDropdown = new Dropdown('branchDropdown', false, true, '分支', (values) => {
 			this.currentBranches = values;
 			this.maxCommits = this.config.initialLoadCommits;
 			this.saveState();
@@ -146,7 +146,7 @@ class GitGraphView {
 		}
 
 		const fetchBtn = document.getElementById('fetchBtn')!, findBtn = document.getElementById('findBtn')!, settingsBtn = document.getElementById('settingsBtn')!, terminalBtn = document.getElementById('terminalBtn')!;
-		fetchBtn.title = '从远程' + (this.config.fetchAndPrune ? ' & 剪除' : '') + '获取';
+		fetchBtn.title = '从远程' + (this.config.fetchAndPrune ? ' & 清除' : '') + '获取';
 		fetchBtn.innerHTML = SVG_ICONS.download;
 		fetchBtn.addEventListener('click', () => this.fetchFromRemotesAction());
 		findBtn.innerHTML = SVG_ICONS.search;
@@ -1006,7 +1006,7 @@ class GitGraphView {
 				visible: visibility.merge && this.gitBranchHead !== refName,
 				onClick: () => this.mergeAction(refName, refName, GG.MergeActionOn.Branch, target)
 			}, {
-				title: '在分支上复位当前分支' + ELLIPSIS,
+				title: '在分支上变基当前分支' + ELLIPSIS,
 				visible: visibility.rebase && this.gitBranchHead !== refName,
 				onClick: () => this.rebaseAction(refName, refName, GG.RebaseActionOn.Branch, target)
 			}, {
@@ -1110,14 +1110,14 @@ class GitGraphView {
 			}
 		], [
 			{
-				title: '切换到' + (globalState.alwaysAcceptCheckoutCommit ? '' : ELLIPSIS),
+				title: '切换到(Checkout)' + (globalState.alwaysAcceptCheckoutCommit ? '' : ELLIPSIS),
 				visible: visibility.checkout,
 				onClick: () => {
 					const checkoutCommit = () => runAction({ command: 'checkoutCommit', repo: this.currentRepo, commitHash: hash }, '正在切换到提交');
 					if (globalState.alwaysAcceptCheckoutCommit) {
 						checkoutCommit();
 					} else {
-						dialog.showCheckbox('你确定要切换到提交 <b><i>' + abbrevCommit(hash) + '</i></b> 吗? 这会导致处于 \'detached HEAD(游离)\' 状态.', '总是接受', false, '是，切换', (alwaysAccept) => {
+						dialog.showCheckbox('你确定要切换到提交 <b><i>' + abbrevCommit(hash) + '</i></b> 吗? 这会导致处于 \'分离头指针(detached HEAD)\' 状态.', '总是接受', false, '是，切换', (alwaysAccept) => {
 							if (alwaysAccept) {
 								updateGlobalViewState('alwaysAcceptCheckoutCommit', true);
 							}
@@ -1126,7 +1126,7 @@ class GitGraphView {
 					}
 				}
 			}, {
-				title: 'Cherry Pick(选择提交)' + ELLIPSIS,
+				title: '选择提交(Cherry Pick)' + ELLIPSIS,
 				visible: visibility.cherrypick,
 				onClick: () => {
 					const isMerge = commit.parents.length > 1;
@@ -1141,22 +1141,22 @@ class GitGraphView {
 							name: 'Parent Hash',
 							options: options,
 							default: '1',
-							info: '选择主分支上的父哈希值，以cherry pick相对于它的提交'
+							info: '选择主分支上的父哈希值，以选择提交(Cherry Pick)相对于该分支的提交'
 						});
 					}
 					inputs.push({
 						type: DialogInputType.Checkbox,
 						name: '记录来源',
 						value: this.config.dialogDefaults.cherryPick.recordOrigin,
-						info: '通过在原始提交消息后面附加一行来记录此提交来自于cherry pick"(从某个提交中cherry pick...​)".'
+						info: '通过在原始提交信息中添加一行，注明"(从提交中选择提交(Cherry Pick))"，来记录此提交时选择提交(Cherry Pick)的来源。'
 					}, {
 						type: DialogInputType.Checkbox,
 						name: '不提交',
 						value: this.config.dialogDefaults.cherryPick.noCommit,
-						info: 'Cherry pick的更改将被暂存，但不会提交，因此你可以选择提交此提交的特定部分'
+						info: '选择提交(Cherry Pick)的更改将被暂存，但不会提交，因此你可以选择并提交此提交的特定部分。'
 					});
 
-					dialog.showForm('你确定要cherry pick到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?', inputs, '是, cherry pick', (values) => {
+					dialog.showForm('你确定要选择提交(Cherry Pick)到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?', inputs, '是, 选择提交(Cherry Pick)', (values) => {
 						let parentIndex = isMerge ? parseInt(<string>values.shift()) : 0;
 						runAction({
 							command: 'cherrypickCommit',
@@ -1165,11 +1165,11 @@ class GitGraphView {
 							parentIndex: parentIndex,
 							recordOrigin: <boolean>values[0],
 							noCommit: <boolean>values[1]
-						}, '正在Cherry pick到提交');
+						}, '正在选择提交(Cherry Pick)到提交');
 					}, target);
 				}
 			}, {
-				title: 'Revert(回撤)' + ELLIPSIS,
+				title: '还原(Revert)' + ELLIPSIS,
 				visible: visibility.revert,
 				onClick: () => {
 					if (commit.parents.length > 1) {
@@ -1177,17 +1177,17 @@ class GitGraphView {
 							name: abbrevCommit(hash) + (typeof this.commitLookup[hash] === 'number' ? ': ' + this.commits[this.commitLookup[hash]].message : ''),
 							value: (index + 1).toString()
 						}));
-						dialog.showSelect('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗? 选择主分支上的父hash值，以恢复相对于以下节点的提交:', '1', options, '是，回撤', (parentIndex) => {
-							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: parseInt(parentIndex) }, '正在回撤到提交');
+						dialog.showSelect('你确定要还原合并到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗? 选择主分支上的父hash值，以恢复相对于以下节点的提交:', '1', options, '是，还原', (parentIndex) => {
+							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: parseInt(parentIndex) }, '正在还原到提交');
 						}, target);
 					} else {
-						dialog.showConfirmation('你确定要回撤合并到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?', '是，回撤', () => {
-							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: 0 }, '正在回撤到提交');
+						dialog.showConfirmation('你确定要还原合并到 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?', '是，还原', () => {
+							runAction({ command: 'revertCommit', repo: this.currentRepo, commitHash: hash, parentIndex: 0 }, '正在还原到提交');
 						}, target);
 					}
 				}
 			}, {
-				title: '删除' + ELLIPSIS,
+				title: '删除(Drop)' + ELLIPSIS,
 				visible: visibility.drop && this.graph.dropCommitPossible(this.commitLookup[hash]),
 				onClick: () => {
 					dialog.showConfirmation('你确定要永久地删除 <b><i>' + abbrevCommit(hash) + '</i></b> 提交吗?' + (this.onlyFollowFirstParent ? '<br/><i>注意：通过启用“只跟随提交的第一个父节点”，一些提交可能被隐藏在Git Graph视图中，这可能会影响执行此操作的结果。</i>' : ''), '是，删除', () => {
@@ -1201,7 +1201,7 @@ class GitGraphView {
 				visible: visibility.merge,
 				onClick: () => this.mergeAction(hash, abbrevCommit(hash), GG.MergeActionOn.Commit, target)
 			}, {
-				title: '基于该提交重新建立当前分支(Rebase)' + ELLIPSIS,
+				title: '在此提交上变基当前分支(Rebase)' + ELLIPSIS,
 				visible: visibility.rebase,
 				onClick: () => this.rebaseAction(hash, abbrevCommit(hash), GG.RebaseActionOn.Commit, target)
 			}, {
@@ -1275,8 +1275,8 @@ class GitGraphView {
 				visible: visibility.pull && remote !== '',
 				onClick: () => {
 					dialog.showForm('你确定要拉取远程仓库分支 <b><i>' + escapeHtml(refName) + '</i></b> 到 ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '吗? 如果是则需要合并:', [
-						{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进是可能的(Create a new commit even if fast-forward is possible)', value: this.config.dialogDefaults.pullBranch.noFastForward },
-						{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.pullBranch.squash, info: '在当前分支上创建单独提交，其效果与合并到这个远程仓库分支相同' }
+						{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进(fast-forward)是可能的', value: this.config.dialogDefaults.pullBranch.noFastForward },
+						{ type: DialogInputType.Checkbox, name: '压缩(Squash)提交', value: this.config.dialogDefaults.pullBranch.squash, info: '在当前分支上创建单独提交，其效果与合并到这个远程仓库分支相同' }
 					], '是，拉取', (values) => {
 						runAction({ command: 'pullBranch', repo: this.currentRepo, branchName: branchName, remote: remote, createNewCommit: <boolean>values[0], squash: <boolean>values[1] }, '正在拉取分支');
 					}, target);
@@ -1301,7 +1301,7 @@ class GitGraphView {
 						sourceRepo: isDestRemote ? config.destRepo : config.sourceRepo,
 						sourceBranch: branchName,
 						push: false
-					}, 'Creating Pull Request');
+					}, '拉取请求创建中');
 				}
 			}
 		], [
@@ -1677,7 +1677,7 @@ class GitGraphView {
 	private mergeAction(obj: string, name: string, actionOn: GG.MergeActionOn, target: DialogTarget & (CommitTarget | RefTarget)) {
 		dialog.showForm('你确定要合并 ' + actionOn.toLowerCase() + ' <b><i>' + escapeHtml(name) + '</i></b> 到' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + '吗?', [
 			{ type: DialogInputType.Checkbox, name: '创建一个新的提交，即使快进(fast-forward)是可能的', value: this.config.dialogDefaults.merge.noFastForward },
-			{ type: DialogInputType.Checkbox, name: 'Squash Commits(控制提交)', value: this.config.dialogDefaults.merge.squash, info: '在当前分支上创建单独提交，其效果与合并此提交相同' + actionOn.toLowerCase() + '.' },
+			{ type: DialogInputType.Checkbox, name: '压缩(Squash)提交', value: this.config.dialogDefaults.merge.squash, info: '在当前分支上创建一个提交，其效果与合并此' + actionOn.toLowerCase() + '相同。' },
 			{ type: DialogInputType.Checkbox, name: '不提交', value: this.config.dialogDefaults.merge.noCommit, info: '合并的更改将被暂存，但不会被提交，因此你可以在提交之前检查或修改合并的结果' }
 		], '是，合并', (values) => {
 			runAction({ command: 'merge', repo: this.currentRepo, obj: obj, actionOn: actionOn, createNewCommit: <boolean>values[0], squash: <boolean>values[1], noCommit: <boolean>values[2] }, '正在合并 ' + actionOn);
@@ -1685,12 +1685,12 @@ class GitGraphView {
 	}
 
 	private rebaseAction(obj: string, name: string, actionOn: GG.RebaseActionOn, target: DialogTarget & (CommitTarget | RefTarget)) {
-		dialog.showForm('你确定想复位(rebase) ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + ' on ' + actionOn.toLowerCase() + ' <b><i>' + escapeHtml(name) + '</i></b>?', [
-			{ type: DialogInputType.Checkbox, name: '在新终端启动交互式重基(Interactive Rebase)', value: this.config.dialogDefaults.rebase.interactive },
-			{ type: DialogInputType.Checkbox, name: '忽略日期', value: this.config.dialogDefaults.rebase.ignoreDate, info: '仅适用于非交互式重基(non-interactive rebase)、' }
-		], '是，复位', (values) => {
+		dialog.showForm('你确定想变基(rebase) ' + (this.gitBranchHead !== null ? '<b><i>' + escapeHtml(this.gitBranchHead) + '</i></b> (当前分支)' : '当前分支') + ' 到 ' + actionOn.toLowerCase() + ' <b><i>' + escapeHtml(name) + '</i></b>?', [
+			{ type: DialogInputType.Checkbox, name: '在新终端启动交互式变基(Interactive Rebase)', value: this.config.dialogDefaults.rebase.interactive },
+			{ type: DialogInputType.Checkbox, name: '忽略日期', value: this.config.dialogDefaults.rebase.ignoreDate, info: '仅适用于非交互式变基(non-interactive rebase)' }
+		], '是，变基', (values) => {
 			let interactive = <boolean>values[0];
-			runAction({ command: 'rebase', repo: this.currentRepo, obj: obj, actionOn: actionOn, ignoreDate: <boolean>values[1], interactive: interactive }, interactive ? 'Launching Interactive Rebase' : 'Rebasing on ' + actionOn);
+			runAction({ command: 'rebase', repo: this.currentRepo, obj: obj, actionOn: actionOn, ignoreDate: <boolean>values[1], interactive: interactive }, interactive ? '启动交互式变基中' : '变基中 ' + actionOn);
 		}, target);
 	}
 
@@ -3330,7 +3330,7 @@ window.addEventListener('load', () => {
 				refreshOrDisplayError(msg.error, '无法(恢复并删除暂存状态)');
 				break;
 			case 'pruneRemote':
-				refreshOrDisplayError(msg.error, '无法剪除远程仓库');
+				refreshOrDisplayError(msg.error, '无法清除远程仓库');
 				break;
 			case 'pullBranch':
 				refreshOrDisplayError(msg.error, '无法拉取分支');
@@ -3356,7 +3356,7 @@ window.addEventListener('load', () => {
 						gitGraph.refresh(false);
 					}
 				} else {
-					dialog.showError('无法在 ' + msg.actionOn, +'Rebase(复位)当前分支' + msg.error, null, null);
+					dialog.showError('无法在 ' + msg.actionOn, +'变基(Rebase)当前分支' + msg.error, null, null);
 				}
 				break;
 			case 'refresh':
@@ -3372,7 +3372,7 @@ window.addEventListener('load', () => {
 				refreshOrDisplayError(msg.error, '无法复位到提交');
 				break;
 			case 'revertCommit':
-				refreshOrDisplayError(msg.error, '无法回撤到提交');
+				refreshOrDisplayError(msg.error, '无法还原到提交');
 				break;
 			case 'setGlobalViewState':
 				finishOrDisplayError(msg.error, '无法保存全局视图状态');

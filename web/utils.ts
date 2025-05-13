@@ -538,8 +538,8 @@ function sendMessage(msg: GG.RequestMessage) {
 }
 
 /**
- * Show a Visual Studio Code Error Message.
- * @param message The message to display.
+ * 显示 VS Code 代码错误信息
+ * @param message 要显示的消息.
  */
 function showErrorMessage(message: string) {
 	sendMessage({ command: 'showErrorMessage', message: message });

@@ -66,10 +66,10 @@ class Config {
 		return {
 			autoCenter: !!this.getRenamedExtensionSetting('commitDetailsView.autoCenter', 'autoCenterCommitDetailsView', true),
 			fileTreeCompactFolders: !!this.getRenamedExtensionSetting('commitDetailsView.fileView.fileTree.compactFolders', 'commitDetailsViewFileTreeCompactFolders', true),
-			fileViewType: this.getRenamedExtensionSetting<string>('commitDetailsView.fileView.type', 'defaultFileViewType', 'File Tree') === 'File List'
+			fileViewType: this.getRenamedExtensionSetting<string>('commitDetailsView.fileView.type', 'defaultFileViewType', '文件树') === '文件列表'
 				? FileViewType.List
 				: FileViewType.Tree,
-			location: this.getRenamedExtensionSetting<string>('commitDetailsView.location', 'commitDetailsViewLocation', 'Inline') === 'Docked to Bottom'
+			location: this.getRenamedExtensionSetting<string>('commitDetailsView.location', 'commitDetailsViewLocation', '行内') === '贴在窗口底部'
 				? CommitDetailsViewLocation.DockedToBottom
 				: CommitDetailsViewLocation.Inline
 		};
@@ -151,7 +151,7 @@ class Config {
 	 * Get the value of the `git-graph.date.type` Extension Setting.
 	 */
 	get dateType() {
-		return this.getRenamedExtensionSetting<string>('date.type', 'dateType', 'Author Date') === 'Commit Date'
+		return this.getRenamedExtensionSetting<string>('date.type', 'dateType', '作者时间') === '提交者时间'
 			? DateType.Commit
 			: DateType.Author;
 	}
@@ -172,9 +172,9 @@ class Config {
 	 * Get the value of the `git-graph.dialog.*` Extension Settings.
 	 */
 	get dialogDefaults(): DialogDefaults {
-		let resetCommitMode = this.config.get<string>('dialog.resetCurrentBranchToCommit.mode', 'Mixed');
-		let resetUncommittedMode = this.config.get<string>('dialog.resetUncommittedChanges.mode', 'Mixed');
-		let refInputSpaceSubstitution = this.config.get<string>('dialog.general.referenceInputSpaceSubstitution', 'None');
+		let resetCommitMode = this.config.get<string>('dialog.resetCurrentBranchToCommit.mode', '混合模式');
+		let resetUncommittedMode = this.config.get<string>('dialog.resetUncommittedChanges.mode', '混合模式');
+		let refInputSpaceSubstitution = this.config.get<string>('dialog.general.referenceInputSpaceSubstitution', '不要替换空格');
 
 		return {
 			addTag: {
@@ -202,7 +202,7 @@ class Config {
 				pruneTags: !!this.config.get('dialog.fetchRemote.pruneTags', false)
 			},
 			general: {
-				referenceInputSpaceSubstitution: refInputSpaceSubstitution === 'Hyphen' ? '-' : refInputSpaceSubstitution === 'Underscore' ? '_' : null
+				referenceInputSpaceSubstitution: refInputSpaceSubstitution === '连字符' ? '-' : refInputSpaceSubstitution === '下划线' ? '_' : null
 			},
 			merge: {
 				noCommit: !!this.config.get('dialog.merge.noCommit', false),
@@ -221,10 +221,10 @@ class Config {
 				interactive: !!this.config.get('dialog.rebase.launchInteractiveRebase', false)
 			},
 			resetCommit: {
-				mode: resetCommitMode === 'Soft' ? GitResetMode.Soft : (resetCommitMode === 'Hard' ? GitResetMode.Hard : GitResetMode.Mixed)
+				mode: resetCommitMode === '软模式' ? GitResetMode.Soft : (resetCommitMode === '硬模式' ? GitResetMode.Hard : GitResetMode.Mixed)
 			},
 			resetUncommitted: {
-				mode: resetUncommittedMode === 'Hard' ? GitResetMode.Hard : GitResetMode.Mixed
+				mode: resetUncommittedMode === '硬模式' ? GitResetMode.Hard : GitResetMode.Mixed
 			},
 			stashUncommittedChanges: {
 				includeUntracked: !!this.config.get('dialog.stashUncommittedChanges.includeUntracked', true)
@@ -273,11 +273,11 @@ class Config {
 			colours: Array.isArray(colours) && colours.length > 0
 				? colours.filter((v) => v.match(/^\s*(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgb[a]?\s*\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\))\s*$/) !== null)
 				: ['#0085d9', '#d9008f', '#00d90a', '#d98500', '#a300d9', '#ff0000', '#00d9cc', '#e138e8', '#85d900', '#dc5b23', '#6f24d6', '#ffcc00'],
-			style: this.getRenamedExtensionSetting<string>('graph.style', 'graphStyle', 'rounded') === 'angular'
+			style: this.getRenamedExtensionSetting<string>('graph.style', 'graphStyle', '平滑曲线') === '折线'
 				? GraphStyle.Angular
 				: GraphStyle.Rounded,
 			grid: { x: 16, y: 24, offsetX: 16, offsetY: 12, expandY: 250 },
-			uncommittedChanges: this.config.get<string>('graph.uncommittedChanges', 'Open Circle at the Uncommitted Changes') === 'Open Circle at the Checked Out Commit'
+			uncommittedChanges: this.config.get<string>('graph.uncommittedChanges', '在未提交的更改处显示空心圆圈') === '在已切换的提交上显示空心圆圈'
 				? GraphUncommittedChangesStyle.OpenCircleAtTheCheckedOutCommit
 				: GraphUncommittedChangesStyle.OpenCircleAtTheUncommittedChanges
 		};
@@ -337,10 +337,10 @@ class Config {
 	 * Get the reference label configuration from the Extension Settings.
 	 */
 	get referenceLabels(): ReferenceLabelsConfig {
-		const alignmentConfigValue = this.getRenamedExtensionSetting<string>('referenceLabels.alignment', 'referenceLabelAlignment', 'Normal');
-		const alignment = alignmentConfigValue === 'Branches (on the left) & Tags (on the right)'
+		const alignmentConfigValue = this.getRenamedExtensionSetting<string>('referenceLabels.alignment', 'referenceLabelAlignment', '普通');
+		const alignment = alignmentConfigValue === '分支（在左侧）& 标签（在右侧）'
 			? RefLabelAlignment.BranchesOnLeftAndTagsOnRight
-			: alignmentConfigValue === 'Branches (aligned to the graph) & Tags (on the right)'
+			: alignmentConfigValue === '分支（与图形对齐）& 标签（在右侧）'
 				? RefLabelAlignment.BranchesAlignedToGraphAndTagsOnRight
 				: RefLabelAlignment.Normal;
 		return {
@@ -393,8 +393,8 @@ class Config {
 	 * Get the value of the `git-graph.repository.commits.order` Extension Setting.
 	 */
 	get commitOrder() {
-		const ordering = this.getRenamedExtensionSetting<string>('repository.commits.order', 'commitOrdering', 'date');
-		return ordering === 'author-date'
+		const ordering = this.getRenamedExtensionSetting<string>('repository.commits.order', 'commitOrdering', '日期');
+		return ordering === '作者日期'
 			? CommitOrdering.AuthorDate
 			: ordering === 'topo'
 				? CommitOrdering.Topological
@@ -524,10 +524,10 @@ class Config {
 	 * Get the value of the `git-graph.repositoryDropdownOrder` Extension Setting.
 	 */
 	get repoDropdownOrder(): RepoDropdownOrder {
-		const order = this.config.get<string>('repositoryDropdownOrder', 'Workspace Full Path');
-		return order === 'Full Path'
+		const order = this.config.get<string>('repositoryDropdownOrder', '按工作区完整路径排序');
+		return order === '按完整路径排序'
 			? RepoDropdownOrder.FullPath
-			: order === 'Name'
+			: order === '按仓库名称排序'
 				? RepoDropdownOrder.Name
 				: RepoDropdownOrder.WorkspaceFullPath;
 	}

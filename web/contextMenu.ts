@@ -89,7 +89,7 @@ class ContextMenu {
 		this.onClose = onClose;
 
 		addListenerToClass('contextMenuItem', 'click', (e) => {
-			// The user clicked on a context menu item => call the corresponding handler
+			// 用户点击上下文菜单项 => 调用相应的处理程序
 			e.stopPropagation();
 			this.close();
 			handlers[parseInt((<HTMLElement>(<Element>e.target).closest('.contextMenuItem')!).dataset.index!)]();

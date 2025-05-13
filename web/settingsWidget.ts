@@ -191,7 +191,7 @@ class SettingsWidget {
 						html += '<tr class="lineAbove">' +
 							'<td class="left" rowspan="2"><span class="hideRemoteBtn" data-index="' + i + '" title="单击此处可 ' + (hidden ? '显示' : '隐藏') + ' 此远程的分支">' + (hidden ? SVG_ICONS.eyeClosed : SVG_ICONS.eyeOpen) + '</span>' + escapeHtml(remote.name) + '</td>' +
 							'<td class="leftWithEllipsis" title="获取URL: ' + fetchUrl + '">' + fetchUrl + '</td><td>获取</td>' +
-							'<td class="btns remoteBtns" rowspan="2" data-index="' + i + '"><div class="fetchRemote" title="获取远程分支' + ELLIPSIS + '">' + SVG_ICONS.download + '</div> <div class="pruneRemote" title="剪除远程分支' + ELLIPSIS + '">' + SVG_ICONS.branch + '</div><br><div class="editRemote" title="编辑远程仓库' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div> <div class="deleteRemote" title="删除远程仓库' + ELLIPSIS + '">' + SVG_ICONS.close + '</div></td>' +
+							'<td class="btns remoteBtns" rowspan="2" data-index="' + i + '"><div class="fetchRemote" title="获取远程分支' + ELLIPSIS + '">' + SVG_ICONS.download + '</div> <div class="pruneRemote" title="清除远程分支' + ELLIPSIS + '">' + SVG_ICONS.branch + '</div><br><div class="editRemote" title="编辑远程仓库' + ELLIPSIS + '">' + SVG_ICONS.pencil + '</div> <div class="deleteRemote" title="删除远程仓库' + ELLIPSIS + '">' + SVG_ICONS.close + '</div></td>' +
 							'</tr><tr><td class="leftWithEllipsis" title="推送URL: ' + pushUrl + '">' + pushUrl + '</td><td>推送</td></tr>';
 					});
 				} else {
@@ -289,7 +289,7 @@ class SettingsWidget {
 
 			if (initialBranchesLocallyConfigured) {
 				document.getElementById('clearInitialBranches')!.addEventListener('click', () => {
-					dialog.showConfirmation('"您确定要清除在Git Graph视图中加载该仓库时最初显示的分支吗?', '是，清除', () => {
+					dialog.showConfirmation('您确定要清除在Git Graph视图中加载该仓库时最初显示的分支吗?', '是，清除', () => {
 						if (this.currentRepo === null) return;
 						this.view.saveRepoStateValue(this.currentRepo, 'onRepoLoadShowCheckedOutBranch', GG.BooleanOverride.Default);
 						this.view.saveRepoStateValue(this.currentRepo, 'onRepoLoadShowSpecificBranches', null);
@@ -357,7 +357,7 @@ class SettingsWidget {
 							location: useGlobally ? GG.GitConfigLocation.Global : GG.GitConfigLocation.Local,
 							deleteLocalName: useGlobally && userName.local !== null,
 							deleteLocalEmail: useGlobally && userEmail.local !== null
-						}, 'Setting User Details');
+						}, '正在设置用户详细信息');
 					}, null);
 				});
 
@@ -366,7 +366,7 @@ class SettingsWidget {
 						if (this.config === null) return;
 						const userName = this.config.user.name, userEmail = this.config.user.email;
 						const isGlobal = userName.local === null && userEmail.local === null;
-						dialog.showConfirmation('你确定要删除 <b>' + (isGlobal ? 'gl全局obally' : '本地') + ' 配置</b> 的用户名和电子邮件, 这是Git用来记录提交对象的作者和提交人的?', '是，删除', () => {
+						dialog.showConfirmation('你确定要删除 <b>' + (isGlobal ? '全局' : '本地') + '配置</b> 的用户名和电子邮件, 这是Git用来记录提交对象的作者和提交人的?', '是，删除', () => {
 							if (this.currentRepo === null) return;
 							runAction({
 								command: 'deleteUserDetails',
@@ -374,7 +374,7 @@ class SettingsWidget {
 								name: (isGlobal ? userName.global : userName.local) !== null,
 								email: (isGlobal ? userEmail.global : userEmail.local) !== null,
 								location: isGlobal ? GG.GitConfigLocation.Global : GG.GitConfigLocation.Local
-							}, 'Removing User Details');
+							}, '正在删除用户详细信息');
 						}, null);
 					});
 				}
@@ -388,7 +388,7 @@ class SettingsWidget {
 						{ type: DialogInputType.Checkbox, name: '立即拉取', value: true }
 					], '添加远程仓库', (values) => {
 						if (this.currentRepo === null) return;
-						runAction({ command: 'addRemote', repo: this.currentRepo, name: <string>values[0], url: <string>values[1], pushUrl: <string>values[2] !== '' ? <string>values[2] : null, fetch: <boolean>values[3] }, 'Adding Remote');
+						runAction({ command: 'addRemote', repo: this.currentRepo, name: <string>values[0], url: <string>values[1], pushUrl: <string>values[2] !== '' ? <string>values[2] : null, fetch: <boolean>values[3] }, '正在添加远程仓库');
 					}, { type: TargetType.Repo });
 				});
 
@@ -401,7 +401,7 @@ class SettingsWidget {
 						{ type: DialogInputType.Text, name: '推送URL', default: remote.pushUrl !== null ? remote.pushUrl : '', placeholder: pushUrlPlaceholder }
 					], '保存', (values) => {
 						if (this.currentRepo === null) return;
-						runAction({ command: 'editRemote', repo: this.currentRepo, nameOld: remote.name, nameNew: <string>values[0], urlOld: remote.url, urlNew: <string>values[1] !== '' ? <string>values[1] : null, pushUrlOld: remote.pushUrl, pushUrlNew: <string>values[2] !== '' ? <string>values[2] : null }, 'Saving Changes to Remote');
+						runAction({ command: 'editRemote', repo: this.currentRepo, nameOld: remote.name, nameNew: <string>values[0], urlOld: remote.url, urlNew: <string>values[1] !== '' ? <string>values[1] : null, pushUrlOld: remote.pushUrl, pushUrlNew: <string>values[2] !== '' ? <string>values[2] : null }, '正在更改保存到远程仓库');
 					}, { type: TargetType.Repo });
 				});
 
@@ -410,7 +410,7 @@ class SettingsWidget {
 					if (remote === null) return;
 					dialog.showConfirmation('你确定要删除远程分支 <b><i>' + escapeHtml(remote.name) + '</i></b>?', '是，删除', () => {
 						if (this.currentRepo === null) return;
-						runAction({ command: 'deleteRemote', repo: this.currentRepo, name: remote.name }, 'Deleting Remote');
+						runAction({ command: 'deleteRemote', repo: this.currentRepo, name: remote.name }, '正在删除远程仓库');
 					}, { type: TargetType.Repo });
 				});
 
@@ -418,20 +418,20 @@ class SettingsWidget {
 					const remote = this.getRemoteForBtnEvent(e);
 					if (remote === null) return;
 					dialog.showForm('你确定要获取远程分支 <b><i>' + escapeHtml(remote.name) + '</i></b>?', [
-						{ type: DialogInputType.Checkbox, name: '剪除', value: initialState.config.dialogDefaults.fetchRemote.prune, info: '在获取之前，删除远程分支上不再存在的任何远程跟踪引用。' },
-						{ type: DialogInputType.Checkbox, name: '剪除标签', value: initialState.config.dialogDefaults.fetchRemote.pruneTags, info: '在获取之前，删除远程上不再存在的任何本地标记。需要启用“剪除”，并且Git >= 2.17.0。' }
+						{ type: DialogInputType.Checkbox, name: '清除', value: initialState.config.dialogDefaults.fetchRemote.prune, info: '在获取之前，删除远程分支上不再存在的任何远程跟踪引用。' },
+						{ type: DialogInputType.Checkbox, name: '清除标签', value: initialState.config.dialogDefaults.fetchRemote.pruneTags, info: '在获取之前，删除远程上不再存在的任何本地标记。需要启用“清除”，并且Git >= 2.17.0。' }
 					], '是，获取', (values) => {
 						if (this.currentRepo === null) return;
-						runAction({ command: 'fetch', repo: this.currentRepo, name: remote.name, prune: <boolean>values[0], pruneTags: <boolean>values[1] }, 'Fetching from Remote');
+						runAction({ command: 'fetch', repo: this.currentRepo, name: remote.name, prune: <boolean>values[0], pruneTags: <boolean>values[1] }, '正在从远程仓库获取');
 					}, { type: TargetType.Repo });
 				});
 
 				addListenerToClass('pruneRemote', 'click', (e) => {
 					const remote = this.getRemoteForBtnEvent(e);
 					if (remote === null) return;
-					dialog.showConfirmation('您确定要剪除在远程分支上不再存在的远程跟踪引用 <b><i>' + escapeHtml(remote.name) + '</i></b>?', '是，剪除', () => {
+					dialog.showConfirmation('您确定要清除在远程分支上不再存在的远程跟踪引用 <b><i>' + escapeHtml(remote.name) + '</i></b>?', '是，清除', () => {
 						if (this.currentRepo === null) return;
-						runAction({ command: 'pruneRemote', repo: this.currentRepo, name: remote.name }, 'Pruning Remote');
+						runAction({ command: 'pruneRemote', repo: this.currentRepo, name: remote.name }, '正在清除远程仓库');
 					}, { type: TargetType.Repo });
 				});
 
@@ -464,11 +464,19 @@ class SettingsWidget {
 
 			if (this.repo.issueLinkingConfig !== null || globalState.issueLinkingConfig !== null) {
 				document.getElementById('removeIssueLinking')!.addEventListener('click', () => {
-					if (this.repo === null) return;
-					const locallyConfigured = this.repo.issueLinkingConfig !== null;
-					dialog.showConfirmation('你确定要删除 ' + (locallyConfigured ? (globalState.issueLinkingConfig !== null ? '这个 <b>本地配置</b> ' : '') + '这个仓库的Issue链接' : '在Git Graph中<b>全局配置的</b> Issue链接') + '?', '是，删除', () => {
-						this.setIssueLinkingConfig(null, !locallyConfigured);
-					}, null);
+					if (!this.repo) return;
+					const isLocalConfig = this.repo.issueLinkingConfig !== null;
+					const message = isLocalConfig
+						? `确定要移除${globalState.issueLinkingConfig !== null ? '此仓库 <b>本地配置</b> 的' : ''
+						}Issue链接吗？`
+						: '确定要移除 Git Graph 中 <b>全局配置</b> 的Issue链接吗？';
+
+					dialog.showConfirmation(
+						message,
+						'确定移除',
+						() => this.setIssueLinkingConfig(null, !isLocalConfig),
+						null
+					);
 				});
 			}
 
@@ -477,7 +485,7 @@ class SettingsWidget {
 					if (this.repo === null || this.config === null) return;
 
 					if (this.config.remotes.length === 0) {
-						dialog.showError('无法配置“创建拉取请求”集成', '仓库必须至少有一个远程分支配置“pull Request Creation”集成。当前仓库中没有远程分支。', null, null);
+						dialog.showError('无法配置“创建拉取请求”集成', '仓库必须至少有一个远程分支配置“创建拉取请求”集成。当前仓库中没有远程分支。', null, null);
 						return;
 					}
 
@@ -511,7 +519,7 @@ class SettingsWidget {
 
 				if (this.repo.pullRequestConfig !== null) {
 					document.getElementById('removePullRequestIntegration')!.addEventListener('click', () => {
-						dialog.showConfirmation('你确定要删除配置的“Pull Request Creation”集成吗?', '是，删除', () => {
+						dialog.showConfirmation('你确定要删除配置的“创建拉取请求”集成吗?', '是，删除', () => {
 							this.setPullRequestConfig(null);
 						}, null);
 					});
@@ -525,7 +533,7 @@ class SettingsWidget {
 			document.getElementById('exportRepositoryConfig')!.addEventListener('click', () => {
 				dialog.showConfirmation('导出Git Graph Repository配置将生成一个可以提交到该仓库中的文件。它允许在这个仓库中工作的其他人使用相同的配置。', '是，导出', () => {
 					if (this.currentRepo === null) return;
-					runAction({ command: 'exportRepoConfig', repo: this.currentRepo }, 'Exporting Repository Configuration');
+					runAction({ command: 'exportRepoConfig', repo: this.currentRepo }, '导出存储库配置');
 				}, null);
 			});
 		}
@@ -592,7 +600,7 @@ class SettingsWidget {
 		dialog.showForm(html, [
 			{ type: DialogInputType.Text, name: 'Issue正则表达式', default: defaultIssueRegex !== null ? defaultIssueRegex : '#(\d+)', placeholder: null, info: '匹配issue编号的正则表达式，包含一个或多个捕获组()，这些组将被替换到"issue URL"' },
 			{ type: DialogInputType.Text, name: 'Issue URL', default: defaultIssueUrl !== null ? defaultIssueUrl : '', placeholder: null, info: 'issue跟踪系统中issue的URL，带有占位符($1，$2等)，用于在“issue正则表达式”中捕获的组()' },
-			{ type: DialogInputType.Checkbox, name: '全局配置', value: defaultUseGlobally, info: '默认情况下，对所有仓库使用“Issue Regex”和“Issue URL”(每个仓库都可以重写)。注意：“全局使用”仅适用于相同的issue链接，这适用于您的大多数仓库(例如，当使用JIRA或枢纽跟踪器)。' }
+			{ type: DialogInputType.Checkbox, name: '全局配置', value: defaultUseGlobally, info: '默认情况下，对所有仓库使用“Issue Regex”和“Issue URL”(每个仓库都可以重写)。\n注意：“全局使用”仅适用于相同的issue链接，这适用于您的大多数仓库(例如，当使用JIRA或枢纽跟踪器)。' }
 		], '保存', (values) => {
 			let issueRegex = (<string>values[0]).trim(), issueUrl = (<string>values[1]).trim(), useGlobally = <boolean>values[2];
 			let regExpParseError = null;
@@ -610,7 +618,7 @@ class SettingsWidget {
 					this.showIssueLinkingDialog(issueRegex, issueUrl, useGlobally, isEdit);
 				});
 			} else if (!(/\$([1-9][0-9]*)/.test(issueUrl))) {
-				dialog.showError('无效的Issue正则表达式', '用于在Issue正则表达式中捕获的issue编号组件,issue URL不包含任何占位符($1、$2等)', '返回', () => {
+				dialog.showError('无效的Issue正则表达式', '用于在Issue正则表达式中捕获的issue编号组件，\n issue URL不包含任何占位符($1、$2等)', '返回', () => {
 					this.showIssueLinkingDialog(issueRegex, issueUrl, useGlobally, isEdit);
 				});
 			} else {
@@ -667,7 +675,7 @@ class SettingsWidget {
 			{
 				type: DialogInputType.Select, name: '运营商',
 				options: providerOptions, default: defaultProvider,
-				info: '除了内置的公共托管的推送请求运营商，定制运营商可以使用扩展设置“git-graph.customPullRequestProviders”(例如：用于私有托管的Pull Request provider)。'
+				info: '除了内置的公共托管的推送请求运营商，定制运营商可以使用扩展设置“git-graph.customPullRequestProviders”\n(例如：用于私有托管的拉取请求提供者)。'
 			},
 			{
 				type: DialogInputType.Select, name: '远程分支源',
