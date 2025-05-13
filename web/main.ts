@@ -3427,10 +3427,10 @@ window.addEventListener('load', () => {
 	function handleResponsePushTagCommitNotOnRemote(repo: string, tagName: string, remotes: string[], commitHash: string, error: string) {
 		const remotesNotContainingCommit: string[] = parseExtensionErrorInfo(error, GG.ErrorInfoExtensionPrefix.PushTagCommitNotOnRemote);
 
-		const html = '<span class="dialogAlert">' + SVG_ICONS.alert + '警告：不是在远程分支上提交' + (remotesNotContainingCommit.length > 1 ? 's ' : ' ') + '</span><br>' +
+		const html = '<span class="dialogAlert">' + SVG_ICONS.alert + '警告：提交不在远程仓库' + (remotesNotContainingCommit.length > 1 ? '中 ' : ' ') + '</span><br>' +
 			'<span class="messageContent">' +
-			'<p style="margin:0 0 6px 0;">标签 <b><i>' + escapeHtml(tagName) + '</i></b> 是否在不属于远程仓库任何一个已知分支的提交上' + (remotesNotContainingCommit.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotesNotContainingCommit.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + '.</p>' +
-			'<p style="margin:0;">你要继续将标签推到远程吗' + (remotes.length > 1 ? 's' : '') + ' ' + formatCommaSeparatedList(remotes.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + ' 不管怎样?</p>' +
+			'<p style="margin:0 0 6px 0;">标签 <b><i>' + escapeHtml(tagName) + '</i></b> 所在的提交不在远程仓库 ' + formatCommaSeparatedList(remotesNotContainingCommit.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + '的分支上。</p>' +
+			'<p style="margin:0;">是否仍要继续将标签推送到 ' + formatCommaSeparatedList(remotes.map((remote) => '<b><i>' + escapeHtml(remote) + '</i></b>')) + ' 远程仓库？</p>' +
 			'</span>';
 
 		dialog.showForm(html, [{ type: DialogInputType.Checkbox, name: '总是继续', value: false }], '继续推送', (values) => {
